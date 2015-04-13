@@ -4,6 +4,10 @@
 
 Browser support includes every sane browser and **IE7+**.
 
+# Demo
+
+[![demo.png][1]][2]
+
 # Inspiration
 
 Have you ever wanted a drag and drop library that just works? That doesn't just depend on bloated frameworks, that has great support? That actually understands where to place the elements when they are dropped? That doesn't need you to do a zillion things to get it to work? Well, so did I!
@@ -85,3 +89,6 @@ Event Name | Listener Arguments | Event Description
 # License
 
 MIT
+
+[1]: https://github.com/bevacqua/dragula/blob/master/resources/demo.png
+[2]: http://bevacqua.github.io/dragula/
