@@ -1,0 +1,11 @@
+{
+  "name": "dragula",
+  "version": "1.0.0",
+  "description": "Drag and drop so simple it hurts",
+  "main": "dist/dragula.js",
+  "homepage": "https://github.com/bevacqua/dragula",
+  "authors": [
+    "Nicolas Bevacqua <nicolasbevacqua@gmail.com>"
+  ],
+  "license": "MIT"
+}
