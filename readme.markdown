@@ -26,10 +26,10 @@ You can get it on npm.
 npm install dragula --save
 ```
 
-Or bower, too.
+Or bower, too. <sub>_(note that it's called `dragula.js` in bower)_</sub>
 
 ```shell
-bower install dragula --save
+bower install dragula.js --save
 ```
 
 # Usage
