@@ -100,6 +100,7 @@ Event Name | Listener Arguments | Event Description
 `drop`     | `el, container`    | `el` was dropped into `container`
 `cancel`   | `el, container`    | `el` was being dragged but it got nowhere and went back into `container`, it's last stable parent
 `remove`   | `el, container`    | `el` was being dragged but it got nowhere and it was removed from the DOM. It's last stable parent was `container`.
+`shadow`   | `el, container`    | `el`, _the visual aid shadow_, was moved into `container`. May trigger many times as the position of `el` changes, even within the same `container`
 
 #### `drake.destroy()`
 

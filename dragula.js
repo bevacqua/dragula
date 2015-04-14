@@ -194,6 +194,7 @@ function dragula (containers, options) {
     var reference = getReference(dropTarget, immediate, e.clientX, e.clientY);
     if (reference === null || reference !== item && reference !== nextEl(item)) {
       dropTarget.insertBefore(item, reference);
+      api.emit('shadow', item, dropTarget);
     }
   }
 

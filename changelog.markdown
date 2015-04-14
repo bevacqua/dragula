@@ -1,3 +1,7 @@
+# 1.1.4 Fog Creek
+
+- Added `'shadow'` event to enable easy updates to shadow element as it's moved
+
 # 1.1.3 Drag Queen
 
 - Fixed a bug where `dragula` wouldn't make a copy if the element was dropped outside of a target container
