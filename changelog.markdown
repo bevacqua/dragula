@@ -1,3 +1,8 @@
+# 1.2.1 Firehose
+
+- Fixed a bug introduced in `1.2.0`
+- Fixed a bug where cancelling with `revert` enabled wouldn't respect sort order
+
 # 1.2.0 Firefly
 
 - Introduced `moves` option, used to determine if an item is draggable

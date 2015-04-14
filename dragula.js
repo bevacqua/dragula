@@ -105,14 +105,17 @@ function dragula (containers, options) {
     return el.tagName === 'A' || el.tagName === 'BUTTON';
   }
 
-  function release () {
+  function release (e) {
     if (!_dragging) {
       return;
     }
 
     var item = _copy || _item;
-    var parent = item.parentElement;
-    if (parent !== _source || o.copy === false) {
+    var clientX = getCoord('clientX', e);
+    var clientY = getCoord('clientY', e);
+    var elementBehindCursor = getElementBehindPoint(_mirror, clientX, clientY);
+    var dropTarget = findDropTarget(elementBehindCursor);
+    if (dropTarget && (o.copy === false || dropTarget !== _source)) {
       drop();
     } else if (o.removeOnSpill) {
       remove();
@@ -121,10 +124,10 @@ function dragula (containers, options) {
     }
 
     function drop () {
-      if (parent === _source && _initialSibling === _currentSibling) {
+      if (dropTarget === _source && _initialSibling === _currentSibling) {
         api.emit('cancel', item, _source);
       } else {
-        api.emit('drop', item, parent, _source);
+        api.emit('drop', item, dropTarget, _source);
       }
       cleanup();
     }
@@ -153,7 +156,7 @@ function dragula (containers, options) {
     if (parent === _source && o.copy) {
       parent.removeChild(_copy);
     }
-    if (o.copy === false && reverts && parent !== _source) {
+    if (o.copy === false && reverts && (parent !== _source || _initialSibling !== _currentSibling)) {
       _source.insertBefore(item, _initialSibling);
     }
     if ((parent === _source && _initialSibling === _currentSibling) || reverts) {
