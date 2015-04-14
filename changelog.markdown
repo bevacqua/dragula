@@ -1,3 +1,7 @@
+# 1.1.2 Eavesdropping
+
+- Fixed a bug where cancellations that ended up leaving the dragged element somewhere other than the source container wouldn't trigger a `drop` event
+
 # 1.1.1 Slipping Jimmy
 
 - Fixed a bug where the movable shadow wouldn't update properly if the element was hovered over the last position of a container

@@ -64,7 +64,7 @@ Event    | Move                                     | Copy
 `drag`   | Element will be concealed from `source`  | Nothing happens
 `drop`   | Element will be moved into `target`      | Element will be cloned into `target`
 `remove` | Element will be removed from DOM         | Nothing happens
-`cancel` | Element will stay in last known location | Nothing happens
+`cancel` | Element will stay in `source`            | Nothing happens
 
 #### `options.revertOnSpill`
 
@@ -82,9 +82,9 @@ When an element is dropped onto a container, it'll be placed near the point wher
 
 The `dragula` method returns a tiny object with a concise API. We'll refer to the API returned by `dragula` as `drake`.
 
-#### `drake.cancel()`
+#### `drake.cancel(revert)`
 
-If an element managed by `drake` is currently being dragged, this method will gracefully cancel the drag action.
+If an element managed by `drake` is currently being dragged, this method will gracefully cancel the drag action. Note that a cancellation may still result in a `drop` event if the last known position was a container other than the source and `revertOnSpill` isn't `true`. You can also pass in `revert` at the method invocation level.
 
 #### `drake.remove()`
 
