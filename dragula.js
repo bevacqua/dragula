@@ -107,7 +107,6 @@ function dragula (containers, options) {
 
     if (target && (o.copy === false || target !== _source)) {
       reference = getReference(target, releaseTarget, e.clientX, e.clientY);
-      console.log(reference);
       target.insertBefore(_item, reference);
       api.emit('drop', _item, target);
     } else {

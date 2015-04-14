@@ -52,7 +52,7 @@ You can also provide an `options` object. The options are detailed below.
 
 #### `options.accepts`
 
-You can set `accepts` to a method with the following signature: `(el, target, source)`. It'll be called to make sure that an element `el`, that came from container `source`, can be dropped on container `target`. Note that if `options.copy` is set to `true` the copied element will be provided as `el`, instead of the original.
+You can set `accepts` to a method with the following signature: `(el, target, source)`. It'll be called to make sure that an element `el`, that came from container `source`, can be dropped on container `target`. Note that if `options.copy` is set to `true`, `el` will be set to the copy, instead of the originally dragged element.
 
 #### `options.copy`
 
