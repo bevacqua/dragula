@@ -1,3 +1,7 @@
+# 1.1.1 Slipping Jimmy
+
+- Fixed a bug where the movable shadow wouldn't update properly if the element was hovered over the last position of a container
+
 # 1.1.0 Age of Shadows
 
 - Added a movable shadow that gives visual feedback as to where a dragged item would be dropped

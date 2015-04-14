@@ -189,7 +189,7 @@ function dragula (containers, options) {
       return;
     }
     var reference = getReference(dropTarget, immediate, e.clientX, e.clientY);
-    if (reference !== item && reference !== nextEl(item)) {
+    if (reference === null || reference !== item && reference !== nextEl(item)) {
       dropTarget.insertBefore(item, reference);
     }
   }
