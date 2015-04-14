@@ -1,3 +1,7 @@
+# 1.2.2 Originality Accepted
+
+- Improved `accepts` mechanism so that it always accepts the original starting point
+
 # 1.2.1 Firehose
 
 - Fixed a bug introduced in `1.2.0`

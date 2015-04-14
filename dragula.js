@@ -114,7 +114,7 @@ function dragula (containers, options) {
     var clientX = getCoord('clientX', e);
     var clientY = getCoord('clientY', e);
     var elementBehindCursor = getElementBehindPoint(_mirror, clientX, clientY);
-    var dropTarget = findDropTarget(elementBehindCursor);
+    var dropTarget = findDropTarget(elementBehindCursor, clientX, clientY);
     if (dropTarget && (o.copy === false || dropTarget !== _source)) {
       drop();
     } else if (o.removeOnSpill) {
@@ -124,7 +124,7 @@ function dragula (containers, options) {
     }
 
     function drop () {
-      if (dropTarget === _source && _initialSibling === _currentSibling) {
+      if (isInitialPlacement(dropTarget)) {
         api.emit('cancel', item, _source);
       } else {
         api.emit('drop', item, dropTarget, _source);
@@ -156,10 +156,11 @@ function dragula (containers, options) {
     if (parent === _source && o.copy) {
       parent.removeChild(_copy);
     }
-    if (o.copy === false && reverts && (parent !== _source || _initialSibling !== _currentSibling)) {
+    var initial = isInitialPlacement(parent);
+    if (initial === false && o.copy === false && reverts) {
       _source.insertBefore(item, _initialSibling);
     }
-    if ((parent === _source && _initialSibling === _currentSibling) || reverts) {
+    if (initial || reverts) {
       api.emit('cancel', item, _source);
     } else {
       api.emit('drop', item, parent, _source);
@@ -174,7 +175,12 @@ function dragula (containers, options) {
     _source = _item = _copy = _initialSibling = _currentSibling = null;
   }
 
-  function findDropTarget (elementBehindCursor) {
+  function isInitialPlacement (target, s) {
+    var sibling = s !== void 0 ? s : _currentSibling;
+    return target === _source && sibling === _initialSibling;
+  }
+
+  function findDropTarget (elementBehindCursor, clientX, clientY) {
     var target = elementBehindCursor;
     while (target && !accepted()) {
       target = target.parentElement;
@@ -183,7 +189,17 @@ function dragula (containers, options) {
 
     function accepted () {
       var droppable = containers.indexOf(target) !== -1;
-      return droppable && o.accepts(_item, target, _source);
+      if (droppable === false) {
+        return false;
+      }
+
+      var immediate = getImmediateChild(target, elementBehindCursor);
+      var reference = getReference(target, immediate, clientX, clientY);
+      var initial = isInitialPlacement(target, reference);
+      if (initial) {
+        return true; // should always be able to drop it right back where it was
+      }
+      return o.accepts(_item, target, _source);
     }
   }
 
@@ -197,7 +213,7 @@ function dragula (containers, options) {
     _mirror.style.top  = y + 'px';
 
     var elementBehindCursor = getElementBehindPoint(_mirror, clientX, clientY);
-    var dropTarget = findDropTarget(elementBehindCursor);
+    var dropTarget = findDropTarget(elementBehindCursor, clientX, clientY);
     if (dropTarget === _source && o.copy) {
       return;
     }
