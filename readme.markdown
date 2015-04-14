@@ -17,6 +17,7 @@ Have you ever wanted a drag and drop library that just works? That doesn't just 
 - Super easy to set up
 - No bloated dependencies
 - **Figures out sort order** on its own
+- A shadow where the item would be dropped offers **visual feedback**
 
 # Install
 
@@ -62,7 +63,16 @@ Event    | Move                                     | Copy
 ---------|------------------------------------------|---------------------------------------------
 `drag`   | Element will be concealed from `source`  | Nothing happens
 `drop`   | Element will be moved into `target`      | Element will be cloned into `target`
-`cancel` | Element will stay at `source`            | Nothing happens
+`remove` | Element will be removed from DOM         | Nothing happens
+`cancel` | Element will stay in last known location | Nothing happens
+
+#### `options.revertOnSpill`
+
+By default, spilling an element outside of any containers will move the element back to it's last known stable parent. Setting `revertOnSpill` to `true` will ensure elements dropped outside of any approved containers are moved back to the source element where the drag event began, rather than stay at the last known stable parent.
+
+#### `options.removeOnSpill`
+
+By default, spilling an element outside of any containers will move the element back to it's last known stable parent. Setting `removeOnSpill` to `true` will ensure elements dropped outside of any approved containers are removed from the DOM. Note that `remove` events won't fire if `copy` is set to `true`.
 
 #### `options.direction`
 
@@ -72,9 +82,13 @@ When an element is dropped onto a container, it'll be placed near the point wher
 
 The `dragula` method returns a tiny object with a concise API. We'll refer to the API returned by `dragula` as `drake`.
 
-#### `drake.destroy`
+#### `drake.cancel()`
 
-Removes all drag and drop events used by `dragula` to manage drag and drop between the `containers`. If `.destroy` is called while an element is being dragged, the drag will be effectively cancelled.
+If an element managed by `drake` is currently being dragged, this method will gracefully cancel the drag action.
+
+#### `drake.remove()`
+
+If an element managed by `drake` is currently being dragged, this method will gracefully remove it from the DOM.
 
 #### `drake.on` _(Events)_
 
@@ -84,7 +98,12 @@ Event Name | Listener Arguments | Event Description
 -----------|--------------------|-------------------------------------------------------------------------------------
 `drag`     | `el, container`    | `el` was lifted from `container`
 `drop`     | `el, container`    | `el` was dropped into `container`
-`cancel`   | `el, container`    | `el` was being dragged but it got nowhere and went back into `container`
+`cancel`   | `el, container`    | `el` was being dragged but it got nowhere and went back into `container`, it's last stable parent
+`remove`   | `el, container`    | `el` was being dragged but it got nowhere and it was removed from the DOM. It's last stable parent was `container`.
+
+#### `drake.destroy()`
+
+Removes all drag and drop events used by `dragula` to manage drag and drop between the `containers`. If `.destroy` is called while an element is being dragged, the drag will be effectively cancelled.
 
 # License
 
