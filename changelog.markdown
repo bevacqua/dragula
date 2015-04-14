@@ -1,3 +1,8 @@
+# 1.1.3 Drag Queen
+
+- Fixed a bug where `dragula` wouldn't make a copy if the element was dropped outside of a target container
+- If a dragged element gets removed for an instance that has `copy` set to `true`, a `cancel` event is raised instead
+
 # 1.1.2 Eavesdropping
 
 - Fixed a bug where cancellations that ended up leaving the dragged element somewhere other than the source container wouldn't trigger a `drop` event

@@ -130,9 +130,7 @@ function dragula (containers, options) {
     if (parent) {
       parent.removeChild(item);
     }
-    if (o.copy === false) {
-      api.emit('remove', item, parent);
-    }
+    api.emit(o.copy ? 'cancel' : 'remove', item, parent);
     cleanup();
   }
 
@@ -143,15 +141,14 @@ function dragula (containers, options) {
     var reverts = arguments.length > 0 ? revert : o.revertOnSpill;
     var item = _copy || _item;
     var parent = item.parentElement;
-    if (parent && o.copy) {
+    if (parent === _source && o.copy) {
       parent.removeChild(_copy);
     }
     if (o.copy === false && reverts && parent !== _source) {
       _source.appendChild(item);
-      parent = _source;
     }
-    if (parent === _source) {
-      api.emit('cancel', item, parent);
+    if (parent === _source || reverts) {
+      api.emit('cancel', item, _source);
     } else {
       api.emit('drop', item, parent);
     }
