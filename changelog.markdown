@@ -1,3 +1,12 @@
+# 1.2.0 Firefly
+
+- Introduced `moves` option, used to determine if an item is draggable
+- Added a `source` parameter for the `drop` event
+- Cancelling a drag event when `revertOnSpill` is `true` will now move the element to its original position in the source element instead of appending it
+- Fixed a bug where _"cancellations"_ that ended up leaving the dragged element in the source container but changed sort order would trigger a `cancel` event instead of `drop`
+- Fixed a bug where _"drops"_ that ended up leaving the element in the exact same place it was dragged from would end up triggering a `drop` event instead of `cancel`
+- Added touch event support
+
 # 1.1.4 Fog Creek
 
 - Added `'shadow'` event to enable easy updates to shadow element as it's moved
@@ -9,7 +18,7 @@
 
 # 1.1.2 Eavesdropping
 
-- Fixed a bug where cancellations that ended up leaving the dragged element somewhere other than the source container wouldn't trigger a `drop` event
+- Fixed a bug where _"cancellations"_ that ended up leaving the dragged element somewhere other than the source container wouldn't trigger a `drop` event
 
 # 1.1.1 Slipping Jimmy
 

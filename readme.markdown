@@ -18,6 +18,7 @@ Have you ever wanted a drag and drop library that just works? That doesn't just 
 - No bloated dependencies
 - **Figures out sort order** on its own
 - A shadow where the item would be dropped offers **visual feedback**
+- Touch events!
 
 # Install
 
@@ -39,7 +40,7 @@ Dragula provides the easiest possible API to make drag and drop a breeze in your
 
 ## `dragula(containers, options?)`
 
-By default, `dragula` will allow the user to drag an element in any of the `containers` and drop it in any other container in the list. If the element is dropped anywhere that's not one of the `containers`, it'll be sent back to the container it was originally taken from.
+By default, `dragula` will allow the user to drag an element in any of the `containers` and drop it in any other container in the list. If the element is dropped anywhere that's not one of the `containers`, the event will be gracefully cancelled according to the `revertOnSpill` and `removeOnSpill` options.
 
 Note that dragging is only triggered on left clicks, and only if no meta keys are pressed. Clicks on buttons and anchor tags are ignored, too.
 
@@ -50,6 +51,10 @@ dragula([left, right]);
 ```
 
 You can also provide an `options` object. The options are detailed below.
+
+#### `options.moves`
+
+You can define a `moves` method which will be invoked with `(el, container)` whenever an element is clicked. If this method returns `false`, a drag event won't begin, and the event won't be prevented either.
 
 #### `options.accepts`
 
@@ -68,11 +73,11 @@ Event    | Move                                     | Copy
 
 #### `options.revertOnSpill`
 
-By default, spilling an element outside of any containers will move the element back to it's last known stable parent. Setting `revertOnSpill` to `true` will ensure elements dropped outside of any approved containers are moved back to the source element where the drag event began, rather than stay at the last known stable parent.
+By default, spilling an element outside of any containers will move the element back to the _drop position previewed by the feedback shadow_. Setting `revertOnSpill` to `true` will ensure elements dropped outside of any approved containers are moved back to the source element where the drag event began, rather than stay at the _drop position previewed by the feedback shadow_.
 
 #### `options.removeOnSpill`
 
-By default, spilling an element outside of any containers will move the element back to it's last known stable parent. Setting `removeOnSpill` to `true` will ensure elements dropped outside of any approved containers are removed from the DOM. Note that `remove` events won't fire if `copy` is set to `true`.
+By default, spilling an element outside of any containers will move the element back to the _drop position previewed by the feedback shadow_. Setting `removeOnSpill` to `true` will ensure elements dropped outside of any approved containers are removed from the DOM. Note that `remove` events won't fire if `copy` is set to `true`.
 
 #### `options.direction`
 
@@ -84,7 +89,12 @@ The `dragula` method returns a tiny object with a concise API. We'll refer to th
 
 #### `drake.cancel(revert)`
 
-If an element managed by `drake` is currently being dragged, this method will gracefully cancel the drag action. Note that a cancellation may still result in a `drop` event if the last known position was a container other than the source and `revertOnSpill` isn't `true`. You can also pass in `revert` at the method invocation level.
+If an element managed by `drake` is currently being dragged, this method will gracefully cancel the drag action. You can also pass in `revert` at the method invocation level, effectively producing the same result as if `revertOnSpill` was `true`.
+
+Note that **a _"cancellation"_ will result in a `cancel` event** only in the following scenarios.
+
+- `revertOnSpill` is `true`
+- Drop target _(as previewed by the feedback shadow)_ is the source container **and** the item is dropped in the same position where it was originally dragged from
 
 #### `drake.remove()`
 
@@ -94,12 +104,12 @@ If an element managed by `drake` is currently being dragged, this method will gr
 
 The `drake` is an event emitter. The following events can be tracked using `drake.on(type, listener)`:
 
-Event Name | Listener Arguments | Event Description
------------|--------------------|-------------------------------------------------------------------------------------
-`drag`     | `el, container`    | `el` was lifted from `container`
-`drop`     | `el, container`    | `el` was dropped into `container`
-`cancel`   | `el, container`    | `el` was being dragged but it got nowhere and went back into `container`, it's last stable parent
-`remove`   | `el, container`    | `el` was being dragged but it got nowhere and it was removed from the DOM. It's last stable parent was `container`.
+Event Name | Listener Arguments      | Event Description
+-----------|-------------------------|-------------------------------------------------------------------------------------
+`drag`     | `el, container`         | `el` was lifted from `container`
+`drop`     | `el, container, source` | `el` was dropped into `container`, and originally came from `source`
+`cancel`   | `el, container`         | `el` was being dragged but it got nowhere and went back into `container`, it's last stable parent
+`remove`   | `el, container`         | `el` was being dragged but it got nowhere and it was removed from the DOM. It's last stable parent was `container`.
 `shadow`   | `el, container`    | `el`, _the visual aid shadow_, was moved into `container`. May trigger many times as the position of `el` changes, even within the same `container`
 
 #### `drake.destroy()`
