@@ -13,6 +13,8 @@ function dragula (containers, options) {
   var _offsetX; // reference x
   var _offsetY; // reference y
   var _copy; // item used for copying
+  var _clientX; // Latest client x
+  var _clientY; // Latest client y
 
   var o = options || {};
   if (o.accepts === void 0) { o.accepts = always; }
@@ -34,10 +36,13 @@ function dragula (containers, options) {
   function events (remove) {
     var op = remove ? 'remove' : 'add';
     crossvent[op](documentElement, 'mouseup', release);
+    crossvent[op](documentElement, 'touchend', release);
+
     containers.forEach(track);
 
     function track (container) {
       crossvent[op](container, 'mousedown', grab);
+      crossvent[op](container, 'touchstart', grab);
     }
   }
 
@@ -47,8 +52,8 @@ function dragula (containers, options) {
   }
 
   function grab (e) {
-    if (e.which !== 1 || e.metaKey || e.ctrlKey) {
-      return; // we only care about honest-to-god left clicks
+    if ((e.which !== 0 && e.which !== 1) || e.metaKey || e.ctrlKey) {
+      return; // we only care about honest-to-god left clicks & touches
     }
     if (_dragging) {
       return;
@@ -82,8 +87,8 @@ function dragula (containers, options) {
 
     _source = container;
     _item = item;
-    _offsetX = e.pageX - offset.left;
-    _offsetY = e.pageY - offset.top;
+    _offsetX = getPageX(e) - offset.left;
+    _offsetY = getPageY(e) - offset.top;
 
     api.emit('drag', _item, _source);
     renderMirrorImage();
@@ -99,8 +104,8 @@ function dragula (containers, options) {
       return;
     }
 
-    var x = e.clientX;
-    var y = e.clientY;
+    var x = _clientX;
+    var y = _clientY;
     var item = _copy || _item;
     var elementBehindCursor = getElementBehindPoint(_mirror, x, y);
     var dropTarget = findDropTarget(elementBehindCursor);
@@ -176,12 +181,16 @@ function dragula (containers, options) {
   }
 
   function drag (e) {
-    var x = e.clientX - _offsetX;
-    var y = e.clientY - _offsetY;
+    _clientX = (typeof e.clientX != "undefined" ? e.clientX :
+                                                  e.targetTouches[0].clientX);
+    _clientY = (typeof e.clientY != "undefined" ? e.clientY :
+                                                  e.targetTouches[0].clientY);
+    var x = _clientX - _offsetX
+    var y = _clientY - _offsetY;
     _mirror.style.left = x + 'px';
     _mirror.style.top  = y + 'px';
 
-    var elementBehindCursor = getElementBehindPoint(_mirror, e.clientX, e.clientY);
+    var elementBehindCursor = getElementBehindPoint(_mirror, _clientX, _clientY);
     var dropTarget = findDropTarget(elementBehindCursor);
     if (dropTarget === _source && o.copy) {
       return;
@@ -191,7 +200,7 @@ function dragula (containers, options) {
     if (immediate === null) {
       return;
     }
-    var reference = getReference(dropTarget, immediate, e.clientX, e.clientY);
+    var reference = getReference(dropTarget, immediate, _clientX, _clientY);
     if (reference === null || reference !== item && reference !== nextEl(item)) {
       dropTarget.insertBefore(item, reference);
       api.emit('shadow', item, dropTarget);
@@ -208,6 +217,7 @@ function dragula (containers, options) {
     addClass(_mirror, ' gu-mirror');
     body.appendChild(_mirror);
     crossvent.add(documentElement, 'mousemove', drag);
+    crossvent.add(documentElement, 'touchmove', drag);
     addClass(body, 'gu-unselectable');
   }
 
@@ -215,6 +225,7 @@ function dragula (containers, options) {
     if (_mirror) {
       rmClass(body, 'gu-unselectable');
       crossvent.remove(documentElement, 'mousemove', drag);
+      crossvent.remove(documentElement, 'touchmove', drag);
       _mirror.parentElement.removeChild(_mirror);
       _mirror = null;
       _dragging = false;
@@ -307,6 +318,20 @@ function addClass (el, className) {
 
 function rmClass (el, className) {
   el.className = el.className.replace(new RegExp(' ' + className, 'g'), '');
+}
+
+function getPageX (e) {
+  if (typeof e.targetTouches == "undefined")
+    return e.pageX;
+
+  return e.targetTouches && e.targetTouches.length && e.targetTouches[0].pageX || 0;
+}
+
+function getPageY (e) {
+  if (typeof e.targetTouches == "undefined")
+    return e.pageY;
+
+  return e.targetTouches && e.targetTouches.length && e.targetTouches[0].pageY || 0;
 }
 
 module.exports = dragula;
