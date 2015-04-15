@@ -120,5 +120,8 @@ Removes all drag and drop events used by `dragula` to manage drag and drop betwe
 
 MIT
 
+![eyes.png][3]
+
 [1]: https://github.com/bevacqua/dragula/blob/master/resources/demo.png
 [2]: http://bevacqua.github.io/dragula/
+[3]: https://github.com/bevacqua/dragula/blob/master/resources/eyes.png
