@@ -302,9 +302,19 @@ function dragula (containers, options) {
 function getOffset (el) {
   var rect = el.getBoundingClientRect();
   return {
-    left: rect.left + body.scrollLeft,
-    top: rect.top + body.scrollTop
+    left: rect.left + getScroll('scrollLeft', 'pageXOffset'),
+    top: rect.top + getScroll('scrollTop', 'pageYOffset')
   };
+}
+
+function getScroll (scrollProp, offsetProp) {
+  if (typeof global[offsetProp] !== 'undefined') {
+    return global[offsetProp];
+  }
+  if (documentElement.clientHeight) {
+    return documentElement[scrollProp];
+  }
+  return body[scrollProp];
 }
 
 function getElementBehindPoint (behind, x, y) {
