@@ -1,3 +1,7 @@
+# 1.2.4 Brother in Arms
+
+- The `accepts` option now takes a fourth argument, `sibling`, giving us a hint of the precise position the item would be dropped in
+
 # 1.2.3 Breeding Pool
 
 - Fixed a bug in cross browser behavior that caused the hover effect to ignore scrolling

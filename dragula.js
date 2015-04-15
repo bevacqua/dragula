@@ -197,7 +197,7 @@ function dragula (containers, options) {
       if (initial) {
         return true; // should always be able to drop it right back where it was
       }
-      return o.accepts(_item, target, _source);
+      return o.accepts(_item, target, _source, reference);
     }
   }
 
