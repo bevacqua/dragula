@@ -36,13 +36,11 @@ function dragula (containers, options) {
 
   function events (remove) {
     var op = remove ? 'remove' : 'add';
-    crossvent[op](documentElement, 'mouseup', release);
-    crossvent[op](documentElement, 'touchend', release);
+    touchy(documentElement, op, 'mouseup', release);
     containers.forEach(track);
 
     function track (container) {
-      crossvent[op](container, 'mousedown', grab);
-      crossvent[op](container, 'touchstart', grab);
+      touchy(container, op, 'mousedown', grab);
     }
   }
 
@@ -239,16 +237,14 @@ function dragula (containers, options) {
     rmClass(_mirror, 'gu-transit');
     addClass(_mirror, ' gu-mirror');
     body.appendChild(_mirror);
-    crossvent.add(documentElement, 'mousemove', drag);
-    crossvent.add(documentElement, 'touchmove', drag);
+    touchy(documentElement, 'add', 'mousemove', drag);
     addClass(body, 'gu-unselectable');
   }
 
   function removeMirrorImage () {
     if (_mirror) {
       rmClass(body, 'gu-unselectable');
-      crossvent.remove(documentElement, 'mousemove', drag);
-      crossvent.remove(documentElement, 'touchmove', drag);
+      touchy(documentElement, 'remove', 'mousemove', drag);
       _mirror.parentElement.removeChild(_mirror);
       _mirror = null;
       _dragging = false;
@@ -297,6 +293,24 @@ function dragula (containers, options) {
       return after ? nextEl(target) : target;
     }
   }
+}
+
+function touchy (el, op, type, fn) {
+  var touch = {
+    mouseup: 'touchend',
+    mousedown: 'touchstart',
+    mousemove: 'touchmove'
+  };
+  var microsoft = {
+    mouseup: 'MSPointerUp',
+    mousedown: 'MSPointerDown',
+    mousemove: 'MSPointerMove'
+  };
+  if (global.navigator.msPointerEnabled) {
+    crossvent[op](el, microsoft[type], fn);
+  }
+  crossvent[op](el, touch[type], release);
+  crossvent[op](el, type, release);
 }
 
 function getOffset (el) {

@@ -1,3 +1,8 @@
+# 1.2.3 Breeding Pool
+
+- Fixed a bug in cross browser behavior that caused the hover effect to ignore scrolling
+- Fixed a bug where touch events weren't working in obscure versions of IE
+
 # 1.2.2 Originality Accepted
 
 - Improved `accepts` mechanism so that it always accepts the original starting point
