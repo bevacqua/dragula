@@ -50,7 +50,24 @@ The example below allows the user to drag elements from `left` into `right`, and
 dragula([left, right]);
 ```
 
-You can also provide an `options` object. The options are detailed below.
+You can also provide an `options` object. Here's an overview.
+
+```js
+dragula(containers, {
+  moves: function (el, container) {
+    return true;         // elements are always draggable by default
+  },
+  accepts: function (el, target, source, sibling) {
+    return true;         // elements can be dropped in any of the `containers` by default
+  },
+  direction: 'vertical', // Y axis is considered when determining where an element would be dropped
+  copy: false,           // elements are moved by default, not copied
+  revertOnSpill: false,  // spilling will put the element back where it was dragged from, if this is true
+  removeOnSpill: false   // spilling will `.remove` the element, if this is true
+});
+```
+
+The options are detailed below.
 
 #### `options.moves`
 
@@ -59,6 +76,8 @@ You can define a `moves` method which will be invoked with `(el, container)` whe
 #### `options.accepts`
 
 You can set `accepts` to a method with the following signature: `(el, target, source, sibling)`. It'll be called to make sure that an element `el`, that came from container `source`, can be dropped on container `target` before a `sibling` element. The `sibling` can be `null`, which would mean that the element would be placed as the last element in the container. Note that if `options.copy` is set to `true`, `el` will be set to the copy, instead of the originally dragged element.
+
+Also note that **the position where a drag starts is always going to be a valid place where to drop the element**, even if `accepts` returned `false` for all cases.
 
 #### `options.copy`
 
