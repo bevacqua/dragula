@@ -25,6 +25,7 @@ function dragula (containers, options) {
   if (o.direction === void 0) { o.direction = 'vertical'; }
 
   var api = emitter({
+    end: end,
     cancel: cancel,
     remove: remove,
     destroy: destroy
@@ -103,6 +104,14 @@ function dragula (containers, options) {
     return el.tagName === 'A' || el.tagName === 'BUTTON';
   }
 
+  function end () {
+    if (!_dragging) {
+      return;
+    }
+    var item = _copy || _item;
+    drop(item, item.parentElement);
+  }
+
   function release (e) {
     if (!_dragging) {
       return;
@@ -114,21 +123,21 @@ function dragula (containers, options) {
     var elementBehindCursor = getElementBehindPoint(_mirror, clientX, clientY);
     var dropTarget = findDropTarget(elementBehindCursor, clientX, clientY);
     if (dropTarget && (o.copy === false || dropTarget !== _source)) {
-      drop();
+      drop(item, dropTarget);
     } else if (o.removeOnSpill) {
       remove();
     } else {
       cancel();
     }
+  }
 
-    function drop () {
-      if (isInitialPlacement(dropTarget)) {
-        api.emit('cancel', item, _source);
-      } else {
-        api.emit('drop', item, dropTarget, _source);
-      }
-      cleanup();
+  function drop (item, target) {
+    if (isInitialPlacement(target)) {
+      api.emit('cancel', item, _source);
+    } else {
+      api.emit('drop', item, target, _source);
     }
+    cleanup();
   }
 
   function remove () {

@@ -1,3 +1,7 @@
+# 1.3.0 Terror
+
+Introduced an `.end` instance API method that gracefully ends the drag event using the last known valid drop target.
+
 # 1.2.4 Brother in Arms
 
 - The `accepts` option now takes a fourth argument, `sibling`, giving us a hint of the precise position the item would be dropped in
