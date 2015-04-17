@@ -1,3 +1,10 @@
+# 1.4.0 Top Fuel
+
+- Added a `dragend` event that's always fired
+- Added a `dragging` property to API
+- Introduced manual `start` API method
+- Introduced `addContainer` and `removeContainer` dynamic API
+
 # 1.3.0 Terror
 
 Introduced an `.end` instance API method that gracefully ends the drag event using the last known valid drop target.
