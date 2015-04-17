@@ -83,12 +83,12 @@ Also note that **the position where a drag starts is always going to be a valid 
 
 If `copy` is set to `true`, items will be copied rather than moved. This implies the following differences:
 
-Event    | Move                                     | Copy
----------|------------------------------------------|---------------------------------------------
-`drag`   | Element will be concealed from `source`  | Nothing happens
-`drop`   | Element will be moved into `target`      | Element will be cloned into `target`
-`remove` | Element will be removed from DOM         | Nothing happens
-`cancel` | Element will stay in `source`            | Nothing happens
+Event     | Move                                     | Copy
+----------|------------------------------------------|---------------------------------------------
+`drag`    | Element will be concealed from `source`  | Nothing happens
+`drop`    | Element will be moved into `target`      | Element will be cloned into `target`
+`remove`  | Element will be removed from DOM         | Nothing happens
+`cancel`  | Element will stay in `source`            | Nothing happens
 
 #### `options.revertOnSpill`
 
@@ -105,6 +105,22 @@ When an element is dropped onto a container, it'll be placed near the point wher
 ## API
 
 The `dragula` method returns a tiny object with a concise API. We'll refer to the API returned by `dragula` as `drake`.
+
+#### `drake.addContainer(container)`
+
+Adds a `container` to the `containers` collection. It can be a single DOM element or an array.
+
+#### `drake.removeContainer(container)`
+
+Removes a `container` from the `containers` collection. It can be a single DOM element or an array.
+
+#### `drake.dragging`
+
+This property will be `true` whenever an element is being dragged.
+
+#### `drake.start(item)`
+
+Enter drag mode **without a shadow**. This method is most useful when providing complementary keyboard shortcuts to an existing drag and drop solution. Even though a shadow won't be created at first, the user will get one as soon as they click on `item` and start dragging it around. Note that if they click and drag something else, `.end` will be called before picking up the new item.
 
 #### `drake.end()`
 
@@ -130,10 +146,11 @@ The `drake` is an event emitter. The following events can be tracked using `drak
 Event Name | Listener Arguments      | Event Description
 -----------|-------------------------|-------------------------------------------------------------------------------------
 `drag`     | `el, container`         | `el` was lifted from `container`
+`dragend`  | `el`                    | Dragging event for `el` ended with either `cancel`, `remove`, or `drop`
 `drop`     | `el, container, source` | `el` was dropped into `container`, and originally came from `source`
 `cancel`   | `el, container`         | `el` was being dragged but it got nowhere and went back into `container`, it's last stable parent
 `remove`   | `el, container`         | `el` was being dragged but it got nowhere and it was removed from the DOM. It's last stable parent was `container`.
-`shadow`   | `el, container`    | `el`, _the visual aid shadow_, was moved into `container`. May trigger many times as the position of `el` changes, even within the same `container`
+`shadow`   | `el, container`         | `el`, _the visual aid shadow_, was moved into `container`. May trigger many times as the position of `el` changes, even within the same `container`
 
 #### `drake.destroy()`
 

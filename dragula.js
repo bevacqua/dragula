@@ -6,7 +6,6 @@ var body = document.body;
 var documentElement = document.documentElement;
 
 function dragula (containers, options) {
-  var _dragging; // are we dragging something?
   var _mirror; // mirror image
   var _source; // source container
   var _item; // item being dragged
@@ -25,24 +24,34 @@ function dragula (containers, options) {
   if (o.direction === void 0) { o.direction = 'vertical'; }
 
   var api = emitter({
+    addContainer: manipulateContainers('add'),
+    removeContainer: manipulateContainers('remove'),
+    start: start,
     end: end,
     cancel: cancel,
     remove: remove,
-    destroy: destroy
+    destroy: destroy,
+    dragging: false
   });
 
   events();
 
   return api;
 
+  function manipulateContainers (op) {
+    return function addOrRemove (all) {
+      var containers = Array.isArray(all) ? all : [all];
+      containers.forEach(track);
+      function track (container) {
+        touchy(container, op, 'mousedown', grab);
+      }
+    };
+  }
+
   function events (remove) {
     var op = remove ? 'remove' : 'add';
     touchy(documentElement, op, 'mouseup', release);
-    containers.forEach(track);
-
-    function track (container) {
-      touchy(container, op, 'mousedown', grab);
-    }
+    api[op + 'Container'](containers);
   }
 
   function destroy () {
@@ -51,14 +60,28 @@ function dragula (containers, options) {
   }
 
   function grab (e) {
+    var item = e.target;
+
     if ((e.which !== 0 && e.which !== 1) || e.metaKey || e.ctrlKey) {
       return; // we only care about honest-to-god left clicks and touch events
     }
-    if (_dragging) {
+    if (start(item) !== true) {
       return;
     }
 
-    var item = e.target;
+    var offset = getOffset(_item);
+    _offsetX = getCoord('pageX', e) - offset.left;
+    _offsetY = getCoord('pageY', e) - offset.top;
+    renderMirrorImage();
+    drag(e);
+    e.preventDefault();
+  }
+
+  function start (item) {
+    if (api.dragging && _mirror) {
+      return;
+    }
+
     if (containers.indexOf(item) !== -1) {
       return; // don't drag container itself
     }
@@ -78,9 +101,7 @@ function dragula (containers, options) {
       return;
     }
 
-    var offset = getOffset(item);
-
-    e.preventDefault();
+    end();
 
     if (o.copy) {
       _copy = item.cloneNode(true);
@@ -92,12 +113,11 @@ function dragula (containers, options) {
     _source = container;
     _item = item;
     _initialSibling = _currentSibling = nextEl(item);
-    _offsetX = getCoord('pageX', e) - offset.left;
-    _offsetY = getCoord('pageY', e) - offset.top;
 
+    api.dragging = true;
     api.emit('drag', _item, _source);
-    renderMirrorImage();
-    drag(e);
+
+    return true;
   }
 
   function invalidTarget (el) {
@@ -105,7 +125,7 @@ function dragula (containers, options) {
   }
 
   function end () {
-    if (!_dragging) {
+    if (!api.dragging) {
       return;
     }
     var item = _copy || _item;
@@ -113,7 +133,7 @@ function dragula (containers, options) {
   }
 
   function release (e) {
-    if (!_dragging) {
+    if (!api.dragging) {
       return;
     }
 
@@ -141,7 +161,7 @@ function dragula (containers, options) {
   }
 
   function remove () {
-    if (!_dragging) {
+    if (!api.dragging) {
       return;
     }
     var item = _copy || _item;
@@ -154,7 +174,7 @@ function dragula (containers, options) {
   }
 
   function cancel (revert) {
-    if (!_dragging) {
+    if (!api.dragging) {
       return;
     }
     var reverts = arguments.length > 0 ? revert : o.revertOnSpill;
@@ -180,6 +200,8 @@ function dragula (containers, options) {
     removeMirrorImage();
     rmClass(item, 'gu-transit');
     _source = _item = _copy = _initialSibling = _currentSibling = null;
+    api.dragging = false;
+    api.emit('dragend', item);
   }
 
   function isInitialPlacement (target, s) {
@@ -211,6 +233,10 @@ function dragula (containers, options) {
   }
 
   function drag (e) {
+    if (!_mirror) {
+      return;
+    }
+
     var clientX = getCoord('clientX', e);
     var clientY = getCoord('clientY', e);
     var x = clientX - _offsetX;
@@ -238,8 +264,10 @@ function dragula (containers, options) {
   }
 
   function renderMirrorImage () {
+    if (_mirror) {
+      return;
+    }
     var rect = _item.getBoundingClientRect();
-    _dragging = true;
     _mirror = _item.cloneNode(true);
     _mirror.style.width = rect.width + 'px';
     _mirror.style.height = rect.height + 'px';
@@ -256,7 +284,6 @@ function dragula (containers, options) {
       touchy(documentElement, 'remove', 'mousemove', drag);
       _mirror.parentElement.removeChild(_mirror);
       _mirror = null;
-      _dragging = false;
     }
   }
 
@@ -340,14 +367,16 @@ function getScroll (scrollProp, offsetProp) {
   return body[scrollProp];
 }
 
-function getElementBehindPoint (behind, x, y) {
+function getElementBehindPoint (point, x, y) {
   if (!x && !y) {
     return null;
   }
-  var state = behind.className;
-  behind.className += ' gu-hide';
-  var el = document.elementFromPoint(x, y);
-  behind.className = state;
+  var p = point || {};
+  var state = p.className;
+  var el;
+  p.className += ' gu-hide';
+  el = document.elementFromPoint(x, y);
+  p.className = state;
   return el;
 }
 
