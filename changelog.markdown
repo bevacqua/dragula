@@ -1,3 +1,8 @@
+# 1.4.1 Blood Prince
+
+- Fixed an issue where manually started drag events wouldn't know if position changed when an item was dropped in the source container
+- Added minor styling to `gu-mirror`, to visually identify that a drag is in progress
+
 # 1.4.0 Top Fuel
 
 - Added a `dragend` event that's always fired

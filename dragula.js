@@ -205,7 +205,14 @@ function dragula (containers, options) {
   }
 
   function isInitialPlacement (target, s) {
-    var sibling = s !== void 0 ? s : _currentSibling;
+    var sibling;
+    if (s !== void 0) {
+      sibling = s;
+    } else if (_mirror) {
+      sibling = _currentSibling;
+    } else {
+      sibling = nextEl(_item || _copy);
+    }
     return target === _source && sibling === _initialSibling;
   }
 
