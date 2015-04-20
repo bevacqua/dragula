@@ -1,3 +1,7 @@
+# 1.5.0 Drag Racing
+
+- Introduced drag handles so that elements could only be dragged from a handle element
+
 # 1.4.2 Container Camp
 
 - Fixed a bug where `addContainer` and `removeContainer` wouldn't update the list of available containers

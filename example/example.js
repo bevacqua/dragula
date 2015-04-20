@@ -10,4 +10,9 @@ dragula([left3, right3]).on('drag', function (el) {
   }, 0);
 });
 dragula([left4, right4], { revertOnSpill: true });
+dragula([left5, right5], {
+  moves: function (el, container, handle) {
+    return handle.className === 'handle';
+  }
+});
 dragula([single1], { removeOnSpill: true });

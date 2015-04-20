@@ -112,6 +112,25 @@ dragula([left, right], { copy: true });
       </code>
     </pre>
   </div>
+  <div class='parent'>
+    <label for='hy'>Drag handles float your cruise?</label>
+    <div class='wrapper'>
+      <div id='left5' class='container'>
+        <div><span class='handle'>+</span>Move me, but you can use the plus sign to drag me around.</div>
+      </div>
+      <div id='right5' class='container'>
+      </div>
+    </div>
+    <pre>
+      <code>
+dragula([left, right], {
+  moves: function (el, container, handle) {
+    return handle.className === 'handle';
+  }
+});
+      </code>
+    </pre>
+  </div>
 </div>
 <h3>Get it on GitHub! <a href='https://github.com/bevacqua/dragula'>bevacqua/dragula</a></h3>
 <script src='dist/dragula.js'></script>

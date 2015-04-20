@@ -88,6 +88,8 @@ function dragula (initialContainers, options) {
   }
 
   function start (item) {
+    var handle = item;
+
     if (api.dragging && _mirror) {
       return;
     }
@@ -106,7 +108,7 @@ function dragula (initialContainers, options) {
     }
 
     var container = item.parentElement;
-    var movable = o.moves(item, container);
+    var movable = o.moves(item, container, handle);
     if (!movable) {
       return;
     }

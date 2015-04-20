@@ -54,7 +54,7 @@ You can also provide an `options` object. Here's an overview.
 
 ```js
 dragula(containers, {
-  moves: function (el, container) {
+  moves: function (el, container, handle) {
     return true;         // elements are always draggable by default
   },
   accepts: function (el, target, source, sibling) {
@@ -63,7 +63,8 @@ dragula(containers, {
   direction: 'vertical', // Y axis is considered when determining where an element would be dropped
   copy: false,           // elements are moved by default, not copied
   revertOnSpill: false,  // spilling will put the element back where it was dragged from, if this is true
-  removeOnSpill: false   // spilling will `.remove` the element, if this is true
+  removeOnSpill: false,  // spilling will `.remove` the element, if this is true
+  handle: 'red-teeth'    // class name used in the drag handle of draggable items
 });
 ```
 
@@ -71,7 +72,7 @@ The options are detailed below.
 
 #### `options.moves`
 
-You can define a `moves` method which will be invoked with `(el, container)` whenever an element is clicked. If this method returns `false`, a drag event won't begin, and the event won't be prevented either.
+You can define a `moves` method which will be invoked with `(el, container, handle)` whenever an element is clicked. If this method returns `false`, a drag event won't begin, and the event won't be prevented either. The `handle` element will be the originally clicked container, which comes in handy to test if the element is an expected _"drag handle"_.
 
 #### `options.accepts`
 
