@@ -1,3 +1,7 @@
+# 1.4.2 Container Camp
+
+- Fixed a bug where `addContainer` and `removeContainer` wouldn't update the list of available containers
+
 # 1.4.1 Blood Prince
 
 - Fixed an issue where manually started drag events wouldn't know if position changed when an item was dropped in the source container
