@@ -63,8 +63,7 @@ dragula(containers, {
   direction: 'vertical', // Y axis is considered when determining where an element would be dropped
   copy: false,           // elements are moved by default, not copied
   revertOnSpill: false,  // spilling will put the element back where it was dragged from, if this is true
-  removeOnSpill: false,  // spilling will `.remove` the element, if this is true
-  handle: 'red-teeth'    // class name used in the drag handle of draggable items
+  removeOnSpill: false   // spilling will `.remove` the element, if this is true
 });
 ```
 
