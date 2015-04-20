@@ -1,6 +1,6 @@
 {
   "name": "dragula.js",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Drag and drop so simple it hurts",
   "main": "dist/dragula.js",
   "ignore": [],
