@@ -28,7 +28,7 @@ You can get it on npm.
 npm install dragula --save
 ```
 
-Or bower, too. <sub>_(note that it's called `dragula.js` in bower)_</sub>
+Or bower, too. <sub>_(note that its called `dragula.js` in bower)_</sub>
 
 ```shell
 bower install dragula.js --save
@@ -148,8 +148,8 @@ Event Name | Listener Arguments      | Event Description
 `drag`     | `el, container`         | `el` was lifted from `container`
 `dragend`  | `el`                    | Dragging event for `el` ended with either `cancel`, `remove`, or `drop`
 `drop`     | `el, container, source` | `el` was dropped into `container`, and originally came from `source`
-`cancel`   | `el, container`         | `el` was being dragged but it got nowhere and went back into `container`, it's last stable parent
-`remove`   | `el, container`         | `el` was being dragged but it got nowhere and it was removed from the DOM. It's last stable parent was `container`.
+`cancel`   | `el, container`         | `el` was being dragged but it got nowhere and went back into `container`, its last stable parent
+`remove`   | `el, container`         | `el` was being dragged but it got nowhere and it was removed from the DOM. Its last stable parent was `container`.
 `shadow`   | `el, container`         | `el`, _the visual aid shadow_, was moved into `container`. May trigger many times as the position of `el` changes, even within the same `container`
 
 #### `drake.destroy()`
