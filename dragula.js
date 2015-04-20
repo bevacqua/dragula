@@ -2,10 +2,10 @@
 
 var emitter = require('contra.emitter');
 var crossvent = require('crossvent');
-var body = document.body;
-var documentElement = document.documentElement;
 
 function dragula (initialContainers, options) {
+  var body = document.body;
+  var documentElement = document.documentElement;
   var _mirror; // mirror image
   var _source; // source container
   var _item; // item being dragged
@@ -378,9 +378,11 @@ function getScroll (scrollProp, offsetProp) {
   if (typeof global[offsetProp] !== 'undefined') {
     return global[offsetProp];
   }
+  var documentElement = document.documentElement;
   if (documentElement.clientHeight) {
     return documentElement[scrollProp];
   }
+  var body = document.body;
   return body[scrollProp];
 }
 

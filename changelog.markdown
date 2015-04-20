@@ -1,6 +1,7 @@
 # 1.4.2 Container Camp
 
 - Fixed a bug where `addContainer` and `removeContainer` wouldn't update the list of available containers
+- Fixed a bug where `document.body` would be accessed before it was available if the scripts were loaded in the `<head>`
 
 # 1.4.1 Blood Prince
 
