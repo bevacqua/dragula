@@ -28,7 +28,7 @@ You can get it on npm.
 npm install dragula --save
 ```
 
-Or bower, too. <sub>_(note that its called `dragula.js` in bower)_</sub>
+Or bower, too. <sub>_(note that it's called `dragula.js` in bower)_</sub>
 
 ```shell
 bower install dragula.js --save
