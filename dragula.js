@@ -430,7 +430,12 @@ function getCoord (coord, e) {
   if (typeof e.targetTouches === 'undefined') {
     return e[coord];
   }
-  return e.targetTouches && e.targetTouches.length && e.targetTouches[0][coord] || 0;
+  // on touchend event, we have to use e.changedTouches
+  // see http://stackoverflow.com/questions/7192563/touchend-event-properties
+  // see https://github.com/bevacqua/dragula/issues/34
+  return ( e.targetTouches  &&  e.targetTouches.length  && e.targetTouches[0][coord])   ||
+         ( e.changedTouches &&  e.changedTouches.length && e.changedTouches[0][coord])  ||
+         0;
 }
 
 module.exports = dragula;
