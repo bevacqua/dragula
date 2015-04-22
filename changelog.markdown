@@ -1,3 +1,7 @@
+# 1.5.1 Touchypants
+
+- Fixed an issue where dragula didn't understand where an element was being dropped
+
 # 1.5.0 Drag Racing
 
 - Introduced drag handles so that elements could only be dragged from a handle element
