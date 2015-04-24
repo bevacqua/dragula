@@ -118,6 +118,16 @@ button:hover {
   padding: 10px;
   background-color: rgba(0, 0, 0, 0.2);
   transition: all 0.4s ease-in-out;
+  cursor: move;
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+}
+.gu-unselectable {
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
+}
 }
 .container .ex-moved {
   background-color: #e74c3c;
