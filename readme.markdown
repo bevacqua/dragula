@@ -47,7 +47,7 @@ Note that dragging is only triggered on left clicks, and only if no meta keys ar
 The example below allows the user to drag elements from `left` into `right`, and from `right` into `left`.
 
 ```js
-dragula([left, right]);
+dragula([document.querySelector('#left'), document.querySelector('#right')]);
 ```
 
 You can also provide an `options` object. Here's an overview.
@@ -151,6 +151,7 @@ Event Name | Listener Arguments      | Event Description
 `cancel`   | `el, container`         | `el` was being dragged but it got nowhere and went back into `container`, its last stable parent
 `remove`   | `el, container`         | `el` was being dragged but it got nowhere and it was removed from the DOM. Its last stable parent was `container`.
 `shadow`   | `el, container`         | `el`, _the visual aid shadow_, was moved into `container`. May trigger many times as the position of `el` changes, even within the same `container`
+`cloned`   | `clone, original`       | DOM element `original` was cloned as `clone`. Triggers for mirror images and when `copy: true`
 
 #### `drake.destroy()`
 

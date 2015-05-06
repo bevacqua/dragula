@@ -118,6 +118,7 @@ function dragula (initialContainers, options) {
     if (o.copy) {
       _copy = item.cloneNode(true);
       addClass(_copy, 'gu-transit');
+      api.emit('cloned', _copy, item);
     } else {
       addClass(item, 'gu-transit');
     }
@@ -295,6 +296,7 @@ function dragula (initialContainers, options) {
     body.appendChild(_mirror);
     touchy(documentElement, 'add', 'mousemove', drag);
     addClass(body, 'gu-unselectable');
+    api.emit('cloned', _mirror, _item);
   }
 
   function removeMirrorImage () {

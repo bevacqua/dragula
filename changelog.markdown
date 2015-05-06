@@ -1,3 +1,7 @@
+# 1.6.0 Lonely Clown Clone
+
+- Added `'cloned'` event when a DOM element is cloned
+
 # 1.5.1 Touchypants
 
 - Fixed an issue where dragula didn't understand where an element was being dropped
