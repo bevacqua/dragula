@@ -25,7 +25,7 @@
     </div>
     <pre>
       <code>
-dragula([left, right]);
+dragula([document.getElementById(left), document.getElementById(right)]);
       </code>
     </pre>
   </div>
@@ -46,7 +46,7 @@ dragula([left, right]);
     </div>
     <pre>
       <code>
-dragula([left, right]).on('drag', function (el) {
+dragula([document.getElementById(left), document.getElementById(right)]).on('drag', function (el) {
   el.className = el.className.replace(' animazing', '');
 }).on('drop', function (el) {
   setTimeout(function () {
@@ -70,7 +70,7 @@ dragula([left, right]).on('drag', function (el) {
     </div>
     <pre>
       <code>
-dragula([single], { removeOnSpill: true });
+dragula([document.getElementById(single)], { removeOnSpill: true });
       </code>
     </pre>
   </div>
@@ -91,7 +91,7 @@ dragula([single], { removeOnSpill: true });
     </div>
     <pre>
       <code>
-dragula([left, right], { revertOnSpill: true });
+dragula([document.getElementById(left), document.getElementById(right)], { revertOnSpill: true });
       </code>
     </pre>
   </div>
@@ -108,7 +108,7 @@ dragula([left, right], { revertOnSpill: true });
     </div>
     <pre>
       <code>
-dragula([left, right], { copy: true });
+dragula([document.getElementById(left), document.getElementById(right)], { copy: true });
       </code>
     </pre>
   </div>
@@ -123,7 +123,7 @@ dragula([left, right], { copy: true });
     </div>
     <pre>
       <code>
-dragula([left, right], {
+dragula([document.getElementById(left), document.getElementById(right)], {
   moves: function (el, container, handle) {
     return handle.className === 'handle';
   }
