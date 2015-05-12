@@ -38,9 +38,14 @@ a:hover {
   color: #ecf0f1;
 }
 
+pre {
+  white-space: pre-wrap;
+}
+
 pre code {
   color: #fff;
-  font-size: 18px;
+  font-size: 14px;
+  line-height: 1.3;
 }
 
 label {
