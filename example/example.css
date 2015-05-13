@@ -113,7 +113,12 @@ button:hover {
 .container:nth-child(odd) {
   background-color: rgba(0, 0, 0, 0.2);
 }
-.container div {
+/*
+ * note that styling gu-mirror directly is a bad practice because it's too generic.
+ * you're better off giving the draggable elements a unique class and styling that directly!
+ */
+.container div,
+.gu-mirror {
   margin: 10px;
   padding: 10px;
   background-color: rgba(0, 0, 0, 0.2);
