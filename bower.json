@@ -1,8 +1,11 @@
 {
   "name": "dragula.js",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "Drag and drop so simple it hurts",
-  "main": ["dist/dragula.js", "dist/dragula.css"],
+  "main": [
+    "dist/dragula.js",
+    "dist/dragula.css"
+  ],
   "ignore": [],
   "homepage": "https://github.com/bevacqua/dragula",
   "authors": [
