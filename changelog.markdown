@@ -1,3 +1,7 @@
+# 1.6.1 Shadow Drake
+
+- Improved shadow positioning when `revertOnSpill` is `true`
+
 # 1.6.0 Lonely Clown Clone
 
 - Added `'cloned'` event when a DOM element is cloned

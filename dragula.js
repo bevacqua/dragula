@@ -270,12 +270,13 @@ function dragula (initialContainers, options) {
     if (dropTarget === _source && o.copy) {
       return;
     }
+    var reference;
     var item = _copy || _item;
     var immediate = getImmediateChild(dropTarget, elementBehindCursor);
     if (immediate !== null) {
-      var reference = getReference(dropTarget, immediate, clientX, clientY);
+      reference = getReference(dropTarget, immediate, clientX, clientY);
     } else if (o.revertOnSpill === true) {
-      var reference = _initialSibling;
+      reference = _initialSibling;
       dropTarget = _source;
     } else {
       return;
