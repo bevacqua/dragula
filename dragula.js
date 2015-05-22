@@ -279,6 +279,9 @@ function dragula (initialContainers, options) {
       reference = _initialSibling;
       dropTarget = _source;
     } else {
+      if (o.removeOnSpill === true && item.parentElement !== null) {
+        item.parentElement.removeChild(item);
+      }
       return;
     }
     if (reference === null || reference !== item && reference !== nextEl(item)) {
