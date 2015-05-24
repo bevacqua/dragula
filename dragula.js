@@ -16,6 +16,8 @@ function dragula (initialContainers, options) {
   var _copy; // item used for copying
   var _containers = []; // containers managed by the drake
 
+  var _currentTarget; // reference current target container
+
   var o = options || {};
   if (o.moves === void 0) { o.moves = always; }
   if (o.accepts === void 0) { o.accepts = always; }
@@ -212,7 +214,10 @@ function dragula (initialContainers, options) {
     var item = _copy || _item;
     removeMirrorImage();
     rmClass(item, 'gu-transit');
-    _source = _item = _copy = _initialSibling = _currentSibling = null;
+    rmClass(_currentTarget, "gu-target")
+
+    _source = _item = _copy = _initialSibling = _currentSibling = _currentTarget =  null;
+
     api.dragging = false;
     api.emit('dragend', item);
   }
@@ -286,6 +291,13 @@ function dragula (initialContainers, options) {
     }
     if (reference === null || reference !== item && reference !== nextEl(item)) {
       _currentSibling = reference;
+
+      if (_currentTarget !== dropTarget) {
+        rmClass(_currentTarget, "gu-target");
+        _currentTarget = dropTarget;
+        addClass(_currentTarget, "gu-target");
+      }
+
       dropTarget.insertBefore(item, reference);
       api.emit('shadow', item, dropTarget);
     }
@@ -427,13 +439,15 @@ function nextEl (el) {
 }
 
 function addClass (el, className) {
-  if (el.className.indexOf(' ' + className) === -1) {
+  if (el && el.className.indexOf(' ' + className) === -1) {
     el.className += ' ' + className;
   }
 }
 
 function rmClass (el, className) {
-  el.className = el.className.replace(new RegExp(' ' + className, 'g'), '');
+  if (el) {
+    el.className = el.className.replace(new RegExp(' ' + className, 'g'), '');
+  }
 }
 
 function getCoord (coord, e) {
