@@ -127,7 +127,7 @@ button:hover {
   margin: 10px;
   padding: 10px;
   background-color: rgba(0, 0, 0, 0.2);
-  transition: all 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out;
   cursor: move;
   cursor: grab;
   cursor: -moz-grab;
