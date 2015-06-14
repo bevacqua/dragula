@@ -22,7 +22,6 @@ function dragula (initialContainers, options) {
   if (o.copy === void 0) { o.copy = false; }
   if (o.revertOnSpill === void 0) { o.revertOnSpill = false; }
   if (o.removeOnSpill === void 0) { o.removeOnSpill = false; }
-  if (o.direction === void 0) { o.direction = 'vertical'; }
 
   var api = emitter({
     addContainer: manipulateContainers('add'),
@@ -325,9 +324,17 @@ function dragula (initialContainers, options) {
   }
 
   function getReference (dropTarget, target, x, y) {
-    var horizontal = o.direction === 'horizontal';
+    var horizontal = !o.direction ? auto() : (o.direction === 'horizontal');
     var reference = target !== dropTarget ? inside() : outside();
     return reference;
+
+    function auto() { // automatic
+      var parentHeight = dropTarget.innerHeight,
+        parentWidth = dropTarget.innerWidth,
+        childHeight = dropTarget.children[0].outerHeight,
+        childWidth = dropTarget.children[0].outerWidth;
+      return parentHeight / childHeight < parentWidth / childWidth;
+    }
 
     function outside () { // slower, but able to figure out any position
       var len = dropTarget.children.length;
