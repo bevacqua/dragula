@@ -15,6 +15,7 @@ function dragula (initialContainers, options) {
   var _currentSibling; // reference sibling now
   var _copy; // item used for copying
   var _containers = []; // containers managed by the drake
+  var _timerClick; // timer for setTimeout renderMirrorImage
 
   var o = options || {};
   if (o.moves === void 0) { o.moves = always; }
@@ -23,6 +24,7 @@ function dragula (initialContainers, options) {
   if (o.revertOnSpill === void 0) { o.revertOnSpill = false; }
   if (o.removeOnSpill === void 0) { o.removeOnSpill = false; }
   if (o.direction === void 0) { o.direction = 'vertical'; }
+  if (o.delay === void 0) { o.delay = 100; }
 
   var api = emitter({
     addContainer: manipulateContainers('add'),
@@ -82,8 +84,13 @@ function dragula (initialContainers, options) {
     var offset = getOffset(_item);
     _offsetX = getCoord('pageX', e) - offset.left;
     _offsetY = getCoord('pageY', e) - offset.top;
-    renderMirrorImage();
-    drag(e);
+
+    // delay renderMirrorImage to fire click event when mouseup quickly (defaluts 100ms).
+    _timerClick = setTimeout(function(){
+      renderMirrorImage();
+      drag(e);
+    }, o.delay);
+
     e.preventDefault();
   }
 
@@ -146,6 +153,11 @@ function dragula (initialContainers, options) {
   }
 
   function release (e) {
+
+    if ( _timerClick ){
+      clearTimeout(_timerClick);
+    }
+
     if (!api.dragging) {
       return;
     }
