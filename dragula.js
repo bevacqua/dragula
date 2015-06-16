@@ -15,6 +15,7 @@ function dragula (initialContainers, options) {
   var _currentSibling; // reference sibling now
   var _copy; // item used for copying
   var _containers = []; // containers managed by the drake
+  var _timerClick; // timer for setTimeout renderMirrorImage
 
   var o = options || {};
   if (o.moves === void 0) { o.moves = always; }
@@ -85,7 +86,7 @@ function dragula (initialContainers, options) {
     _offsetY = getCoord('pageY', e) - offset.top;
 
     // delay renderMirrorImage to fire click event when mouseup quickly (defaluts 100ms).
-    setTimeout(function(){
+    _timerClick = setTimeout(function(){
       renderMirrorImage();
       drag(e);
     }, o.delay);
@@ -152,6 +153,11 @@ function dragula (initialContainers, options) {
   }
 
   function release (e) {
+
+    if ( _timerClick ){
+      clearTimeout(_timerClick);
+    }
+
     if (!api.dragging) {
       return;
     }
