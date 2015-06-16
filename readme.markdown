@@ -64,6 +64,7 @@ dragula(containers, {
   copy: false,           // elements are moved by default, not copied
   revertOnSpill: false,  // spilling will put the element back where it was dragged from, if this is true
   removeOnSpill: false   // spilling will `.remove` the element, if this is true
+  delay: 100             // delay renderMirrorImage to fire click event when mouseup quickly (defaluts 100ms).
 });
 ```
 

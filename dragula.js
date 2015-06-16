@@ -23,6 +23,7 @@ function dragula (initialContainers, options) {
   if (o.revertOnSpill === void 0) { o.revertOnSpill = false; }
   if (o.removeOnSpill === void 0) { o.removeOnSpill = false; }
   if (o.direction === void 0) { o.direction = 'vertical'; }
+  if (o.delay === void 0) { o.delay = 100; }
 
   var api = emitter({
     addContainer: manipulateContainers('add'),
@@ -82,8 +83,13 @@ function dragula (initialContainers, options) {
     var offset = getOffset(_item);
     _offsetX = getCoord('pageX', e) - offset.left;
     _offsetY = getCoord('pageY', e) - offset.top;
-    renderMirrorImage();
-    drag(e);
+
+    // delay renderMirrorImage to fire click event when mouseup quickly (defaluts 100ms).
+    setTimeout(function(){
+      renderMirrorImage();
+      drag(e);
+    }, o.delay);
+
     e.preventDefault();
   }
 
