@@ -20,3 +20,22 @@ dragula([$('left5'), $('right5')], {
   }
 });
 dragula([$('single1')], { removeOnSpill: true });
+dragula([$('single2')], { delay: 100 });
+
+$('single2').addEventListener('click', function(evt){
+
+  if(evt.target === this){
+    return;
+  }
+
+  var target = evt.target;
+
+  target.innerText += '[click!]';
+
+  setTimeout(function(){
+
+    target.innerText = target.innerText.replace(/\[click!\]/,'');
+
+  }, 500);
+
+});
