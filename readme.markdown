@@ -64,6 +64,7 @@ dragula(containers, {
   copy: false,           // elements are moved by default, not copied
   revertOnSpill: false,  // spilling will put the element back where it was dragged from, if this is true
   removeOnSpill: false   // spilling will `.remove` the element, if this is true
+  delay: 0               // if you want to enable click event, recommend set delay to 100,
 });
 ```
 
@@ -101,6 +102,12 @@ By default, spilling an element outside of any containers will move the element 
 #### `options.direction`
 
 When an element is dropped onto a container, it'll be placed near the point where the mouse was released. If the `direction` is `'vertical'`, the default value, the Y axis will be considered. Otherwise, if the `direction` is `'horizontal'`, the X axis will be considered.
+
+#### `options.delay`
+
+If you want the Drag Element can fire 'click' event, set `options.delay` to `100`.
+It will delay create the Mirror that Browser can get the `click` event when mouseup quickly (100ms).
+Notice: dragula will stop drag when event.target is `<a>` or `<button>`;
 
 ## API
 

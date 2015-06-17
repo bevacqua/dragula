@@ -131,6 +131,25 @@ dragula([document.getElementById(left), document.getElementById(right)], {
       </code>
     </pre>
   </div>
+  <div class='parent'>
+    <label for='hy'>Fire Click or Drag. fire click when mouseup quickly, otherwise fire drag</label>
+    <p>notice: dragula will stop drag when event.target is &lt;a&gt; or &lt;button&gt;</p>
+    <div class='wrapper'>
+      <div id='single2' class='container'>
+        <div>Move me, but you can only drop me somewhere in this container.</div>
+        <div>If you try to drop me somewhere other than here, I'll die a fiery death.</div>
+        <div>Item 3.</div>
+        <div>Item 6.</div>
+        <div>Item 4.</div>
+        <div>Item 5.</div>
+      </div>
+    </div>
+    <pre>
+      <code>
+        dragula([document.getElementById(single)], { delay: 100 });
+      </code>
+    </pre>
+  </div>
 </div>
 <h3>Get it on GitHub! <a href='https://github.com/bevacqua/dragula'>bevacqua/dragula</a></h3>
 <script src='dist/dragula.js'></script>

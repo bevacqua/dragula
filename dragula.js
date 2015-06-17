@@ -11,10 +11,13 @@ function dragula (initialContainers, options) {
   var _item; // item being dragged
   var _offsetX; // reference x
   var _offsetY; // reference y
+  var _clientX; // cache client x, init at grab, update at drag
+  var _clientY; // cache client y, init at grab, update at drag
   var _initialSibling; // reference sibling when grabbed
   var _currentSibling; // reference sibling now
   var _copy; // item used for copying
   var _containers = []; // containers managed by the drake
+  var _timerClick; // timer for setTimeout renderMirrorImage
 
   var o = options || {};
   if (o.moves === void 0) { o.moves = always; }
@@ -23,6 +26,7 @@ function dragula (initialContainers, options) {
   if (o.revertOnSpill === void 0) { o.revertOnSpill = false; }
   if (o.removeOnSpill === void 0) { o.removeOnSpill = false; }
   if (o.direction === void 0) { o.direction = 'vertical'; }
+  if (o.delay === void 0) { o.delay = 0; }
 
   var api = emitter({
     addContainer: manipulateContainers('add'),
@@ -82,9 +86,22 @@ function dragula (initialContainers, options) {
     var offset = getOffset(_item);
     _offsetX = getCoord('pageX', e) - offset.left;
     _offsetY = getCoord('pageY', e) - offset.top;
-    renderMirrorImage();
-    drag(e);
+
+    _clientX = getCoord('clientX', e);
+    _clientY = getCoord('clientY', e);
+
+    if (o.delay > 0) {
+      _timerClick = setTimeout(renderMirrorAndDrag, o.delay);
+    } else {
+      renderMirrorAndDrag();
+    }
+
     e.preventDefault();
+  }
+
+  function renderMirrorAndDrag(){
+    renderMirrorImage();
+    drag();
   }
 
   function start (item) {
@@ -146,6 +163,11 @@ function dragula (initialContainers, options) {
   }
 
   function release (e) {
+
+    if (_timerClick) {
+      clearTimeout(_timerClick);
+    }
+
     if (!api.dragging) {
       return;
     }
@@ -257,16 +279,16 @@ function dragula (initialContainers, options) {
       return;
     }
 
-    var clientX = getCoord('clientX', e);
-    var clientY = getCoord('clientY', e);
-    var x = clientX - _offsetX;
-    var y = clientY - _offsetY;
+    _clientX = e ? getCoord('clientX', e) : _clientX;
+    _clientY = e ? getCoord('clientY', e) : _clientY;
+    var x = _clientX - _offsetX;
+    var y = _clientY - _offsetY;
 
     _mirror.style.left = x + 'px';
     _mirror.style.top  = y + 'px';
 
-    var elementBehindCursor = getElementBehindPoint(_mirror, clientX, clientY);
-    var dropTarget = findDropTarget(elementBehindCursor, clientX, clientY);
+    var elementBehindCursor = getElementBehindPoint(_mirror, _clientX, _clientY);
+    var dropTarget = findDropTarget(elementBehindCursor, _clientX, _clientY);
     if (dropTarget === _source && o.copy) {
       return;
     }
@@ -274,7 +296,7 @@ function dragula (initialContainers, options) {
     var item = _copy || _item;
     var immediate = getImmediateChild(dropTarget, elementBehindCursor);
     if (immediate !== null) {
-      reference = getReference(dropTarget, immediate, clientX, clientY);
+      reference = getReference(dropTarget, immediate, _clientX, _clientY);
     } else if (o.revertOnSpill === true && !o.copy) {
       reference = _initialSibling;
       dropTarget = _source;
