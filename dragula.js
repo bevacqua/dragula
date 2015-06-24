@@ -75,8 +75,19 @@ function dragula (initialContainers, options) {
 
   function grab (e) {
     var item = e.target;
+    var isLeftClick;
 
-    if ((e.which !== 0 && e.which !== 1) || e.metaKey || e.ctrlKey) {
+    if(window.event){
+
+      isLeftClick = ((e.keyCode !== 0 && e.keyCode !== 1) || e.metaKey || e.ctrlKey);
+
+    }else{
+
+      isLeftClick = ((e.which !== 0 && e.which !== 1) || e.metaKey || e.ctrlKey)
+
+    }
+
+    if (isLeftClick) {
       return; // we only care about honest-to-god left clicks and touch events
     }
     if (start(item) !== true) {
@@ -318,9 +329,13 @@ function dragula (initialContainers, options) {
       return;
     }
     var rect = _item.getBoundingClientRect();
+
+    var rectWidth = rect.width || rect.right - rect.left;
+    var rectHeight = rect.height || rect.bottom - rect.top;
+
     _mirror = _item.cloneNode(true);
-    _mirror.style.width = rect.width + 'px';
-    _mirror.style.height = rect.height + 'px';
+    _mirror.style.width = rectWidth + 'px';
+    _mirror.style.height = rectHeight + 'px';
     rmClass(_mirror, 'gu-transit');
     addClass(_mirror, ' gu-mirror');
     body.appendChild(_mirror);
@@ -370,10 +385,13 @@ function dragula (initialContainers, options) {
 
     function inside () { // faster, but only available if dropped inside a child element
       var rect = target.getBoundingClientRect();
+      var rectWidth = rect.width || rect.right - rect.left;
+      var rectHeight = rect.height || rect.bottom - rect.top;
+
       if (horizontal) {
-        return resolve(x > rect.left + rect.width / 2);
+        return resolve(x > rect.left + rectWidth / 2);
       }
-      return resolve(y > rect.top + rect.height / 2);
+      return resolve(y > rect.top + rectHeight / 2);
     }
 
     function resolve (after) {
@@ -459,6 +477,30 @@ function rmClass (el, className) {
 }
 
 function getCoord (coord, e) {
+
+  // IE8
+  if (!e.pageX && e.clientX) {
+
+    // Calculate pageX/Y if missing and clientX/Y available
+    if (coord === 'pageX' || coord === 'pageY') {
+
+      var eventDoc = e.target.ownerDocument || document;
+      var doc = eventDoc.documentElement;
+      var body = eventDoc.body;
+
+      e.pageX = e.clientX +
+        ( doc && doc.scrollLeft || body && body.scrollLeft || 0 ) -
+        ( doc && doc.clientLeft || body && body.clientLeft || 0 );
+      e.pageY = e.clientY +
+        ( doc && doc.scrollTop || body && body.scrollTop || 0 ) -
+        ( doc && doc.clientTop || body && body.clientTop || 0 );
+
+    }
+
+    return e[coord];
+
+  }
+
   if (typeof e.targetTouches === 'undefined') {
     return e[coord];
   }

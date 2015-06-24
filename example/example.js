@@ -1,11 +1,11 @@
 'use strict';
 
-function $ (id) {
+function $(id) {
   return document.getElementById(id);
 }
 
 dragula([$('left1'), $('right1')]);
-dragula([$('left2'), $('right2')], { copy: true });
+dragula([$('left2'), $('right2')], {copy: true});
 dragula([$('left3'), $('right3')]).on('drag', function (el) {
   el.className = el.className.replace(' ex-moved', '');
 }).on('drop', function (el) {
@@ -13,29 +13,36 @@ dragula([$('left3'), $('right3')]).on('drag', function (el) {
     el.className += ' ex-moved';
   }, 0);
 });
-dragula([$('left4'), $('right4')], { revertOnSpill: true });
+dragula([$('left4'), $('right4')], {revertOnSpill: true});
 dragula([$('left5'), $('right5')], {
   moves: function (el, container, handle) {
     return handle.className === 'handle';
   }
 });
-dragula([$('single1')], { removeOnSpill: true });
-dragula([$('single2')], { delay: 100 });
+dragula([$('single1')], {removeOnSpill: true});
 
-$('single2').addEventListener('click', function(evt){
+var single2 = $('single2');
 
-  if(evt.target === this){
+dragula([single2], {delay: 100});
+
+if (single2.addEventListener) {
+  single2.addEventListener('click', clickHandler, false);
+} else {
+  single2.attachEvent('onclick', clickHandler);
+}
+
+function clickHandler(evt) {
+  if (evt.target === this) {
     return;
   }
 
-  var target = evt.target;
+  var target = evt.target || evt.srcElement;
 
   target.innerText += '[click!]';
 
-  setTimeout(function(){
+  setTimeout(function () {
 
-    target.innerText = target.innerText.replace(/\[click!\]/,'');
+    target.innerText = target.innerText.replace(/\[click!\]/, '');
 
   }, 500);
-
-});
+}

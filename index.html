@@ -1,7 +1,17 @@
 <!doctype html>
-<link href='dist/dragula.css' rel='stylesheet' type='text/css' />
-<link href='example/example.css' rel='stylesheet' type='text/css' />
-<title>dragula</title>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>dragula</title>
+  <link href='dist/dragula.css' rel='stylesheet' type='text/css' />
+  <link href='example/example.css' rel='stylesheet' type='text/css' />
+
+  <!--[if lte IE 8]>
+  <script src="example/es5-shim.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+
 <h1>dragula</h1>
 <h3>Drag and drop so simple it hurts</h3>
 <a href='https://github.com/bevacqua/dragula'>
@@ -9,7 +19,7 @@
 </a>
 <div class='examples'>
   <div class='parent'>
-    <label for='hy'>Move stuff between these two containers. Note how the stuff gets inserted near the mouse pointer? Great stuff.</label>
+    <label>Move stuff between these two containers. Note how the stuff gets inserted near the mouse pointer? Great stuff.</label>
     <div class='wrapper'>
       <div id='left1' class='container'>
         <div>Move me, but you can only drop me in one of these containers.</div>
@@ -25,12 +35,12 @@
     </div>
     <pre>
       <code>
-dragula([document.getElementById(left), document.getElementById(right)]);
+        dragula([document.getElementById(left), document.getElementById(right)]);
       </code>
     </pre>
   </div>
   <div class='parent'>
-    <label for='hy'>Add some fantastic events!</label>
+    <label>Add some fantastic events!</label>
     <div class='wrapper'>
       <div id='left3' class='container'>
         <div>Move me, but you can only drop me in one of these containers.</div>
@@ -46,18 +56,18 @@ dragula([document.getElementById(left), document.getElementById(right)]);
     </div>
     <pre>
       <code>
-dragula([document.getElementById(left), document.getElementById(right)]).on('drag', function (el) {
-  el.className = el.className.replace(' animazing', '');
-}).on('drop', function (el) {
-  setTimeout(function () {
-    el.className += ' animazing';
-  }, 0);
-});
+        dragula([document.getElementById(left), document.getElementById(right)]).on('drag', function (el) {
+        el.className = el.className.replace(' animazing', '');
+        }).on('drop', function (el) {
+        setTimeout(function () {
+        el.className += ' animazing';
+        }, 0);
+        });
       </code>
     </pre>
   </div>
   <div class='parent'>
-    <label for='hy'>Need to be able to quickly delete stuff when it spills out of the chosen containers?</label>
+    <label>Need to be able to quickly delete stuff when it spills out of the chosen containers?</label>
     <div class='wrapper'>
       <div id='single1' class='container'>
         <div>Move me, but you can only drop me somewhere in this container.</div>
@@ -70,12 +80,12 @@ dragula([document.getElementById(left), document.getElementById(right)]).on('dra
     </div>
     <pre>
       <code>
-dragula([document.getElementById(single)], { removeOnSpill: true });
+        dragula([document.getElementById(single)], { removeOnSpill: true });
       </code>
     </pre>
   </div>
   <div class='parent'>
-    <label for='hy'>By default, dropping an element outside of any known containers will keep the element in the last place it hovered over. You can make elements go back home if they're dropped outside of known containers, too.</label>
+    <label>By default, dropping an element outside of any known containers will keep the element in the last place it hovered over. You can make elements go back home if they're dropped outside of known containers, too.</label>
     <div class='wrapper'>
       <div id='left4' class='container'>
         <div>Move me, but you can only drop me in one of these containers.</div>
@@ -91,12 +101,12 @@ dragula([document.getElementById(single)], { removeOnSpill: true });
     </div>
     <pre>
       <code>
-dragula([document.getElementById(left), document.getElementById(right)], { revertOnSpill: true });
+        dragula([document.getElementById(left), document.getElementById(right)], { revertOnSpill: true });
       </code>
     </pre>
   </div>
   <div class='parent'>
-    <label for='hy'>Copying stuff is great too</label>
+    <label>Copying stuff is great too</label>
     <div class='wrapper'>
       <div id='left2' class='container'>
         <div>Move me, but you can only drop me in one of these containers.</div>
@@ -108,12 +118,12 @@ dragula([document.getElementById(left), document.getElementById(right)], { rever
     </div>
     <pre>
       <code>
-dragula([document.getElementById(left), document.getElementById(right)], { copy: true });
+        dragula([document.getElementById(left), document.getElementById(right)], { copy: true });
       </code>
     </pre>
   </div>
   <div class='parent'>
-    <label for='hy'>Drag handles float your cruise?</label>
+    <label>Drag handles float your cruise?</label>
     <div class='wrapper'>
       <div id='left5' class='container'>
         <div><span class='handle'>+</span>Move me, but you can use the plus sign to drag me around.</div>
@@ -123,16 +133,16 @@ dragula([document.getElementById(left), document.getElementById(right)], { copy:
     </div>
     <pre>
       <code>
-dragula([document.getElementById(left), document.getElementById(right)], {
-  moves: function (el, container, handle) {
-    return handle.className === 'handle';
-  }
-});
+        dragula([document.getElementById(left), document.getElementById(right)], {
+        moves: function (el, container, handle) {
+        return handle.className === 'handle';
+        }
+        });
       </code>
     </pre>
   </div>
   <div class='parent'>
-    <label for='hy'>Fire Click or Drag. fire click when mouseup quickly, otherwise fire drag</label>
+    <label>Fire Click or Drag. fire click when mouseup quickly, otherwise fire drag</label>
     <p>notice: dragula will stop drag when event.target is &lt;a&gt; or &lt;button&gt;</p>
     <div class='wrapper'>
       <div id='single2' class='container'>
@@ -154,3 +164,6 @@ dragula([document.getElementById(left), document.getElementById(right)], {
 <h3>Get it on GitHub! <a href='https://github.com/bevacqua/dragula'>bevacqua/dragula</a></h3>
 <script src='dist/dragula.js'></script>
 <script src='example/example.js'></script>
+
+</body>
+</html>
