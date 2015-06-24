@@ -437,18 +437,29 @@ function rmClass (el, className) {
   el.className = el.className.replace(new RegExp(' ' + className, 'g'), '');
 }
 
-function getCoord (coord, e) {
-  if (typeof e.targetTouches === 'undefined') {
-    return e[coord];
-  }
+function getEventHost (e) {
   // on touchend event, we have to use `e.changedTouches`
   // see http://stackoverflow.com/questions/7192563/touchend-event-properties
   // see https://github.com/bevacqua/dragula/issues/34
-  return (
-    (e.targetTouches  &&  e.targetTouches.length  && e.targetTouches[0][coord])  ||
-    (e.changedTouches &&  e.changedTouches.length && e.changedTouches[0][coord]) ||
-    0
-  );
+  if (e.targetTouches && e.targetTouches.length) {
+    return e.targetTouches[0];
+  }
+  if (e.changedTouches && e.changedTouches.length) {
+    return e.changedTouches[0];
+  }
+  return e;
+}
+
+function getCoord (coord, e) {
+  var host = getEventHost(e);
+  var missMap = {
+    pageX: 'clientX', // IE8
+    pageY: 'clientY' // IE8
+  };
+  if (coord in missMap && !(coord in host) && missMap[coord] in host) {
+    coord = missMap[coord];
+  }
+  return host[coord];
 }
 
 function getRectWidth (rect) {
