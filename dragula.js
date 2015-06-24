@@ -71,8 +71,9 @@ function dragula (initialContainers, options) {
 
   function grab (e) {
     var item = e.target;
-
-    if ((e.which !== 0 && e.which !== 1) || e.metaKey || e.ctrlKey) {
+    var button = window.event ? e.keyCode : e.which;
+    var ignore = (button !== 0 && button !== 1) || e.metaKey || e.ctrlKey;
+    if (ignore) {
       return; // we only care about honest-to-god left clicks and touch events
     }
     if (start(item) !== true) {
@@ -297,8 +298,8 @@ function dragula (initialContainers, options) {
     }
     var rect = _item.getBoundingClientRect();
     _mirror = _item.cloneNode(true);
-    _mirror.style.width = rect.width + 'px';
-    _mirror.style.height = rect.height + 'px';
+    _mirror.style.width = getRectWidth(rect) + 'px';
+    _mirror.style.height = getRectHeight(rect) + 'px';
     rmClass(_mirror, 'gu-transit');
     addClass(_mirror, ' gu-mirror');
     body.appendChild(_mirror);
@@ -349,9 +350,9 @@ function dragula (initialContainers, options) {
     function inside () { // faster, but only available if dropped inside a child element
       var rect = target.getBoundingClientRect();
       if (horizontal) {
-        return resolve(x > rect.left + rect.width / 2);
+        return resolve(x > rect.left + getRectWidth(rect) / 2);
       }
-      return resolve(y > rect.top + rect.height / 2);
+      return resolve(y > rect.top + getRectHeight(rect) / 2);
     }
 
     function resolve (after) {
@@ -448,6 +449,14 @@ function getCoord (coord, e) {
     (e.changedTouches &&  e.changedTouches.length && e.changedTouches[0][coord]) ||
     0
   );
+}
+
+function getRectWidth (rect) {
+  return rect.width || (rect.right - rect.left);
+}
+
+function getRectHeight (rect) {
+  return rect.height || (rect.bottom - rect.top);
 }
 
 module.exports = dragula;
