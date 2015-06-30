@@ -38,7 +38,7 @@ bower install dragula.js --save
 
 Dragula provides the easiest possible API to make drag and drop a breeze in your applications.
 
-## `dragula(containers, options?)`
+## `dragula(containers?, options?)`
 
 By default, `dragula` will allow the user to drag an element in any of the `containers` and drop it in any other container in the list. If the element is dropped anywhere that's not one of the `containers`, the event will be gracefully cancelled according to the `revertOnSpill` and `removeOnSpill` options.
 
@@ -54,6 +54,9 @@ You can also provide an `options` object. Here's an **overview of the default va
 
 ```js
 dragula(containers, {
+  isContainer: function (el) {
+    return false; // only elements in drake.containers will be taken into account
+  },
   moves: function (el, container, handle) {
     return true; // elements are always draggable by default
   },
@@ -71,7 +74,46 @@ dragula(containers, {
 });
 ```
 
+You can omit the `containers` argument and add containers dynamically later on.
+
+```js
+var drake = dragula({
+  copy: true
+});
+drake.containers.push(container);
+```
+
+You can also set the `containers` from the `options` object.
+
+```js
+var drake = dragula({ containers: containers });
+```
+
+And you could also not set any arguments, which defaults to a drake without containers and with the default options.
+
+```js
+var drake = dragula();
+```
+
 The options are detailed below.
+
+#### `options.containers`
+
+Setting this option is effectively the same as passing the containers in the first argument to `dragula(containers, options)`.
+
+#### `options.isContainer`
+
+Besides the containers that you pass to `dragula`, or the containers you dynamically `push` or `unshift` from [drake.containers](#drakecontainers), you can also use this method to specify any sort of logic that defines what is a container for this particular `drake` instance.
+
+The example below dynamically treats all DOM elements with a CSS class of `dragula-container` as dragula containers for this `drake`.
+
+```js
+var drake = dragula({
+  isContainer: function (el) {
+    return el.classList.contains('dragula-contianer');
+  }
+});
+```
 
 #### `options.moves`
 
@@ -128,11 +170,15 @@ The `dragula` method returns a tiny object with a concise API. We'll refer to th
 
 #### `drake.addContainer(container)`
 
-Adds a `container` to the `containers` collection. It can be a single DOM element or an array.
+**DEPRECATED. Use [drake.containers](#drakecontainers) instead.** Adds a `container` to the `containers` collection. It can be a single DOM element or an array.
 
 #### `drake.removeContainer(container)`
 
-Removes a `container` from the `containers` collection. It can be a single DOM element or an array.
+**DEPRECATED. Use [drake.containers](#drakecontainers) instead.** Removes a `container` from the `containers` collection. It can be a single DOM element or an array.
+
+#### `drake.containers`
+
+This property contains the collection of containers that was passed to `dragula` when building this `drake` instance. You can `push` more containers and `splice` old containers at will.
 
 #### `drake.dragging`
 

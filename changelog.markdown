@@ -1,3 +1,12 @@
+# 2.0.0 Containerization
+
+- Deprecated `addContainer` method
+- Deprecated `removeContainer` method
+- Exposed `dragula.containers` collection
+- Introduced dynamic `isContainer` method
+- Can now omit `containers` argument to `dragula(containers, options)`
+- Can now pass `containers` as an option
+
 # 1.7.0 Clickety Click
 
 - Differentiate between drag and click using `delay` option

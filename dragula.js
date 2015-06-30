@@ -4,6 +4,11 @@ var emitter = require('contra.emitter');
 var crossvent = require('crossvent');
 
 function dragula (initialContainers, options) {
+  var len = arguments.length;
+  if (len === 1 && Array.isArray(initialContainers) === false) {
+    options = initialContainers;
+    initialContainers = [];
+  }
   var body = document.body;
   var documentElement = document.documentElement;
   var _mirror; // mirror image
@@ -16,13 +21,14 @@ function dragula (initialContainers, options) {
   var _initialSibling; // reference sibling when grabbed
   var _currentSibling; // reference sibling now
   var _copy; // item used for copying
-  var _containers = []; // containers managed by the drake
   var _renderTimer; // timer for setTimeout renderMirrorImage
 
   var o = options || {};
   if (o.moves === void 0) { o.moves = always; }
   if (o.accepts === void 0) { o.accepts = always; }
   if (o.invalid === void 0) { o.invalid = invalidTarget; }
+  if (o.containers === void 0) { o.containers = initialContainers || []; }
+  if (o.isContainer === void 0) { o.isContainer = falseop; }
   if (o.copy === void 0) { o.copy = false; }
   if (o.revertOnSpill === void 0) { o.revertOnSpill = false; }
   if (o.removeOnSpill === void 0) { o.removeOnSpill = false; }
@@ -31,8 +37,9 @@ function dragula (initialContainers, options) {
   if (o.delay === true) { o.delay = 300; }
 
   var api = emitter({
-    addContainer: manipulateContainers('add'),
-    removeContainer: manipulateContainers('remove'),
+    containers: o.containers,
+    addContainer: addContainer,
+    removeContainer: removeContainer,
     start: start,
     end: end,
     cancel: cancel,
@@ -42,36 +49,39 @@ function dragula (initialContainers, options) {
   });
 
   events();
-  api.addContainer(initialContainers);
 
   return api;
 
-  function manipulateContainers (op) {
-    return function addOrRemove (all) {
-      var changes = Array.isArray(all) ? all : [all];
-      changes.forEach(track);
-      if (op === 'add') {
-        _containers = _containers.concat(changes);
-      } else {
-        _containers = _containers.filter(removals);
-      }
-      function track (container) {
-        touchy(container, op, 'mousedown', grab);
-      }
-      function removals (container) {
-        return changes.indexOf(container) === -1;
-      }
-    };
+  function addContainer (all) {
+    var changes = Array.isArray(all) ? all : [all];
+    api.containers = api.containers.concat(changes);
+    console.warn && console.warn('drake.addContainer is deprecated. please access drake.containers directly, instead');
+  }
+  function removeContainer (all) {
+    var changes = Array.isArray(all) ? all : [all];
+    api.containers = api.containers.filter(keepable);
+    console.warn && console.warn('drake.removeContainer is deprecated. please access drake.containers directly, instead');
+    function keepable (container) {
+      return changes.indexOf(container) === -1;
+    }
+  }
+
+  function isContainer (el) {
+    return api.containers.indexOf(el) !== -1 || o.isContainer(el);
+  }
+
+  function falseop () {
+    return false;
   }
 
   function events (remove) {
     var op = remove ? 'remove' : 'add';
+    touchy(documentElement, op, 'mousedown', grab);
     touchy(documentElement, op, 'mouseup', release);
   }
 
   function destroy () {
     events(true);
-    api.removeContainer(_containers);
     release({});
   }
 
@@ -111,14 +121,17 @@ function dragula (initialContainers, options) {
       return;
     }
 
-    if (_containers.indexOf(item) !== -1) {
+    if (isContainer(item)) {
       return; // don't drag container itself
     }
-    while (_containers.indexOf(item.parentElement) === -1) {
+    while (isContainer(item.parentElement) === false) {
       if (o.invalid(item, handle)) {
         return;
       }
       item = item.parentElement; // drag target should be a top element
+      if (!item) {
+        return;
+      }
     }
     if (o.invalid(item, handle)) {
       return;
@@ -257,7 +270,7 @@ function dragula (initialContainers, options) {
     return target;
 
     function accepted () {
-      var droppable = _containers.indexOf(target) !== -1;
+      var droppable = isContainer(target);
       if (droppable === false) {
         return false;
       }
