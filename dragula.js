@@ -28,7 +28,7 @@ function dragula (initialContainers, options) {
   if (o.accepts === void 0) { o.accepts = always; }
   if (o.invalid === void 0) { o.invalid = invalidTarget; }
   if (o.containers === void 0) { o.containers = initialContainers || []; }
-  if (o.isContainer === void 0) { o.isContainer = falseop; }
+  if (o.isContainer === void 0) { o.isContainer = never; }
   if (o.copy === void 0) { o.copy = false; }
   if (o.revertOnSpill === void 0) { o.revertOnSpill = false; }
   if (o.removeOnSpill === void 0) { o.removeOnSpill = false; }
@@ -68,10 +68,6 @@ function dragula (initialContainers, options) {
 
   function isContainer (el) {
     return api.containers.indexOf(el) !== -1 || o.isContainer(el);
-  }
-
-  function falseop () {
-    return false;
   }
 
   function events (remove) {
@@ -299,13 +295,16 @@ function dragula (initialContainers, options) {
     _mirror.style.left = x + 'px';
     _mirror.style.top  = y + 'px';
 
+    var item = _copy || _item;
     var elementBehindCursor = getElementBehindPoint(_mirror, _clientX, _clientY);
     var dropTarget = findDropTarget(elementBehindCursor, _clientX, _clientY);
     if (dropTarget === _source && o.copy) {
+      if (item.parentElement) {
+        item.parentElement.removeChild(item);
+      }
       return;
     }
     var reference;
-    var item = _copy || _item;
     var immediate = getImmediateChild(dropTarget, elementBehindCursor);
     if (immediate !== null) {
       reference = getReference(dropTarget, immediate, _clientX, _clientY);
@@ -443,6 +442,10 @@ function getElementBehindPoint (point, x, y) {
   el = document.elementFromPoint(x, y);
   p.className = state;
   return el;
+}
+
+function never () {
+  return false;
 }
 
 function always () {
