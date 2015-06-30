@@ -110,7 +110,7 @@ The example below dynamically treats all DOM elements with a CSS class of `dragu
 ```js
 var drake = dragula({
   isContainer: function (el) {
-    return el.classList.contains('dragula-contianer');
+    return el.classList.contains('dragula-container');
   }
 });
 ```
