@@ -50,20 +50,24 @@ The example below allows the user to drag elements from `left` into `right`, and
 dragula([document.querySelector('#left'), document.querySelector('#right')]);
 ```
 
-You can also provide an `options` object. Here's an overview.
+You can also provide an `options` object. Here's an **overview of the default values**.
 
 ```js
 dragula(containers, {
   moves: function (el, container, handle) {
-    return true;         // elements are always draggable by default
+    return true; // elements are always draggable by default
   },
   accepts: function (el, target, source, sibling) {
-    return true;         // elements can be dropped in any of the `containers` by default
+    return true; // elements can be dropped in any of the `containers` by default
+  },
+  invalid: function (el, target) { // prevent buttons and anchor tags from starting a drag
+    return el.tagName === 'A' || el.tagName === 'BUTTON';
   },
   direction: 'vertical', // Y axis is considered when determining where an element would be dropped
   copy: false,           // elements are moved by default, not copied
   revertOnSpill: false,  // spilling will put the element back where it was dragged from, if this is true
-  removeOnSpill: false   // spilling will `.remove` the element, if this is true
+  removeOnSpill: false,  // spilling will `.remove` the element, if this is true
+  delay: false           // enable regular clicks by setting to true or a number of milliseconds
 });
 ```
 
@@ -101,6 +105,22 @@ By default, spilling an element outside of any containers will move the element 
 #### `options.direction`
 
 When an element is dropped onto a container, it'll be placed near the point where the mouse was released. If the `direction` is `'vertical'`, the default value, the Y axis will be considered. Otherwise, if the `direction` is `'horizontal'`, the X axis will be considered.
+
+#### `options.delay`
+
+Number of milliseconds during which clicks where the mouse button is released will be treated as regular clicks instead of very short lived drags. When `delay` is set to `true`, a default of `300` milliseconds is used. Defaults to `false`.
+
+#### `options.invalid`
+
+You can provide an `invalid` method with a `(el, target)` signature. This method should return `true` for elements that shouldn't trigger a drag. Here's the default implementation, which prevents drags originating from anchor elements and buttons.
+
+```js
+function invalidTarget (el) {
+  return el.tagName === 'A' || el.tagName === 'BUTTON';
+}
+```
+
+Note that `invalid` will be invoked on the DOM element that was clicked and every parent up to immediate children of a `drake` container.
 
 ## API
 

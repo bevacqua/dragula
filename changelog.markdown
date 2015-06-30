@@ -1,3 +1,8 @@
+# 1.7.0 Clickety Click
+
+- Differentiate between drag and click using `delay` option
+- Ability to specify which event targets are `invalid` drag triggers
+
 # 1.6.1 Shadow Drake
 
 - Improved shadow positioning when `revertOnSpill` is `true`
