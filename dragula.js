@@ -11,10 +11,13 @@ function dragula (initialContainers, options) {
   var _item; // item being dragged
   var _offsetX; // reference x
   var _offsetY; // reference y
+  var _clientX; // cache client x, init at grab, update at drag
+  var _clientY; // cache client y, init at grab, update at drag
   var _initialSibling; // reference sibling when grabbed
   var _currentSibling; // reference sibling now
   var _copy; // item used for copying
   var _containers = []; // containers managed by the drake
+  var _timerClick; // timer for setTimeout renderMirrorImage
 
   var o = options || {};
   if (o.moves === void 0) { o.moves = always; }
@@ -23,6 +26,7 @@ function dragula (initialContainers, options) {
   if (o.revertOnSpill === void 0) { o.revertOnSpill = false; }
   if (o.removeOnSpill === void 0) { o.removeOnSpill = false; }
   if (o.direction === void 0) { o.direction = 'vertical'; }
+  if (o.delay === void 0) { o.delay = false; }
 
   var api = emitter({
     addContainer: manipulateContainers('add'),
@@ -71,8 +75,7 @@ function dragula (initialContainers, options) {
 
   function grab (e) {
     var item = e.target;
-    var button = window.event ? e.keyCode : e.which;
-    var ignore = (button !== 0 && button !== 1) || e.metaKey || e.ctrlKey;
+    var ignore = (e.which !== 0 && e.which !== 1) || e.metaKey || e.ctrlKey;
     if (ignore) {
       return; // we only care about honest-to-god left clicks and touch events
     }
