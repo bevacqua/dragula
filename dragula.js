@@ -102,7 +102,15 @@ function dragula (initialContainers, options) {
     } else {
       renderMirrorAndDrag();
     }
-    e.preventDefault();
+
+    if (e.preventDefault) {
+      e.preventDefault();
+    } else {
+      documentElement.onselectstart = function () {
+        event.returnValue = false;
+      }
+    }
+
   }
 
   function renderMirrorAndDrag () {
@@ -188,6 +196,11 @@ function dragula (initialContainers, options) {
     } else {
       cancel();
     }
+
+    if (typeof documentElement.onselectstart === 'function') {
+      documentElement.onselectstart = {};
+    }
+
   }
 
   function drop (item, target) {
