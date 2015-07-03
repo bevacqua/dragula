@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/bevacqua/dragula",
   "dependencies": {
-    "contra.emitter": "^1.1.0",
+    "contra": "1.9.1",
     "crossvent": "1.3.2"
   },
   "devDependencies": {

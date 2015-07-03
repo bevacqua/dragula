@@ -1,6 +1,6 @@
 'use strict';
 
-var emitter = require('contra.emitter');
+var emitter = require('contra/emitter');
 var crossvent = require('crossvent');
 
 function dragula (initialContainers, options) {

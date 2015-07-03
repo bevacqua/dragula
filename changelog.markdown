@@ -1,3 +1,7 @@
+# 2.0.2 Aural Emission
+
+- Replaced `contra.emitter` with `contra@1.9.1/emitter`
+
 # 2.0.1 Copycat
 
 - Fixed a bug where dragging a copy back to origin after hovering over another container would still result in a copy being made if you never spilled the item
