@@ -32,11 +32,12 @@ function clickHandler (e) {
     return;
   }
   var target = e.target || e.srcElement;
-
-  target.innerText += ' [click!]';
+  var text = ('innerText' in target)? 'innerText' : 'textContent';
+  
+  target[text] += ' [click!]';
 
   setTimeout(function () {
-    target.innerText = target.innerText.replace(/ \[click!\]/g, '');
+    target[text] = target[text].replace(/ \[click!\]/g, '');
   }, 500);
 }
 
