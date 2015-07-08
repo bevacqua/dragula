@@ -237,11 +237,13 @@ function dragula (initialContainers, options) {
   function cleanup () {
     var item = _copy || _item;
     removeMirrorImage();
-    rmClass(item, 'gu-transit');
-    _source = _item = _copy = _initialSibling = _currentSibling = null;
-    if (_renderTimer) {
-      clearTimeout(_renderTimer); _renderTimer = null;
+    if (item) {
+      rmClass(item, 'gu-transit');
     }
+    if (_renderTimer) {
+      clearTimeout(_renderTimer);
+    }
+    _source = _item = _copy = _initialSibling = _currentSibling = _renderTimer = null;
     api.dragging = false;
     api.emit('dragend', item);
   }
