@@ -1,3 +1,7 @@
+# 2.0.3 Mice Trap
+
+- Fixed a bug where using `.cancel` would throw an exception
+
 # 2.0.2 Aural Emission
 
 - Replaced `contra.emitter` with `contra@1.9.1/emitter`
