@@ -1,3 +1,7 @@
+# 2.0.4 Transit Overload
+
+- Set `gu-transit` after a drag event has fully started
+
 # 2.0.3 Mice Trap
 
 - Fixed a bug where using `.cancel` would throw an exception
