@@ -106,6 +106,7 @@ function dragula (initialContainers, options) {
   }
 
   function renderMirrorAndDrag () {
+    addClass(_copy || _item, 'gu-transit');
     renderMirrorImage();
     drag();
   }
@@ -143,10 +144,7 @@ function dragula (initialContainers, options) {
 
     if (o.copy) {
       _copy = item.cloneNode(true);
-      addClass(_copy, 'gu-transit');
       api.emit('cloned', _copy, item);
-    } else {
-      addClass(item, 'gu-transit');
     }
 
     _source = container;
