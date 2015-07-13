@@ -1,3 +1,7 @@
+# 2.0.5 Cross Ventilation
+
+- Bumped `crossvent@1.5.0`
+
 # 2.0.4 Transit Overload
 
 - Set `gu-transit` after a drag event has fully started
