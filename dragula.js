@@ -67,7 +67,7 @@ function dragula (initialContainers, options) {
   }
 
   function isContainer (el) {
-    return api.containers.indexOf(el) !== -1 || o.isContainer(el);
+    return el && (api.containers.indexOf(el) !== -1 || o.isContainer(el));
   }
 
   function events (remove) {

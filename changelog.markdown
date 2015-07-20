@@ -1,3 +1,7 @@
+# 2.0.6 Coruscant
+
+- Fixed a bug where `isContainer` would be called with a `el=null` in some situations
+
 # 2.0.5 Cross Ventilation
 
 - Bumped `crossvent@1.5.0`
