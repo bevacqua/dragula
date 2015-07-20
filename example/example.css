@@ -33,6 +33,9 @@ h3 {
   text-align: center;
 }
 
+a {
+  font-weight: bold;
+}
 a,
 a:hover {
   color: #ecf0f1;
