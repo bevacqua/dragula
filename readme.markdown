@@ -12,7 +12,7 @@ Try out the [demo](http://bevacqua.github.io/dragula/)!
 
 # Inspiration
 
-Have you ever wanted a drag and drop library that just works? That doesn't just depend on bloated frameworks, that has great support? That actually understands where to place the elements when they are dropped? That doesn't need you to do a zillion things to get it to work? Well, so did I!
+Have you ever wanted a drag and drop library that just works? One which doesn't just depend on bloated frameworks, and has great support? One which actually understands where to place the elements when they are dropped, and doesn't need you to do a zillion things to get it to work? Well, so did I!
 
 # Features
 
