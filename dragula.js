@@ -67,7 +67,7 @@ function dragula (initialContainers, options) {
   }
 
   function isContainer (el) {
-    return el && (api.containers.indexOf(el) !== -1 || o.isContainer(el));
+    return api.containers.indexOf(el) !== -1 || o.isContainer(el);
   }
 
   function events (remove) {
@@ -121,7 +121,7 @@ function dragula (initialContainers, options) {
     if (isContainer(item)) {
       return; // don't drag container itself
     }
-    while (isContainer(item.parentElement) === false) {
+    while (item.parentElement && isContainer(item.parentElement) === false) {
       if (o.invalid(item, handle)) {
         return;
       }
@@ -130,11 +130,14 @@ function dragula (initialContainers, options) {
         return;
       }
     }
+    var container = item.parentElement;
+    if (!container) {
+      return;
+    }
     if (o.invalid(item, handle)) {
       return;
     }
 
-    var container = item.parentElement;
     var movable = o.moves(item, container, handle);
     if (!movable) {
       return;

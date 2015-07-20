@@ -1,3 +1,7 @@
+# 2.0.7 Mayhem
+
+- Fixed a bug caused in `2.0.6` where anything would be regarded as a `drake` container
+
 # 2.0.6 Coruscant
 
 - Fixed a bug where `isContainer` would be called with a `el=null` in some situations
