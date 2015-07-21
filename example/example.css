@@ -29,8 +29,20 @@ h1 {
 
 h3 {
   background-color: rgba(255, 255, 255, 0.2);
-  padding: 20px;
   text-align: center;
+  padding: 10px;
+}
+
+h3 div {
+  margin-bottom: 10px;
+}
+
+.promo {
+  margin-bottom: 0;
+  font-style: italic;
+  padding: 10px;
+  background-color: #ff4020;
+  border-bottom: 5px solid #c00;
 }
 
 a {
