@@ -37,7 +37,7 @@ function dragula (initialContainers, options) {
   if (o.delay === void 0) { o.delay = false; }
   if (o.delay === true) { o.delay = 300; }
 
-  var api = emitter({
+  var drake = emitter({
     containers: o.containers,
     addContainer: addContainer,
     removeContainer: removeContainer,
@@ -51,16 +51,16 @@ function dragula (initialContainers, options) {
 
   events();
 
-  return api;
+  return drake;
 
   function addContainer (all) {
     var changes = Array.isArray(all) ? all : [all];
-    api.containers = api.containers.concat(changes);
+    drake.containers = drake.containers.concat(changes);
     console.warn && console.warn('drake.addContainer is deprecated. please access drake.containers directly, instead');
   }
   function removeContainer (all) {
     var changes = Array.isArray(all) ? all : [all];
-    api.containers = api.containers.filter(keepable);
+    drake.containers = drake.containers.filter(keepable);
     console.warn && console.warn('drake.removeContainer is deprecated. please access drake.containers directly, instead');
     function keepable (container) {
       return changes.indexOf(container) === -1;
@@ -68,7 +68,7 @@ function dragula (initialContainers, options) {
   }
 
   function isContainer (el) {
-    return api.containers.indexOf(el) !== -1 || o.isContainer(el);
+    return drake.containers.indexOf(el) !== -1 || o.isContainer(el);
   }
 
   function events (remove) {
@@ -115,7 +115,7 @@ function dragula (initialContainers, options) {
   function start (item) {
     var handle = item;
 
-    if (api.dragging && _mirror) {
+    if (drake.dragging && _mirror) {
       return;
     }
 
@@ -148,15 +148,15 @@ function dragula (initialContainers, options) {
 
     if (o.copy) {
       _copy = item.cloneNode(true);
-      api.emit('cloned', _copy, item);
+      drake.emit('cloned', _copy, item);
     }
 
     _source = container;
     _item = item;
     _initialSibling = _currentSibling = nextEl(item);
 
-    api.dragging = true;
-    api.emit('drag', _item, _source);
+    drake.dragging = true;
+    drake.emit('drag', _item, _source);
 
     return true;
   }
@@ -166,7 +166,7 @@ function dragula (initialContainers, options) {
   }
 
   function end () {
-    if (!api.dragging) {
+    if (!drake.dragging) {
       return;
     }
     var item = _copy || _item;
@@ -174,7 +174,7 @@ function dragula (initialContainers, options) {
   }
 
   function release (e) {
-    if (!api.dragging) {
+    if (!drake.dragging) {
       return;
     }
 
@@ -194,15 +194,15 @@ function dragula (initialContainers, options) {
 
   function drop (item, target) {
     if (isInitialPlacement(target)) {
-      api.emit('cancel', item, _source);
+      drake.emit('cancel', item, _source);
     } else {
-      api.emit('drop', item, target, _source);
+      drake.emit('drop', item, target, _source);
     }
     cleanup();
   }
 
   function remove () {
-    if (!api.dragging) {
+    if (!drake.dragging) {
       return;
     }
     var item = _copy || _item;
@@ -210,12 +210,12 @@ function dragula (initialContainers, options) {
     if (parent) {
       parent.removeChild(item);
     }
-    api.emit(o.copy ? 'cancel' : 'remove', item, parent);
+    drake.emit(o.copy ? 'cancel' : 'remove', item, parent);
     cleanup();
   }
 
   function cancel (revert) {
-    if (!api.dragging) {
+    if (!drake.dragging) {
       return;
     }
     var reverts = arguments.length > 0 ? revert : o.revertOnSpill;
@@ -229,9 +229,9 @@ function dragula (initialContainers, options) {
       _source.insertBefore(item, _initialSibling);
     }
     if (initial || reverts) {
-      api.emit('cancel', item, _source);
+      drake.emit('cancel', item, _source);
     } else {
-      api.emit('drop', item, parent, _source);
+      drake.emit('drop', item, parent, _source);
     }
     cleanup();
   }
@@ -245,9 +245,9 @@ function dragula (initialContainers, options) {
     if (_renderTimer) {
       clearTimeout(_renderTimer);
     }
-    api.dragging = false;
-    api.emit('dragend', item);
-    api.emit('out', item, _lastDropTarget, _source);
+    drake.dragging = false;
+    drake.emit('dragend', item);
+    drake.emit('out', item, _lastDropTarget, _source);
     _source = _item = _copy = _initialSibling = _currentSibling = _renderTimer = _lastDropTarget = null;
   }
 
@@ -331,9 +331,9 @@ function dragula (initialContainers, options) {
     if (reference === null || reference !== item && reference !== nextEl(item)) {
       _currentSibling = reference;
       dropTarget.insertBefore(item, reference);
-      api.emit('shadow', item, dropTarget);
+      drake.emit('shadow', item, dropTarget);
     }
-    function moved (type) { api.emit(type, item, _lastDropTarget, _source); }
+    function moved (type) { drake.emit(type, item, _lastDropTarget, _source); }
     function over () { if (changed) { moved('over'); } }
     function out () { if (_lastDropTarget) { moved('out'); } }
   }
@@ -351,7 +351,7 @@ function dragula (initialContainers, options) {
     body.appendChild(_mirror);
     touchy(documentElement, 'add', 'mousemove', drag);
     addClass(body, 'gu-unselectable');
-    api.emit('cloned', _mirror, _item);
+    drake.emit('cloned', _mirror, _item);
   }
 
   function removeMirrorImage () {
