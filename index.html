@@ -41,6 +41,7 @@ dragula([document.getElementById(left), document.getElementById(right)]);
       <div id='right3' class='container'>
         <div>If the element gets removed from the DOM as a result of dropping outside of any containers, a <code>remove</code> event gets fired</div>
         <div>A <code>cancel</code> event is fired when an element would be dropped onto an invalid target, but retains its original placement instead</div>
+        <div>The <code>over</code> event fires when you drag something over a container, and <code>out</code> fires when you drag it away from the container</div>
         <div>Lastly, a <code>dragend</code> event is fired whenever a drag operation ends, regardless of whether it ends in a cancellation, removal, or drop</div>
       </div>
     </div>
@@ -48,12 +49,13 @@ dragula([document.getElementById(left), document.getElementById(right)]);
       <code>
 dragula([document.getElementById(left), document.getElementById(right)])
   .on('drag', function (el) {
-    el.className = el.className.replace(' animazing', '');
-  })
-  .on('drop', function (el) {
-    setTimeout(function () {
-      el.className += ' animazing';
-    }, 0);
+    el.className = el.className.replace(' ex-moved', '');
+  }).on('drop', function (el) {
+    el.className += ' ex-moved';
+  }).on('over', function (el, container) {
+    container.className += ' ex-over';
+  }).on('out', function (el, container) {
+    container.className = container.className.replace(' ex-over', '');
   });
       </code>
     </pre>

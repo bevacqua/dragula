@@ -156,6 +156,9 @@ button:hover {
 .container .ex-moved {
   background-color: #e74c3c;
 }
+.container.ex-over {
+  background-color: rgba(255, 255, 255, 0.3);
+}
 .handle {
   padding: 0 5px;
   margin-right: 5px;

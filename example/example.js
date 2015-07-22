@@ -2,13 +2,16 @@
 
 dragula([$('left1'), $('right1')]);
 dragula([$('left2'), $('right2')], { copy: true });
-dragula([$('left3'), $('right3')]).on('drag', function (el) {
-  el.className = el.className.replace(' ex-moved', '');
-}).on('drop', function (el) {
-  setTimeout(function () {
+dragula([$('left3'), $('right3')])
+  .on('drag', function (el) {
+    el.className = el.className.replace(' ex-moved', '');
+  }).on('drop', function (el) {
     el.className += ' ex-moved';
-  }, 0);
-});
+  }).on('over', function (el, container) {console.log('in',arguments);
+    container.className += ' ex-over';
+  }).on('out', function (el, container) {console.log('out',arguments);
+    container.className = container.className.replace(' ex-over', '');
+  });
 dragula([$('left4'), $('right4')], { revertOnSpill: true });
 dragula([$('left5'), $('right5')], {
   moves: function (el, container, handle) {
@@ -32,12 +35,11 @@ function clickHandler (e) {
     return;
   }
   var target = e.target || e.srcElement;
-  var text = ('innerText' in target)? 'innerText' : 'textContent';
-  
-  target[text] += ' [click!]';
+
+  target.innerHTML += ' [click!]';
 
   setTimeout(function () {
-    target[text] = target[text].replace(/ \[click!\]/g, '');
+    target.innerHTML = target.innerHTML.replace(/ \[click!\]/g, '');
   }, 500);
 }
 
