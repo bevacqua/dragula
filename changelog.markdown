@@ -1,3 +1,8 @@
+# 2.1.0 Over and Out
+
+- Added `over` event that fires whenever an element is dragged over a container _(or whenever a drag event starts)_
+- Added `out` event that fires whenever an element is dragged out of a container _(or whenever a drag event ends)_
+
 # 2.0.7 Mayhem
 
 - Fixed a bug caused in `2.0.6` where anything would be regarded as a `drake` container
