@@ -145,7 +145,7 @@ function dragula (initialContainers, options) {
 
     end();
 
-    if (o.copy) {
+    if (isCopy(o, item, container)) {
       _copy = item.cloneNode(true);
       api.emit('cloned', _copy, item);
     }
@@ -182,7 +182,7 @@ function dragula (initialContainers, options) {
     var clientY = getCoord('clientY', e);
     var elementBehindCursor = getElementBehindPoint(_mirror, clientX, clientY);
     var dropTarget = findDropTarget(elementBehindCursor, clientX, clientY);
-    if (dropTarget && (o.copy === false || dropTarget !== _source)) {
+    if (dropTarget && (isCopy(o, item, null, dropTarget) === false || dropTarget !== _source)) {
       drop(item, dropTarget);
     } else if (o.removeOnSpill) {
       remove();
@@ -209,7 +209,7 @@ function dragula (initialContainers, options) {
     if (parent) {
       parent.removeChild(item);
     }
-    api.emit(o.copy ? 'cancel' : 'remove', item, parent);
+    api.emit(isCopy(o, item) ? 'cancel' : 'remove', item, parent);
     cleanup();
   }
 
@@ -220,11 +220,11 @@ function dragula (initialContainers, options) {
     var reverts = arguments.length > 0 ? revert : o.revertOnSpill;
     var item = _copy || _item;
     var parent = item.parentElement;
-    if (parent === _source && o.copy) {
+    if (parent === _source && isCopy(o, item)) {
       parent.removeChild(_copy);
     }
     var initial = isInitialPlacement(parent);
-    if (initial === false && o.copy === false && reverts) {
+    if (initial === false && isCopy(o, item) === false && reverts) {
       _source.insertBefore(item, _initialSibling);
     }
     if (initial || reverts) {
@@ -301,7 +301,7 @@ function dragula (initialContainers, options) {
     var item = _copy || _item;
     var elementBehindCursor = getElementBehindPoint(_mirror, _clientX, _clientY);
     var dropTarget = findDropTarget(elementBehindCursor, _clientX, _clientY);
-    if (dropTarget === _source && o.copy) {
+    if (dropTarget === _source && isCopy(o, item, dropTarget)) {
       if (item.parentElement) {
         item.parentElement.removeChild(item);
       }
@@ -311,11 +311,11 @@ function dragula (initialContainers, options) {
     var immediate = getImmediateChild(dropTarget, elementBehindCursor);
     if (immediate !== null) {
       reference = getReference(dropTarget, immediate, _clientX, _clientY);
-    } else if (o.revertOnSpill === true && !o.copy) {
+    } else if (o.revertOnSpill === true && !isCopy(o)) {
       reference = _initialSibling;
       dropTarget = _source;
     } else {
-      if ((o.copy || o.removeOnSpill === true) && item.parentElement !== null) {
+      if ((isCopy(o) || o.removeOnSpill === true) && item.parentElement !== null) {
         item.parentElement.removeChild(item);
       }
       return;
@@ -507,6 +507,13 @@ function getRectWidth (rect) {
 
 function getRectHeight (rect) {
   return rect.height || (rect.bottom - rect.top);
+}
+
+function isCopy (o, item, container, target) {
+  if (typeof o.copy === 'boolean') {
+    return o.copy;
+  }
+  return o.copy(item, container, target);
 }
 
 module.exports = dragula;
