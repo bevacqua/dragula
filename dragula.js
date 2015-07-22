@@ -22,6 +22,8 @@ function dragula (initialContainers, options) {
   var _currentSibling; // reference sibling now
   var _copy; // item used for copying
   var _renderTimer; // timer for setTimeout renderMirrorImage
+  var _lastTargetOver = null; // last container item was over
+  var _emittedOver = false; // trigger over/out event?
 
   var o = options || {};
   if (o.moves === void 0) { o.moves = always; }
@@ -247,6 +249,8 @@ function dragula (initialContainers, options) {
     _source = _item = _copy = _initialSibling = _currentSibling = _renderTimer = null;
     api.dragging = false;
     api.emit('dragend', item);
+    _emittedOver = false;
+    api.emit('out', item, _lastTargetOver, _source);
   }
 
   function isInitialPlacement (target, s) {
@@ -301,6 +305,14 @@ function dragula (initialContainers, options) {
     var item = _copy || _item;
     var elementBehindCursor = getElementBehindPoint(_mirror, _clientX, _clientY);
     var dropTarget = findDropTarget(elementBehindCursor, _clientX, _clientY);
+    if (dropTarget !== null && !_emittedOver) {
+        _lastTargetOver = dropTarget;
+        _emittedOver = true;
+        api.emit('over', item, dropTarget, _source);
+    } else if (dropTarget === null && _emittedOver) {
+        _emittedOver = false;
+        api.emit('out', item, _lastTargetOver, _source);
+    }
     if (dropTarget === _source && o.copy) {
       if (item.parentElement) {
         item.parentElement.removeChild(item);
