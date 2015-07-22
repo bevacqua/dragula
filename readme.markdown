@@ -220,6 +220,8 @@ Event Name | Listener Arguments      | Event Description
 `remove`   | `el, container`         | `el` was being dragged but it got nowhere and it was removed from the DOM. Its last stable parent was `container`.
 `shadow`   | `el, container`         | `el`, _the visual aid shadow_, was moved into `container`. May trigger many times as the position of `el` changes, even within the same `container`
 `cloned`   | `clone, original`       | DOM element `original` was cloned as `clone`. Triggers for mirror images and when `copy: true`
+`over`     | `el, container, source` | `el` is over `container`, and originally came from `source`
+`out`      | `el, container, source` | `el` was dragged out of `container` or dropped, and originally came from `source`
 
 #### `drake.destroy()`
 
