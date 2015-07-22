@@ -22,8 +22,7 @@ function dragula (initialContainers, options) {
   var _currentSibling; // reference sibling now
   var _copy; // item used for copying
   var _renderTimer; // timer for setTimeout renderMirrorImage
-  var _lastTargetOver = null; // last container item was over
-  var _emittedOver = false; // trigger over/out event?
+  var _lastDropTarget = null; // last container item was over
 
   var o = options || {};
   if (o.moves === void 0) { o.moves = always; }
@@ -246,11 +245,10 @@ function dragula (initialContainers, options) {
     if (_renderTimer) {
       clearTimeout(_renderTimer);
     }
-    _source = _item = _copy = _initialSibling = _currentSibling = _renderTimer = null;
     api.dragging = false;
     api.emit('dragend', item);
-    _emittedOver = false;
-    api.emit('out', item, _lastTargetOver, _source);
+    api.emit('out', item, _lastDropTarget, _source);
+    _source = _item = _copy = _initialSibling = _currentSibling = _renderTimer = _lastDropTarget = null;
   }
 
   function isInitialPlacement (target, s) {
@@ -305,13 +303,11 @@ function dragula (initialContainers, options) {
     var item = _copy || _item;
     var elementBehindCursor = getElementBehindPoint(_mirror, _clientX, _clientY);
     var dropTarget = findDropTarget(elementBehindCursor, _clientX, _clientY);
-    if (dropTarget !== null && !_emittedOver) {
-        _lastTargetOver = dropTarget;
-        _emittedOver = true;
-        api.emit('over', item, dropTarget, _source);
-    } else if (dropTarget === null && _emittedOver) {
-        _emittedOver = false;
-        api.emit('out', item, _lastTargetOver, _source);
+    var changed = dropTarget !== null && dropTarget !== _lastDropTarget;
+    if (changed || dropTarget === null) {
+      out();
+      _lastDropTarget = dropTarget;
+      over();
     }
     if (dropTarget === _source && o.copy) {
       if (item.parentElement) {
@@ -337,6 +333,9 @@ function dragula (initialContainers, options) {
       dropTarget.insertBefore(item, reference);
       api.emit('shadow', item, dropTarget);
     }
+    function moved (type) { api.emit(type, item, _lastDropTarget, _source); }
+    function over () { if (changed) { moved('over'); } }
+    function out () { if (_lastDropTarget) { moved('out'); } }
   }
 
   function renderMirrorImage () {
