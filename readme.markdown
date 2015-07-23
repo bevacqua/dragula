@@ -68,11 +68,12 @@ dragula(containers, {
   invalid: function (el, target) { // prevent buttons and anchor tags from starting a drag
     return el.tagName === 'A' || el.tagName === 'BUTTON';
   },
-  direction: 'vertical', // Y axis is considered when determining where an element would be dropped
-  copy: false,           // elements are moved by default, not copied
-  revertOnSpill: false,  // spilling will put the element back where it was dragged from, if this is true
-  removeOnSpill: false,  // spilling will `.remove` the element, if this is true
-  delay: false           // enable regular clicks by setting to true or a number of milliseconds
+  direction: 'vertical',         // Y axis is considered when determining where an element would be dropped
+  copy: false,                   // elements are moved by default, not copied
+  revertOnSpill: false,          // spilling will put the element back where it was dragged from, if this is true
+  removeOnSpill: false,          // spilling will `.remove` the element, if this is true
+  delay: false                   // enable regular clicks by setting to true or a number of milliseconds
+  mirrorContainer: document.body // set the element that gets mirror elements appended
 });
 ```
 
@@ -157,6 +158,10 @@ Number of milliseconds during which clicks where the mouse button is released wi
 #### `options.invalid`
 
 You can provide an `invalid` method with a `(el, target)` signature. This method should return `true` for elements that shouldn't trigger a drag. Here's the default implementation, which prevents drags originating from anchor elements and buttons.
+
+#### `options.mirrorContainer`
+
+The DOM element where the mirror element displayed while dragging will be appended to. Defaults to `document.body`.
 
 ```js
 function invalidTarget (el) {
