@@ -10,7 +10,8 @@
     "scripts": "jshint . && browserify -s dragula -do dist/dragula.js dragula.js && uglifyjs -m -c -o dist/dragula.min.js dist/dragula.js",
     "start": "watchify -s dragula -do dist/dragula.js dragula.js & stylus -w dragula.styl --import node_modules/nib -o dist",
     "styles": "stylus dragula.styl --import node_modules/nib -o dist && cleancss dist/dragula.css -o dist/dragula.min.css",
-    "sync": "git checkout gh-pages ; git merge master ; git push ; git checkout master"
+    "sync": "git checkout gh-pages ; git merge master ; git push ; git checkout master",
+    "test": "browserify tests/trivialtest.js | testron"
   },
   "repository": {
     "type": "git",
@@ -33,6 +34,8 @@
     "nib": "^1.1.0",
     "stylus": "0.49.3",
     "uglify-js": "2.4.16",
-    "watchify": "2.2.1"
+    "watchify": "2.2.1",
+    "tape": "4.0.1",
+    "testron": "1.2.0"
   }
 }
