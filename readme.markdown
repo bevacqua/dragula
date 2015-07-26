@@ -1,4 +1,4 @@
-# Dragula
+![logo.png][5]
 
 > Drag and drop so simple it hurts
 
@@ -237,3 +237,4 @@ MIT
 [2]: http://bevacqua.github.io/dragula/
 [3]: https://github.com/bevacqua/dragula/blob/master/resources/eyes.png
 [4]: https://www.youtube.com/watch?v=EqQuihD0hoI
+[5]: https://github.com/bevacqua/dragula/blob/master/resources/logo.png
