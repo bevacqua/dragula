@@ -1,4 +1,4 @@
-![logo.png][5]
+[![logo.png][5]][2]
 
 > Drag and drop so simple it hurts
 
@@ -8,7 +8,7 @@ Browser support includes every sane browser and **IE7+**. <sub>_(Granted you pol
 
 [![demo.png][1]][2]
 
-Try out the [demo](http://bevacqua.github.io/dragula/)!
+Try out the [demo][2]!
 
 # Inspiration
 
