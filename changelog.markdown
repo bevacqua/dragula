@@ -1,3 +1,7 @@
+# 2.1.1 Classy Drake
+
+- Fixed a bug where adding and removing classes might've caused issues on elements that had foreign CSS classes
+
 # 2.1.0 Over and Out
 
 - Added `over` event that fires whenever an element is dragged over a container _(or whenever a drag event starts)_

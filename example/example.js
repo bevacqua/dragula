@@ -4,13 +4,13 @@ dragula([$('left1'), $('right1')]);
 dragula([$('left2'), $('right2')], { copy: true });
 dragula([$('left3'), $('right3')])
   .on('drag', function (el) {
-    el.className = el.className.replace(' ex-moved', '');
+    el.className = el.className.replace('ex-moved', '');
   }).on('drop', function (el) {
     el.className += ' ex-moved';
-  }).on('over', function (el, container) {console.log('in',arguments);
+  }).on('over', function (el, container) {
     container.className += ' ex-over';
-  }).on('out', function (el, container) {console.log('out',arguments);
-    container.className = container.className.replace(' ex-over', '');
+  }).on('out', function (el, container) {
+    container.className = container.className.replace('ex-over', '');
   });
 dragula([$('left4'), $('right4')], { revertOnSpill: true });
 dragula([$('left5'), $('right5')], {
