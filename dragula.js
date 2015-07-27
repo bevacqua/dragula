@@ -348,7 +348,7 @@ function dragula (initialContainers, options) {
     _mirror.style.width = getRectWidth(rect) + 'px';
     _mirror.style.height = getRectHeight(rect) + 'px';
     classes.rm(_mirror, 'gu-transit');
-    classes.add(_mirror, ' gu-mirror');
+    classes.add(_mirror, 'gu-mirror');
     body.appendChild(_mirror);
     touchy(documentElement, 'add', 'mousemove', drag);
     classes.add(body, 'gu-unselectable');
