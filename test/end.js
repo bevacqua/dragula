@@ -22,6 +22,7 @@ test('end does not throw when not dragging', function (t) {
     }, 'dragula ignores multiple calls to drake.end');
     st.end();
   });
+  t.end();
 });
 
 test('when already dragging, ends (cancels) previous drag', function (t) {

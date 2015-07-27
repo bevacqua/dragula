@@ -1,6 +1,7 @@
 # 2.1.1 Classy Drake
 
 - Fixed a bug where adding and removing classes might've caused issues on elements that had foreign CSS classes
+- Added an argument to `cloned` event that specifies the kind of clone. Possible values include `mirror` and `copy` at the moment
 
 # 2.1.0 Over and Out
 

@@ -22,6 +22,7 @@ test('remove does not throw when not dragging', function (t) {
     }, 'dragula ignores multiple calls to drake.remove');
     st.end();
   });
+  t.end();
 });
 
 test('when dragging and remove gets called, element is removed', function (t) {

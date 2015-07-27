@@ -22,6 +22,7 @@ test('destroy does not throw when not dragging, destroyed, or whatever', functio
     }, 'dragula bites into multiple calls to drake.destroy');
     st.end();
   });
+  t.end();
 });
 
 test('when dragging and destroy gets called, nothing happens', function (t) {
