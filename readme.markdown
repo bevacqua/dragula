@@ -131,6 +131,15 @@ Also note that **the position where a drag starts is always going to be a valid 
 
 If `copy` is set to `true`, items will be copied rather than moved. This implies the following differences:
 
+`copy` accepts anonymous function too which returns `true` or `false` so if you don't want all the elements in container to be copyable and want to make it copyable on certain condition then you can use a this feature for example :
+
+```js
+copy: function (el, target) { // whether element should be copied & dragged or dragged only
+    return el.className === 'copy-able';
+}
+```
+this will make elements having `class="copy-able"` as copyable
+
 Event     | Move                                     | Copy
 ----------|------------------------------------------|---------------------------------------------
 `drag`    | Element will be concealed from `source`  | Nothing happens
