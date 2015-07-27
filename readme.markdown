@@ -245,12 +245,12 @@ You can also run the build continuously, _to faciliate development_, with this c
 npm start
 ```
 
-### Testing
+### Test
 
-Run the command below to execute the tests.
+Run the command below to execute all tests in a DevTools window through Electron. Note that the DevTools will get reloaded whenever your test files change, making tests a breeze!
 
 ```shell
-npm test
+npm run test-watch
 ```
 
 # License
