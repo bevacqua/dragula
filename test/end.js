@@ -1,7 +1,6 @@
 'use strict';
 
 var test = require('tape');
-var events = require('./lib/events');
 var dragula = require('..');
 
 test('end does not throw when not dragging', function (t) {
@@ -76,6 +75,3 @@ test('when already dragged, ends (drops) previous drag', function (t) {
     t.equal(target, div2, 'drop invoked with correct target');
   }
 });
-
-function always () { return true; }
-function never () { return false; }

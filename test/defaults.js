@@ -5,7 +5,7 @@ var dragula = require('..');
 
 test('drake has sensible default options', function (t) {
   var options = {};
-  var drake = dragula(options);
+  dragula(options);
   t.equal(typeof options.moves, 'function', 'options.moves defaults to a method');
   t.equal(typeof options.accepts, 'function', 'options.accepts defaults to a method');
   t.equal(typeof options.invalid, 'function', 'options.invalid defaults to a method');
@@ -20,7 +20,7 @@ test('drake has sensible default options', function (t) {
 
 test('delay: true means 300ms', function (t) {
   var options = { delay: true };
-  var drake = dragula(options);
+  dragula(options);
   t.equal(options.delay, 300, 'options.delay=true gets casted to 300');
   t.end();
 });

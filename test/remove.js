@@ -102,6 +102,3 @@ test('when dragging a copy and remove gets called, cancel event is emitted', fun
     t.equal(container, null, 'cancel was invoked with container');
   }
 });
-
-function always () { return true; }
-function never () { return false; }

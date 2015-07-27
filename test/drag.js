@@ -134,7 +134,7 @@ test('when copying, emits cloned with the copy', function (t) {
 test('when dragging, element gets gu-transit class', function (t) {
   var div = document.createElement('div');
   var item = document.createElement('div');
-  var drake = dragula([div]);
+  dragula([div]);
   div.appendChild(item);
   document.body.appendChild(div);
   events.raise(item, 'mousedown', { which: 0 });
@@ -145,7 +145,7 @@ test('when dragging, element gets gu-transit class', function (t) {
 test('when dragging, body gets gu-unselectable class', function (t) {
   var div = document.createElement('div');
   var item = document.createElement('div');
-  var drake = dragula([div]);
+  dragula([div]);
   div.appendChild(item);
   document.body.appendChild(div);
   events.raise(item, 'mousedown', { which: 0 });

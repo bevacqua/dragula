@@ -1,7 +1,6 @@
 'use strict';
 
 var test = require('tape');
-var events = require('./lib/events');
 var dragula = require('..');
 
 test('destroy does not throw when not dragging, destroyed, or whatever', function (t) {
@@ -102,6 +101,3 @@ test('when dragging a copy and destroy gets called, revert is executed', functio
     t.equal(container, div, 'cancel was invoked with container');
   }
 });
-
-function always () { return true; }
-function never () { return false; }
