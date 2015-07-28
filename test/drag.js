@@ -15,6 +15,7 @@ test('drag event gets emitted when clicking an item', function (t) {
   testCase('fails when clicking anchors by default', { which: 0 }, { tag: 'a', passes: false });
   testCase('fails whenever invalid returns true', { which: 0 }, { passes: false, dragulaOpts: { invalid: always } });
   testCase('fails whenever moves returns false', { which: 0 }, { passes: false, dragulaOpts: { moves: never } });
+  t.end();
   function testCase (desc, eventOptions, options) {
     t.test(desc, function subtest (st) {
       var o = options || {};
@@ -169,6 +170,25 @@ test('when dragging, element gets a mirror image for show', function (t) {
     t.equal(mirror.className, 'gu-mirror', 'mirror only has gu-mirror class');
     t.equal(mirror.innerHTML, item.innerHTML, 'mirror is passed to \'cloned\' event');
     t.equal(target, item, 'cloned lets you know that the mirror is a clone of `item`');
+  }
+});
+
+test('when dragging, mirror element gets appended to configured mirrorContainer', function (t) {
+  var mirrorContainer = document.createElement('div');
+  var div = document.createElement('div');
+  var item = document.createElement('div');
+  var drake = dragula([div], {
+    'mirrorContainer': mirrorContainer
+  });
+  item.innerHTML = '<em>the force is <strong>with this one</strong></em>';
+  div.appendChild(item);
+  document.body.appendChild(div);
+  drake.on('cloned', cloned);
+  events.raise(item, 'mousedown', { which: 0 });
+  t.plan(1);
+  t.end();
+  function cloned (mirror) {
+    t.equal(mirror.parentNode, mirrorContainer, 'mirrors parent is the configured mirrorContainer');
   }
 });
 
