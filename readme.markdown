@@ -1,6 +1,6 @@
 [![logo.png][5]][2]
 
-[![Travis CI](7)][6]
+[![Travis CI][7]][6]
 
 > Drag and drop so simple it hurts
 
