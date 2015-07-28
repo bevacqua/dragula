@@ -1,5 +1,7 @@
 [![logo.png][5]][2]
 
+[![Travis CI](7)][6]
+
 > Drag and drop so simple it hurts
 
 Browser support includes every sane browser and **IE7+**. <sub>_(Granted you polyfill the functional `Array` methods in ES5)_</sub>
@@ -264,3 +266,5 @@ MIT
 [3]: https://github.com/bevacqua/dragula/blob/master/resources/eyes.png
 [4]: https://www.youtube.com/watch?v=EqQuihD0hoI
 [5]: https://github.com/bevacqua/dragula/blob/master/resources/logo.png
+[6]: https://travis-ci.org/bevacqua/dragula
+[7]: https://travis-ci.org/bevacqua/dragula.svg
