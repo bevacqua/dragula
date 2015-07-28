@@ -255,6 +255,12 @@ Run the command below to execute all tests in a DevTools window through Electron
 npm run test-watch
 ```
 
+To run tests a single time, simply run the following command. This is used in CI testing.
+
+```shell
+npm test
+```
+
 # License
 
 MIT
