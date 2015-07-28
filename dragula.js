@@ -2,6 +2,7 @@
 
 var emitter = require('contra/emitter');
 var crossvent = require('crossvent');
+var classes = require('./classes');
 
 function dragula (initialContainers, options) {
   var len = arguments.length;
@@ -108,7 +109,7 @@ function dragula (initialContainers, options) {
   }
 
   function renderMirrorAndDrag () {
-    addClass(_copy || _item, 'gu-transit');
+    classes.add(_copy || _item, 'gu-transit');
     renderMirrorImage();
     drag();
   }
@@ -149,7 +150,7 @@ function dragula (initialContainers, options) {
 
     if (o.copy) {
       _copy = item.cloneNode(true);
-      drake.emit('cloned', _copy, item);
+      drake.emit('cloned', _copy, item, 'copy');
     }
 
     _source = container;
@@ -241,7 +242,7 @@ function dragula (initialContainers, options) {
     var item = _copy || _item;
     removeMirrorImage();
     if (item) {
-      rmClass(item, 'gu-transit');
+      classes.rm(item, 'gu-transit');
     }
     if (_renderTimer) {
       clearTimeout(_renderTimer);
@@ -347,17 +348,17 @@ function dragula (initialContainers, options) {
     _mirror = _item.cloneNode(true);
     _mirror.style.width = getRectWidth(rect) + 'px';
     _mirror.style.height = getRectHeight(rect) + 'px';
-    rmClass(_mirror, 'gu-transit');
-    addClass(_mirror, ' gu-mirror');
-    o.mirrorContainer.appendChild(_mirror);
+    classes.rm(_mirror, 'gu-transit');
+    classes.add(_mirror, 'gu-mirror');
+    body.appendChild(_mirror);
     touchy(documentElement, 'add', 'mousemove', drag);
-    addClass(o.mirrorContainer, 'gu-unselectable');
-    drake.emit('cloned', _mirror, _item);
+    classes.add(body, 'gu-unselectable');
+    drake.emit('cloned', _mirror, _item, 'mirror');
   }
 
   function removeMirrorImage () {
     if (_mirror) {
-      rmClass(o.mirrorContainer, 'gu-unselectable');
+      classes.rm(body, 'gu-unselectable');
       touchy(documentElement, 'remove', 'mousemove', drag);
       _mirror.parentElement.removeChild(_mirror);
       _mirror = null;
@@ -459,13 +460,8 @@ function getElementBehindPoint (point, x, y) {
   return el;
 }
 
-function never () {
-  return false;
-}
-
-function always () {
-  return true;
-}
+function never () { return false; }
+function always () { return true; }
 
 function nextEl (el) {
   return el.nextElementSibling || manually();
@@ -476,16 +472,6 @@ function nextEl (el) {
     } while (sibling && sibling.nodeType !== 1);
     return sibling;
   }
-}
-
-function addClass (el, className) {
-  if (el.className.indexOf(' ' + className) === -1) {
-    el.className += ' ' + className;
-  }
-}
-
-function rmClass (el, className) {
-  el.className = el.className.replace(new RegExp(' ' + className, 'g'), '');
 }
 
 function getEventHost (e) {

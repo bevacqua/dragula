@@ -23,18 +23,26 @@ body, input, button {
 }
 
 h1 {
-  margin-top: 20px;
   text-align: center;
+  background-color: #AC5C7E;
+  margin-top: 20px;
+  margin-bottom: 0;
+  padding: 10px;
 }
 
 h3 {
   background-color: rgba(255, 255, 255, 0.2);
+  border-bottom: 5px solid #A13462;
   text-align: center;
   padding: 10px;
 }
 
 h3 div {
   margin-bottom: 10px;
+}
+
+.tagline {
+  margin-top: 0;
 }
 
 .promo {
