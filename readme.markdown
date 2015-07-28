@@ -1,6 +1,6 @@
 [![logo.png][5]][2]
 
-[![Travis CI][7]][6]
+[![Travis CI][7]][6] [![Flattr][8]][9]
 
 > Drag and drop so simple it hurts
 
@@ -274,3 +274,5 @@ MIT
 [5]: https://github.com/bevacqua/dragula/blob/master/resources/logo.png
 [6]: https://travis-ci.org/bevacqua/dragula
 [7]: https://travis-ci.org/bevacqua/dragula.svg
+[8]: http://api.flattr.com/button/flattr-badge-large.png
+[9]: http://flattr.com/thing/4127996/bevacquadragula-on-GitHub
