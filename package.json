@@ -11,8 +11,8 @@
     "start": "watchify -s dragula -do dist/dragula.js dragula.js & stylus -w dragula.styl --import node_modules/nib -o dist",
     "styles": "stylus dragula.styl --import node_modules/nib -o dist && cleancss dist/dragula.css -o dist/dragula.min.css",
     "sync": "git checkout gh-pages ; git merge master ; git push ; git checkout master",
-    "test": "jshint . --reporter node_modules/jshint-stylish/index.js && browserify test/*.js | testron",
-    "test-watch": "hihat test/*.js -p tap-dev-tool | testron"
+    "test": "jshint . --reporter node_modules/jshint-stylish/index.js && browserify test/drag.js | testron",
+    "test-watch": "hihat test/*.js -p tap-dev-tool"
   },
   "repository": {
     "type": "git",
