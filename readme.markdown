@@ -129,16 +129,15 @@ Also note that **the position where a drag starts is always going to be a valid 
 
 #### `options.copy`
 
-If `copy` is set to `true`, items will be copied rather than moved. This implies the following differences:
-
-`copy` accepts anonymous function too which returns `true` or `false` so if you don't want all the elements in container to be copyable and want to make it copyable on certain condition then you can use a this feature for example :
+You can set `copy` to a function that returns a `boolean` value indicating whether an element will be treated as a copy or not. Consider the code below as an example:
 
 ```js
-copy: function (el, target) { // whether element should be copied & dragged or dragged only
+copy: function (el, target) {
     return el.className === 'copy-able';
 }
 ```
-this will make elements having `class="copy-able"` as copyable
+
+If `copy` is set to `true`, items will be copied rather than moved. This implies the following differences:
 
 Event     | Move                                     | Copy
 ----------|------------------------------------------|---------------------------------------------
