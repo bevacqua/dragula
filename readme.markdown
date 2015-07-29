@@ -1,6 +1,6 @@
-[![logo.png][5]][2]
+[![logo.png][3]][2]
 
-[![Travis CI][7]][6] [![Flattr][8]][9]
+[![Travis CI][5]][4] [![Flattr][6]][7]
 
 > Drag and drop so simple it hurts
 
@@ -265,14 +265,10 @@ npm test
 
 MIT
 
-[![eyes.png][3]][4]
-
 [1]: https://github.com/bevacqua/dragula/blob/master/resources/demo.png
 [2]: http://bevacqua.github.io/dragula/
-[3]: https://github.com/bevacqua/dragula/blob/master/resources/eyes.png
-[4]: https://www.youtube.com/watch?v=EqQuihD0hoI
-[5]: https://github.com/bevacqua/dragula/blob/master/resources/logo.png
-[6]: https://travis-ci.org/bevacqua/dragula
-[7]: https://travis-ci.org/bevacqua/dragula.svg
-[8]: http://api.flattr.com/button/flattr-badge-large.png
-[9]: http://flattr.com/thing/4127996/bevacquadragula-on-GitHub
+[3]: https://github.com/bevacqua/dragula/blob/master/resources/logo.png
+[4]: https://travis-ci.org/bevacqua/dragula
+[5]: https://travis-ci.org/bevacqua/dragula.svg
+[6]: http://api.flattr.com/button/flattr-badge-large.png
+[7]: http://flattr.com/thing/4127996/bevacquadragula-on-GitHub
