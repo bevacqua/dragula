@@ -414,7 +414,7 @@ function dragula (initialContainers, options) {
     if (typeof o.copy === 'boolean') {
       return o.copy;
     }
-    return o.copy(el, container);
+    return o.copy(item, container);
   }
 }
 
