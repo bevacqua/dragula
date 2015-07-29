@@ -137,7 +137,7 @@ copy: function (el, target) {
 }
 ```
 
-If `copy` is set to `true`, items will be copied rather than moved. This implies the following differences:
+If `copy` is set to `true` or a method that returns `true`, items will be copied rather than moved. This implies the following differences:
 
 Event     | Move                                     | Copy
 ----------|------------------------------------------|---------------------------------------------
