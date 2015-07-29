@@ -409,6 +409,13 @@ function dragula (initialContainers, options) {
       return after ? nextEl(target) : target;
     }
   }
+  
+  function isCopy (item, container) {
+    if (typeof o.copy === 'boolean') {
+      return o.copy;
+    }
+    return o.copy(el, container);
+  }
 }
 
 function touchy (el, op, type, fn) {
@@ -522,13 +529,6 @@ function getRectWidth (rect) {
 
 function getRectHeight (rect) {
   return rect.height || (rect.bottom - rect.top);
-}
-
-function isCopy (item, container) {
-  if (typeof o.copy === 'boolean') {
-    return o.copy;
-  }
-  return o.copy(el, container);
 }
 
 module.exports = dragula;
