@@ -1,6 +1,6 @@
-[![logo.png][5]][2]
+[![logo.png][3]][2]
 
-[![Travis CI][7]][6]
+[![Travis CI][5]][4]
 
 > Drag and drop so simple it hurts
 
@@ -267,8 +267,6 @@ MIT
 
 [1]: https://github.com/bevacqua/dragula/blob/master/resources/demo.png
 [2]: http://bevacqua.github.io/dragula/
-[3]: https://github.com/bevacqua/dragula/blob/master/resources/eyes.png
-[4]: https://www.youtube.com/watch?v=EqQuihD0hoI
-[5]: https://github.com/bevacqua/dragula/blob/master/resources/logo.png
-[6]: https://travis-ci.org/bevacqua/dragula
-[7]: https://travis-ci.org/bevacqua/dragula.svg
+[3]: https://github.com/bevacqua/dragula/blob/master/resources/logo.png
+[4]: https://travis-ci.org/bevacqua/dragula
+[5]: https://travis-ci.org/bevacqua/dragula.svg
