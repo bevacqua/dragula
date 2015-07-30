@@ -329,7 +329,12 @@ function dragula (initialContainers, options) {
       }
       return;
     }
-    if (reference === null || reference !== item && reference !== nextEl(item)) {
+    if (
+      reference === null ||
+      reference !== item &&
+      reference !== nextEl(item) &&
+      reference !== _currentSibling
+    ) {
       _currentSibling = reference;
       dropTarget.insertBefore(item, reference);
       drake.emit('shadow', item, dropTarget);

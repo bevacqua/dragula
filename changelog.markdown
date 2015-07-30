@@ -1,3 +1,7 @@
+# 2.1.2 Shady Sibling
+
+- Fixed a bug where `shadow` would trigger multiple times while dragging an element over the same spot
+
 # 2.1.1 Classy Drake
 
 - Fixed a bug where adding and removing classes might've caused issues on elements that had foreign CSS classes
