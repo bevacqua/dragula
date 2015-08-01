@@ -1,6 +1,6 @@
 [![logo.png][3]][2]
 
-[![Travis CI][5]][4] [![Flattr][6]][7]
+[![Travis CI][5]][4] [![Flattr][6]][7]  [![CodeHunt.io][8]][9]
 
 > Drag and drop so simple it hurts
 
@@ -272,3 +272,5 @@ MIT
 [5]: https://travis-ci.org/bevacqua/dragula.svg
 [6]: http://api.flattr.com/button/flattr-badge-large.png
 [7]: http://flattr.com/thing/4127996/bevacquadragula-on-GitHub
+[8]: https://img.shields.io/badge/vote-codehunt.io-02AFD1.svg
+[9]: http://codehunt.io/sub/dragula/?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
