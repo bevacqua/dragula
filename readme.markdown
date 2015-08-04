@@ -8,8 +8,8 @@ Browser support includes every sane browser and **IE7+**. <sub>_(Granted you pol
 
 Framework support includes vanilla JavaScript, Angular, and React.
 
-- Official [Angular bridge][8] for `dragula`
-- Official [React bridge][9] for `dragula`
+- Official [Angular bridge][8] for `dragula` [_(demo)_][10]
+- Official [React bridge][9] for `dragula` [_(demo)_][11]
 
 # Demo
 
@@ -284,3 +284,5 @@ MIT
 [7]: http://flattr.com/thing/4127996/bevacquadragula-on-GitHub
 [8]: https://github.com/bevacqua/angular-dragula
 [9]: https://github.com/bevacqua/react-dragula
+[10]: http://bevacqua.github.io/angular-dragula/
+[11]: http://bevacqua.github.io/react-dragula/
