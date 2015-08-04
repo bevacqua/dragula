@@ -37,6 +37,7 @@ function dragula (initialContainers, options) {
   if (o.direction === void 0) { o.direction = 'vertical'; }
   if (o.delay === void 0) { o.delay = false; }
   if (o.delay === true) { o.delay = 300; }
+  if (o.mirrorContainer === void 0) { o.mirrorContainer = body; }
 
   var drake = emitter({
     containers: o.containers,
@@ -354,15 +355,15 @@ function dragula (initialContainers, options) {
     _mirror.style.height = getRectHeight(rect) + 'px';
     classes.rm(_mirror, 'gu-transit');
     classes.add(_mirror, 'gu-mirror');
-    body.appendChild(_mirror);
+    o.mirrorContainer.appendChild(_mirror);
     touchy(documentElement, 'add', 'mousemove', drag);
-    classes.add(body, 'gu-unselectable');
+    classes.add(o.mirrorContainer, 'gu-unselectable');
     drake.emit('cloned', _mirror, _item, 'mirror');
   }
 
   function removeMirrorImage () {
     if (_mirror) {
-      classes.rm(body, 'gu-unselectable');
+      classes.rm(o.mirrorContainer, 'gu-unselectable');
       touchy(documentElement, 'remove', 'mousemove', drag);
       _mirror.parentElement.removeChild(_mirror);
       _mirror = null;
