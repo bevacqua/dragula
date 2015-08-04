@@ -6,6 +6,11 @@
 
 Browser support includes every sane browser and **IE7+**. <sub>_(Granted you polyfill the functional `Array` methods in ES5)_</sub>
 
+Framework support includes vanilla JavaScript, Angular, and React.
+
+- Official [Angular bridge][8] for `dragula`
+- Official [React bridge][9] for `dragula`
+
 # Demo
 
 [![demo.png][1]][2]
@@ -277,3 +282,5 @@ MIT
 [5]: https://travis-ci.org/bevacqua/dragula.svg
 [6]: http://api.flattr.com/button/flattr-badge-large.png
 [7]: http://flattr.com/thing/4127996/bevacquadragula-on-GitHub
+[8]: https://github.com/bevacqua/angular-dragula
+[9]: https://github.com/bevacqua/react-dragula
