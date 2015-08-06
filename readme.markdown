@@ -166,10 +166,6 @@ Number of milliseconds during which clicks where the mouse button is released wi
 
 You can provide an `invalid` method with a `(el, target)` signature. This method should return `true` for elements that shouldn't trigger a drag. Here's the default implementation, which prevents drags originating from anchor elements and buttons.
 
-#### `options.mirrorContainer`
-
-The DOM element where the mirror element displayed while dragging will be appended to. Defaults to `document.body`.
-
 ```js
 function invalidTarget (el) {
   return el.tagName === 'A' || el.tagName === 'BUTTON';
@@ -177,6 +173,10 @@ function invalidTarget (el) {
 ```
 
 Note that `invalid` will be invoked on the DOM element that was clicked and every parent up to immediate children of a `drake` container.
+
+#### `options.mirrorContainer`
+
+The DOM element where the mirror element displayed while dragging will be appended to. Defaults to `document.body`.
 
 ## API
 
