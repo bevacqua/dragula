@@ -1,3 +1,12 @@
+# 3.0.0 Guilty Conscience
+
+- Removed `addContainer` method, which was previously deprecated
+- Removed `removeContainer` method, which was previously deprecated
+- Removed `delay` option in favor of using `mousemove`
+- Drag events now start on the first occurrence of a `mousemove` event
+- If `mousemove` never fires, then the `drag` machinery won't start, either
+- Changed default value for `invalid`, now always returns `false` by default
+
 # 2.1.2 Shady Sibling
 
 - Fixed a bug where `shadow` would trigger multiple times while dragging an element over the same spot

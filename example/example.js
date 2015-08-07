@@ -22,7 +22,7 @@ dragula([$('left5'), $('right5')], {
 var single2 = $('single2');
 
 dragula([$('single1')], { removeOnSpill: true });
-dragula({ containers: [single2], delay: 200 });
+dragula([single2]);
 
 if (single2.addEventListener) {
   single2.addEventListener('click', clickHandler, false);

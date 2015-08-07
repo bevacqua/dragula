@@ -147,18 +147,20 @@ dragula([document.getElementById(left), document.getElementById(right)], {
     <div>There are a few similar mechanisms to determine whether an element can be dragged from a certain container <a href='https://github.com/bevacqua/dragula#optionsmoves'>(<code>moves</code>)</a>, whether an element can be dropped into a certain container at a certain position <a href='https://github.com/bevacqua/dragula#optionsaccepts'>(<code>accepts</code>)</a>, and whether an element is able to originate a drag event <a href='https://github.com/bevacqua/dragula#optionsinvalid'>(<code>invalid</code>)</a>.</div>
   </div>
   <div class='parent'>
-    <label><strong>Click or Drag!</strong> Fires a click when the mouse button is released within <code>delay</code>, otherwise a drag event is fired.</label>
+    <label><strong>Click or Drag!</strong> Fires a click when the mouse button is released before a <code>mousemove</code> event, otherwise a drag event is fired. No extra configuration is necessary.</label>
     <div class='wrapper'>
       <div id='single2' class='container'>
-        <div>Try dragging this element. There's a barely perceptible <em>"jank"</em> if you move it too fast, but it still works seamlessly <em>(and you'll barely notice in practice)</em>.</div>
         <div>Clicking on these elements triggers a regular <code>click</code> event you can listen to.</div>
+        <div>Try dragging or clicking on this element.</div>
+        <div>Note how you can click normally?</div>
+        <div>Drags don't trigger click events.</div>
+        <div>Clicks don't end up in a drag, either.</div>
         <div>This is useful if you have elements that can be both clicked or dragged.</div>
-        <div>The <code>delay</code> indicates how long an element can be left-clicked for (and released) for the event to be considered a <code>click</code> rather than a <code>drag</code>.</div>
       </div>
     </div>
     <pre>
       <code>
-        dragula([document.getElementById(single)], { delay: 200 });
+        dragula([document.getElementById(single)]);
       </code>
     </pre>
   </div>
