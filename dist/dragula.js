@@ -111,7 +111,7 @@ function dragula (initialContainers, options) {
 
   function events (remove) {
     var op = remove ? 'remove' : 'add';
-    touchy(documentElement, op, 'mousedown', grab);
+    touchy(documentElement, op, 'mousedown', initiate);
     touchy(documentElement, op, 'mouseup', release);
   }
 
@@ -120,7 +120,16 @@ function dragula (initialContainers, options) {
     release({});
   }
 
+  function initiate (e) {
+    touchy(documentElement, 'add', 'mousemove', grab);
+    touchy(documentElement, 'add', 'mouseup', function(){
+      touchy(documentElement, 'remove', 'mousemove', grab);
+    });
+  }
+
   function grab (e) {
+    touchy(documentElement, 'remove', 'mousemove', grab);
+
     var item = e.target;
     var ignore = (e.which !== 0 && e.which !== 1) || e.metaKey || e.ctrlKey;
     if (ignore) {
