@@ -133,15 +133,15 @@ function dragula (initialContainers, options) {
         return;
       }
     }
-    var container = item.parentElement;
-    if (!container) {
+    var source = item.parentElement;
+    if (!source) {
       return;
     }
     if (o.invalid(item, handle)) {
       return;
     }
 
-    var movable = o.moves(item, container, handle);
+    var movable = o.moves(item, source, handle);
     if (!movable) {
       return;
     }
@@ -153,7 +153,7 @@ function dragula (initialContainers, options) {
       drake.emit('cloned', _copy, item, 'copy');
     }
 
-    _source = container;
+    _source = source;
     _item = item;
     _initialSibling = _currentSibling = nextEl(item);
 

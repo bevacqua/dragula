@@ -66,7 +66,7 @@ dragula(containers, {
   isContainer: function (el) {
     return false; // only elements in drake.containers will be taken into account
   },
-  moves: function (el, container, handle) {
+  moves: function (el, source, handle) {
     return true; // elements are always draggable by default
   },
   accepts: function (el, target, source, sibling) {
@@ -127,7 +127,7 @@ var drake = dragula({
 
 #### `options.moves`
 
-You can define a `moves` method which will be invoked with `(el, container, handle)` whenever an element is clicked. If this method returns `false`, a drag event won't begin, and the event won't be prevented either. The `handle` element will be the original click target, which comes in handy to test if that element is an expected _"drag handle"_.
+You can define a `moves` method which will be invoked with `(el, source, handle)` whenever an element is clicked. If this method returns `false`, a drag event won't begin, and the event won't be prevented either. The `handle` element will be the original click target, which comes in handy to test if that element is an expected _"drag handle"_.
 
 #### `options.accepts`
 
@@ -225,10 +225,10 @@ The `drake` is an event emitter. The following events can be tracked using `drak
 
 Event Name | Listener Arguments      | Event Description
 -----------|-------------------------|-------------------------------------------------------------------------------------
-`drag`     | `el, container`         | `el` was lifted from `container`
+`drag`     | `el, source`            | `el` was lifted from `source`
 `dragend`  | `el`                    | Dragging event for `el` ended with either `cancel`, `remove`, or `drop`
-`drop`     | `el, container, source` | `el` was dropped into `container`, and originally came from `source`
-`cancel`   | `el, container`         | `el` was being dragged but it got nowhere and went back into `container`, its last stable parent
+`drop`     | `el, target, source`    | `el` was dropped into `target`, and originally came from `source`
+`cancel`   | `el, source`         | `el` was being dragged but it got nowhere and went back into `source`, its last stable parent
 `remove`   | `el, container`         | `el` was being dragged but it got nowhere and it was removed from the DOM. Its last stable parent was `container`.
 `shadow`   | `el, container`         | `el`, _the visual aid shadow_, was moved into `container`. May trigger many times as the position of `el` changes, even within the same `container`
 `cloned`   | `clone, original, type` | DOM element `original` was cloned as `clone`, of `type` _(`'mirror'` or `'copy'`)_. Fired for mirror images and when `copy: true`
