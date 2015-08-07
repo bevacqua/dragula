@@ -105,7 +105,7 @@ function dragula (initialContainers, options) {
     } else {
       renderMirrorAndDrag();
     }
-    e.preventDefault();
+    cancelEvent(e);
   }
 
   function renderMirrorAndDrag () {
@@ -295,6 +295,7 @@ function dragula (initialContainers, options) {
     if (e) {
       _clientX = getCoord('clientX', e);
       _clientY = getCoord('clientY', e);
+      cancelEvent(e);
     }
     var x = _clientX - _offsetX;
     var y = _clientY - _offsetY;
@@ -410,6 +411,12 @@ function dragula (initialContainers, options) {
 
     function resolve (after) {
       return after ? nextEl(target) : target;
+    }
+  }
+
+  function cancelEvent(e) {
+    if (e.type === 'mousedown' || e.type === 'touchmove') {
+      e.preventDefault();
     }
   }
 }
