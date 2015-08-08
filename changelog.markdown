@@ -6,6 +6,7 @@
 - Drag events now start on the first occurrence of a `mousemove` event
 - If `mousemove` never fires, then the `drag` machinery won't start, either
 - Changed default value for `invalid`, now always returns `false` by default
+- Added `mirrorContainer` option to determine where the mirror gets appended to _(defaults to `document.body`)_
 
 # 2.1.2 Shady Sibling
 

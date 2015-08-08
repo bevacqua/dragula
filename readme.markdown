@@ -238,9 +238,9 @@ Removes all drag and drop events used by `dragula` to manage drag and drop betwe
 
 Dragula uses only four CSS classes. Their purpose is quickly explained below, but you can check [`dist/dragula.css`][12] to see the corresponding CSS rules.
 
-- `gu-unselectable` is added to the `document.body` element when dragging. You can use it to style the body while something is being dragged.
+- `gu-unselectable` is added to the `mirrorContainer` element when dragging. You can use it to style the `mirrorContainer` while something is being dragged.
 - `gu-transit` is added to the source element when its mirror image is dragged. It just adds opacity to it.
-- `gu-mirror` is added to the mirror image. It handles fixed positioning and `z-index` _(and removes any prior margins on the element)_. Note that the mirror image is appended to the `document.body`, not to its initial container. Keep that in mind when styling your elements with nested rules, like `.list .item { padding: 10px; }`.
+- `gu-mirror` is added to the mirror image. It handles fixed positioning and `z-index` _(and removes any prior margins on the element)_. Note that the mirror image is appended to the `mirrorContainer`, not to its initial container. Keep that in mind when styling your elements with nested rules, like `.list .item { padding: 10px; }`.
 - `gu-hide` is a helper class to apply `display: none` to an element.
 
 Note that these rules must be available to your document. You can do so by  including [`dist/dragula.css`][12] or [`dist/dragula.min.css`][13] in your document. You could also include their content in your own stylesheet, in order to reduce HTTP requests.
