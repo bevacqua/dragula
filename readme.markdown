@@ -51,7 +51,7 @@ Dragula provides the easiest possible API to make drag and drop a breeze in your
 
 By default, `dragula` will allow the user to drag an element in any of the `containers` and drop it in any other container in the list. If the element is dropped anywhere that's not one of the `containers`, the event will be gracefully cancelled according to the `revertOnSpill` and `removeOnSpill` options.
 
-Note that dragging is only triggered on left clicks, and only if no meta keys are pressed. Clicks on buttons and anchor tags are ignored, too.
+Note that dragging is only triggered on left clicks, and only if no meta keys are pressed.
 
 The example below allows the user to drag elements from `left` into `right`, and from `right` into `left`.
 
@@ -72,14 +72,13 @@ dragula(containers, {
   accepts: function (el, target, source, sibling) {
     return true; // elements can be dropped in any of the `containers` by default
   },
-  invalid: function (el, target) { // prevent buttons and anchor tags from starting a drag
-    return el.tagName === 'A' || el.tagName === 'BUTTON';
+  invalid: function (el, target) { // don't prevent any drags from initiating by default
+    return false;
   },
   direction: 'vertical',         // Y axis is considered when determining where an element would be dropped
   copy: false,                   // elements are moved by default, not copied
   revertOnSpill: false,          // spilling will put the element back where it was dragged from, if this is true
   removeOnSpill: false,          // spilling will `.remove` the element, if this is true
-  delay: false                   // enable regular clicks by setting to true or a number of milliseconds
   mirrorContainer: document.body // set the element that gets mirror elements appended
 });
 ```
@@ -158,21 +157,25 @@ By default, spilling an element outside of any containers will move the element 
 
 When an element is dropped onto a container, it'll be placed near the point where the mouse was released. If the `direction` is `'vertical'`, the default value, the Y axis will be considered. Otherwise, if the `direction` is `'horizontal'`, the X axis will be considered.
 
-#### `options.delay`
-
-Number of milliseconds during which clicks where the mouse button is released will be treated as regular clicks instead of very short lived drags. When `delay` is set to `true`, a default of `300` milliseconds is used. Defaults to `false`.
-
 #### `options.invalid`
 
-You can provide an `invalid` method with a `(el, target)` signature. This method should return `true` for elements that shouldn't trigger a drag. Here's the default implementation, which prevents drags originating from anchor elements and buttons.
+You can provide an `invalid` method with a `(el, target)` signature. This method should return `true` for elements that shouldn't trigger a drag. Here's the default implementation, which doesn't prevent any drags.
 
 ```js
-function invalidTarget (el) {
-  return el.tagName === 'A' || el.tagName === 'BUTTON';
+function invalidTarget (el, target) {
+  return false;
 }
 ```
 
 Note that `invalid` will be invoked on the DOM element that was clicked and every parent up to immediate children of a `drake` container.
+
+As an example, you could set `invalid` to return `false` whenever the clicked element _(or any of its parents)_ is an anchor tag.
+
+```js
+invalid: function (el) {
+  return el.tagName === 'A';
+}
+```
 
 #### `options.mirrorContainer`
 
@@ -181,14 +184,6 @@ The DOM element where the mirror element displayed while dragging will be append
 ## API
 
 The `dragula` method returns a tiny object with a concise API. We'll refer to the API returned by `dragula` as `drake`.
-
-#### `drake.addContainer(container)`
-
-**DEPRECATED. Use [drake.containers](#drakecontainers) instead.** Adds a `container` to the `containers` collection. It can be a single DOM element or an array.
-
-#### `drake.removeContainer(container)`
-
-**DEPRECATED. Use [drake.containers](#drakecontainers) instead.** Removes a `container` from the `containers` collection. It can be a single DOM element or an array.
 
 #### `drake.containers`
 

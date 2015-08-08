@@ -25,10 +25,3 @@ test('drake has expected api properties', function (t) {
   t.equal(drake.dragging, false, 'drake.dragging is initialized as false');
   t.end();
 });
-
-test('drake has deprecated api properties', function (t) {
-  var drake = dragula();
-  t.equal(typeof drake.addContainer, 'function', 'drake.addContainer is a method');
-  t.equal(typeof drake.removeContainer, 'function', 'drake.removeContainer is a method');
-  t.end();
-});

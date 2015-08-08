@@ -24,6 +24,7 @@ function dragula (initialContainers, options) {
   var _copy; // item used for copying
   var _renderTimer; // timer for setTimeout renderMirrorImage
   var _lastDropTarget = null; // last container item was over
+  var _grabbed; // whether a mouse button is being held down
 
   var o = options || {};
   if (o.moves === void 0) { o.moves = always; }
@@ -35,14 +36,10 @@ function dragula (initialContainers, options) {
   if (o.revertOnSpill === void 0) { o.revertOnSpill = false; }
   if (o.removeOnSpill === void 0) { o.removeOnSpill = false; }
   if (o.direction === void 0) { o.direction = 'vertical'; }
-  if (o.delay === void 0) { o.delay = false; }
-  if (o.delay === true) { o.delay = 300; }
   if (o.mirrorContainer === void 0) { o.mirrorContainer = body; }
 
   var drake = emitter({
     containers: o.containers,
-    addContainer: addContainer,
-    removeContainer: removeContainer,
     start: start,
     end: end,
     cancel: cancel,
@@ -54,20 +51,6 @@ function dragula (initialContainers, options) {
   events();
 
   return drake;
-
-  function addContainer (all) {
-    var changes = Array.isArray(all) ? all : [all];
-    drake.containers = drake.containers.concat(changes);
-    console.warn && console.warn('drake.addContainer is deprecated. please access drake.containers directly, instead');
-  }
-  function removeContainer (all) {
-    var changes = Array.isArray(all) ? all : [all];
-    drake.containers = drake.containers.filter(keepable);
-    console.warn && console.warn('drake.removeContainer is deprecated. please access drake.containers directly, instead');
-    function keepable (container) {
-      return changes.indexOf(container) === -1;
-    }
-  }
 
   function isContainer (el) {
     return drake.containers.indexOf(el) !== -1 || o.isContainer(el);
@@ -84,15 +67,31 @@ function dragula (initialContainers, options) {
     release({});
   }
 
+  function preventGrabClick (e) {
+    if (_grabbed) {
+      e.preventDefault();
+    }
+  }
+
   function grab (e) {
-    var item = e.target;
     var ignore = (e.which !== 0 && e.which !== 1) || e.metaKey || e.ctrlKey;
     if (ignore) {
       return; // we only care about honest-to-god left clicks and touch events
     }
+    _grabbed = true;
+    touchy(documentElement, 'add', 'mousemove', startBecauseMouseMoved);
+    e.preventDefault();
+  }
+
+  function startBecauseMouseMoved (e) {
+    var item = e.target;
+    touchy(documentElement, 'remove', 'mousemove', startBecauseMouseMoved);
+
     if (start(item) !== true) {
       return;
     }
+
+    touchy(documentElement, 'add', 'click', preventGrabClick);
 
     var offset = getOffset(_item);
     _offsetX = getCoord('pageX', e) - offset.left;
@@ -100,15 +99,6 @@ function dragula (initialContainers, options) {
     _clientX = getCoord('clientX', e);
     _clientY = getCoord('clientY', e);
 
-    if (typeof o.delay === 'number') {
-      _renderTimer = setTimeout(renderMirrorAndDrag, o.delay);
-    } else {
-      renderMirrorAndDrag();
-    }
-    e.preventDefault();
-  }
-
-  function renderMirrorAndDrag () {
     classes.add(_copy || _item, 'gu-transit');
     renderMirrorImage();
     drag();
@@ -163,8 +153,8 @@ function dragula (initialContainers, options) {
     return true;
   }
 
-  function invalidTarget (el) {
-    return el.tagName === 'A' || el.tagName === 'BUTTON';
+  function invalidTarget () {
+    return false;
   }
 
   function end () {
@@ -176,6 +166,9 @@ function dragula (initialContainers, options) {
   }
 
   function release (e) {
+    _grabbed = false;
+    touchy(documentElement, 'remove', 'mousemove', startBecauseMouseMoved);
+    touchy(documentElement, 'remove', 'click', preventGrabClick);
     if (!drake.dragging) {
       return;
     }

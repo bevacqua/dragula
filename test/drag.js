@@ -21,17 +21,18 @@ test('drag event gets emitted when clicking an item', function (t) {
       var o = options || {};
       var div = document.createElement('div');
       var item = document.createElement(o.tag || 'div');
-      var shouldFail = o.passes === false;
+      var passes = o.passes !== false;
       var drake = dragula([div], o.dragulaOpts);
       div.appendChild(item);
       document.body.appendChild(div);
       drake.on('drag', drag);
       events.raise(o.containerClick ? div : item, 'mousedown', eventOptions);
-      st.plan(shouldFail ? 1 : 4);
-      st.equal(drake.dragging, !shouldFail, 'final state is drake is ' + (shouldFail ? 'not ' : '') + 'dragging');
+      if (passes) { events.raise(o.containerClick ? div : item, 'mousemove'); }
+      st.plan(passes ? 4 : 1);
+      st.equal(drake.dragging, passes, 'final state is drake is ' + (passes ? '' : 'not ') + 'dragging');
       st.end();
       function drag (target, container) {
-        st[shouldFail ? 'fail' : 'pass']('drag event was emitted synchronously');
+        st[passes ? 'pass' : 'fail']('drag event was emitted synchronously');
         st.equal(target, item, 'first argument is selected item');
         st.equal(container, div, 'second argument is container');
       }
@@ -52,6 +53,7 @@ test('when already dragging, ends (cancels) previous drag', function (t) {
   drake.on('cancel', cancel);
   drake.on('drag', drag);
   events.raise(item2, 'mousedown', { which: 0 });
+  events.raise(item2, 'mousemove', { which: 0 });
   t.plan(7);
   t.equal(drake.dragging, true, 'final state is drake is dragging');
   t.end();
@@ -85,6 +87,7 @@ test('when already dragged, ends (drops) previous drag', function (t) {
   drake.on('drop', drop);
   drake.on('drag', drag);
   events.raise(item2, 'mousedown', { which: 0 });
+  events.raise(item2, 'mousemove', { which: 0 });
   t.plan(8);
   t.equal(drake.dragging, true, 'final state is drake is dragging');
   t.end();
@@ -116,6 +119,7 @@ test('when copying, emits cloned with the copy', function (t) {
   drake.on('cloned', cloned);
   drake.on('drag', drag);
   events.raise(item2, 'mousedown', { which: 0 });
+  events.raise(item2, 'mousemove', { which: 0 });
   t.plan(12);
   t.equal(drake.dragging, true, 'final state is drake is dragging');
   t.end();
@@ -139,6 +143,7 @@ test('when dragging, element gets gu-transit class', function (t) {
   div.appendChild(item);
   document.body.appendChild(div);
   events.raise(item, 'mousedown', { which: 0 });
+  events.raise(item, 'mousemove', { which: 0 });
   t.equal(item.className, 'gu-transit', 'item has gu-transit class');
   t.end();
 });
@@ -150,6 +155,7 @@ test('when dragging, body gets gu-unselectable class', function (t) {
   div.appendChild(item);
   document.body.appendChild(div);
   events.raise(item, 'mousedown', { which: 0 });
+  events.raise(item, 'mousemove', { which: 0 });
   t.equal(document.body.className, 'gu-unselectable', 'body has gu-unselectable class');
   t.end();
 });
@@ -163,6 +169,7 @@ test('when dragging, element gets a mirror image for show', function (t) {
   document.body.appendChild(div);
   drake.on('cloned', cloned);
   events.raise(item, 'mousedown', { which: 0 });
+  events.raise(item, 'mousemove', { which: 0 });
   t.plan(4);
   t.end();
   function cloned (mirror, target) {
@@ -185,6 +192,7 @@ test('when dragging, mirror element gets appended to configured mirrorContainer'
   document.body.appendChild(div);
   drake.on('cloned', cloned);
   events.raise(item, 'mousedown', { which: 0 });
+  events.raise(item, 'mousemove', { which: 0 });
   t.plan(1);
   t.end();
   function cloned (mirror) {
@@ -199,6 +207,7 @@ test('when dragging stops, element gets gu-transit class removed', function (t) 
   div.appendChild(item);
   document.body.appendChild(div);
   events.raise(item, 'mousedown', { which: 0 });
+  events.raise(item, 'mousemove', { which: 0 });
   t.equal(item.className, 'gu-transit', 'item has gu-transit class');
   drake.end();
   t.equal(item.className, '', 'item has gu-transit class removed');
@@ -212,6 +221,7 @@ test('when dragging stops, body becomes selectable again', function (t) {
   div.appendChild(item);
   document.body.appendChild(div);
   events.raise(item, 'mousedown', { which: 0 });
+  events.raise(item, 'mousemove', { which: 0 });
   t.equal(document.body.className, 'gu-unselectable', 'body has gu-unselectable class');
   drake.end();
   t.equal(document.body.className, '', 'body got gu-unselectable class removed');
