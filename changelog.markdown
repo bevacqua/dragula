@@ -1,3 +1,8 @@
+# 3.0.1 Carjacking
+
+- Fixed a bug in mobile, caused by `3.0.0`, where scrolling would be impossible
+- Fixed a bug where dragging would cause text selection in IE8
+
 # 3.0.0 Guilty Conscience
 
 - Removed `addContainer` method, which was previously deprecated
