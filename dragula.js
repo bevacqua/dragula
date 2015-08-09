@@ -46,6 +46,10 @@ function dragula (initialContainers, options) {
     dragging: false
   });
 
+  if (o.removeOnSpill === true) {
+    drake.on('over', spillOver).on('out', spillOut);
+  }
+
   events();
 
   return drake;
@@ -338,7 +342,7 @@ function dragula (initialContainers, options) {
       reference = _initialSibling;
       dropTarget = _source;
     } else {
-      if ((o.copy || o.removeOnSpill === true) && item.parentElement) {
+      if (o.copy && item.parentElement) {
         item.parentElement.removeChild(item);
       }
       return;
@@ -356,6 +360,14 @@ function dragula (initialContainers, options) {
     function moved (type) { drake.emit(type, item, _lastDropTarget, _source); }
     function over () { if (changed) { moved('over'); } }
     function out () { if (_lastDropTarget) { moved('out'); } }
+  }
+
+  function spillOver (el) {
+    classes.rm(el, 'gu-hide');
+  }
+
+  function spillOut (el) {
+    if (drake.dragging) { classes.add(el, 'gu-hide'); }
   }
 
   function renderMirrorImage () {

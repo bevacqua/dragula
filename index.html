@@ -63,14 +63,17 @@ dragula([document.getElementById(left), document.getElementById(right)])
   <div class='parent'>
     <label for='hy'>Need to be able to quickly delete stuff when it spills out of the chosen containers? Note how you can easily sort the items in any containers by just dragging and dropping.</label>
     <div class='wrapper'>
-      <div id='single1' class='container'>
+      <div id='left6' class='container'>
+        <div>Anxious Cab Driver</div>
+        <div>Thriving Venture</div>
+        <div>Such <a href='http://ponyfoo.com'>a good blog</a></div>
+        <div>Calm Clam</div>
+      </div>
+      <div id='right6' class='container'>
         <div>Banana Boat</div>
         <div>Orange Juice</div>
         <div>Cuban Cigar</div>
         <div>Terrible Comedian</div>
-        <div>Anxious Cab Driver</div>
-        <div>Thriving Venture</div>
-        <div>Calm Clam</div>
       </div>
     </div>
     <pre>
@@ -149,7 +152,7 @@ dragula([document.getElementById(left), document.getElementById(right)], {
   <div class='parent'>
     <label><strong>Click or Drag!</strong> Fires a click when the mouse button is released before a <code>mousemove</code> event, otherwise a drag event is fired. No extra configuration is necessary.</label>
     <div class='wrapper'>
-      <div id='single2' class='container'>
+      <div id='single1' class='container'>
         <div>Clicking on these elements triggers a regular <code>click</code> event you can listen to.</div>
         <div>Try dragging or clicking on this element.</div>
         <div>Note how you can click normally?</div>

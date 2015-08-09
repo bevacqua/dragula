@@ -3,6 +3,7 @@
 - Fixed a _historical_ bug, where click on anchors would be ignored within `dragula` containers in mobile
 - Fixed a bug where events wouldn't be gracefully removed if `drake` were destroyed during a drag event
 - Now emits `dragend` after `out` to preserve consistency _(because `drag` is emitted before `over`)_
+- Fixed another old bug where attempting to remove elements using `removeOnSpill` on mobile would fail
 
 # 3.0.1 Carjacking
 

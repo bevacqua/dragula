@@ -24,17 +24,17 @@ dragula([$('left5'), $('right5')], {
   }
 });
 
-dragula([$('single1')], { removeOnSpill: true });
+dragula([$('left6'), $('right6')], { removeOnSpill: true });
 
-var single2 = $('single2');
+var single1 = $('single1');
 
-dragula([single2]);
+dragula([single1]);
 
-crossvent.add(single2, 'click', clickHandler);
+crossvent.add(single1, 'click', clickHandler);
 
 function clickHandler (e) {
   var target = e.target;
-  if (target === single2) {
+  if (target === single1) {
     return;
   }
   target.innerHTML += ' [click!]';
