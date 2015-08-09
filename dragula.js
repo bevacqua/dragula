@@ -78,13 +78,13 @@ function dragula (initialContainers, options) {
     if (ignore) {
       return; // we only care about honest-to-god left clicks and touch events
     }
-    var context = canStart(e.target);
+    var item = e.target;
+    var context = canStart(item);
     if (!context) {
       return;
     }
     _grabbed = context;
     touchy(documentElement, 'add', 'mousemove', startBecauseMouseMoved);
-    e.preventDefault();
   }
 
   function startBecauseMouseMoved (e) {
@@ -103,7 +103,7 @@ function dragula (initialContainers, options) {
 
     classes.add(_copy || _item, 'gu-transit');
     renderMirrorImage();
-    drag();
+    drag(e);
   }
 
   function canStart (item) {
@@ -299,6 +299,7 @@ function dragula (initialContainers, options) {
     if (e) {
       _clientX = getCoord('clientX', e);
       _clientY = getCoord('clientY', e);
+      e.preventDefault();
     }
     var x = _clientX - _offsetX;
     var y = _clientY - _offsetY;
