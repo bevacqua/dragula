@@ -17,8 +17,6 @@ function dragula (initialContainers, options) {
   var _item; // item being dragged
   var _offsetX; // reference x
   var _offsetY; // reference y
-  var _clientX; // cache client x, init at grab, update at drag
-  var _clientY; // cache client y, init at grab, update at drag
   var _initialSibling; // reference sibling when grabbed
   var _currentSibling; // reference sibling now
   var _copy; // item used for copying
@@ -62,6 +60,17 @@ function dragula (initialContainers, options) {
     touchy(documentElement, op, 'mouseup', release);
   }
 
+  function eventualMovements (remove) {
+    var op = remove ? 'remove' : 'add';
+    touchy(documentElement, op, 'mousemove', startBecauseMouseMoved);
+  }
+
+  function movements (remove) {
+    var op = remove ? 'remove' : 'add';
+    touchy(documentElement, op, 'selectstart', preventGrabbed); // IE8
+    touchy(documentElement, op, 'click', preventGrabbed);
+  }
+
   function destroy () {
     events(true);
     release({});
@@ -84,22 +93,18 @@ function dragula (initialContainers, options) {
       return;
     }
     _grabbed = context;
-    touchy(documentElement, 'add', 'mousemove', startBecauseMouseMoved);
+    eventualMovements();
   }
 
   function startBecauseMouseMoved (e) {
-    touchy(documentElement, 'remove', 'mousemove', startBecauseMouseMoved);
-    touchy(documentElement, 'add', 'selectstart', preventGrabbed); // IE8
-    touchy(documentElement, 'add', 'click', preventGrabbed);
-
+    eventualMovements(true);
+    movements();
     end();
     start(_grabbed);
 
     var offset = getOffset(_item);
     _offsetX = getCoord('pageX', e) - offset.left;
     _offsetY = getCoord('pageY', e) - offset.top;
-    _clientX = getCoord('clientX', e);
-    _clientY = getCoord('clientY', e);
 
     classes.add(_copy || _item, 'gu-transit');
     renderMirrorImage();
@@ -175,15 +180,18 @@ function dragula (initialContainers, options) {
     drop(item, item.parentElement);
   }
 
-  function release (e) {
+  function ungrab () {
     _grabbed = false;
-    touchy(documentElement, 'remove', 'mousemove', startBecauseMouseMoved);
-    touchy(documentElement, 'remove', 'click', preventGrabbed);
-    touchy(documentElement, 'remove', 'selectstart', preventGrabbed);
+    eventualMovements(true);
+    movements(true);
+  }
+
+  function release (e) {
+    ungrab();
+
     if (!drake.dragging) {
       return;
     }
-
     var item = _copy || _item;
     var clientX = getCoord('clientX', e);
     var clientY = getCoord('clientY', e);
@@ -244,6 +252,7 @@ function dragula (initialContainers, options) {
 
   function cleanup () {
     var item = _copy || _item;
+    ungrab();
     removeMirrorImage();
     if (item) {
       classes.rm(item, 'gu-transit');
@@ -252,8 +261,8 @@ function dragula (initialContainers, options) {
       clearTimeout(_renderTimer);
     }
     drake.dragging = false;
-    drake.emit('dragend', item);
     drake.emit('out', item, _lastDropTarget, _source);
+    drake.emit('dragend', item);
     _source = _item = _copy = _initialSibling = _currentSibling = _renderTimer = _lastDropTarget = null;
   }
 
@@ -296,20 +305,19 @@ function dragula (initialContainers, options) {
     if (!_mirror) {
       return;
     }
-    if (e) {
-      _clientX = getCoord('clientX', e);
-      _clientY = getCoord('clientY', e);
-      e.preventDefault();
-    }
-    var x = _clientX - _offsetX;
-    var y = _clientY - _offsetY;
+    e.preventDefault();
+
+    var clientX = getCoord('clientX', e);
+    var clientY = getCoord('clientY', e);
+    var x = clientX - _offsetX;
+    var y = clientY - _offsetY;
 
     _mirror.style.left = x + 'px';
     _mirror.style.top  = y + 'px';
 
     var item = _copy || _item;
-    var elementBehindCursor = getElementBehindPoint(_mirror, _clientX, _clientY);
-    var dropTarget = findDropTarget(elementBehindCursor, _clientX, _clientY);
+    var elementBehindCursor = getElementBehindPoint(_mirror, clientX, clientY);
+    var dropTarget = findDropTarget(elementBehindCursor, clientX, clientY);
     var changed = dropTarget !== null && dropTarget !== _lastDropTarget;
     if (changed || dropTarget === null) {
       out();
@@ -325,7 +333,7 @@ function dragula (initialContainers, options) {
     var reference;
     var immediate = getImmediateChild(dropTarget, elementBehindCursor);
     if (immediate !== null) {
-      reference = getReference(dropTarget, immediate, _clientX, _clientY);
+      reference = getReference(dropTarget, immediate, clientX, clientY);
     } else if (o.revertOnSpill === true && !o.copy) {
       reference = _initialSibling;
       dropTarget = _source;

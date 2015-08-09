@@ -34,7 +34,9 @@ crossvent.add(single2, 'click', clickHandler);
 
 function clickHandler (e) {
   var target = e.target;
-
+  if (target === single2) {
+    return;
+  }
   target.innerHTML += ' [click!]';
 
   setTimeout(function () {
