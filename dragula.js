@@ -67,7 +67,7 @@ function dragula (initialContainers, options) {
     release({});
   }
 
-  function preventGrabClick (e) {
+  function preventGrabbed (e) {
     if (_grabbed) {
       e.preventDefault();
     }
@@ -91,7 +91,8 @@ function dragula (initialContainers, options) {
       return;
     }
 
-    touchy(documentElement, 'add', 'click', preventGrabClick);
+    touchy(documentElement, 'add', 'selectstart', preventGrabbed);
+    touchy(documentElement, 'add', 'click', preventGrabbed);
 
     var offset = getOffset(_item);
     _offsetX = getCoord('pageX', e) - offset.left;
@@ -168,7 +169,8 @@ function dragula (initialContainers, options) {
   function release (e) {
     _grabbed = false;
     touchy(documentElement, 'remove', 'mousemove', startBecauseMouseMoved);
-    touchy(documentElement, 'remove', 'click', preventGrabClick);
+    touchy(documentElement, 'remove', 'click', preventGrabbed);
+    touchy(documentElement, 'remove', 'selectstart', preventGrabbed);
     if (!drake.dragging) {
       return;
     }
