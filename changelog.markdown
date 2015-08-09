@@ -1,3 +1,7 @@
+# 3.0.2 Clickhood Rainforest
+
+- Fixed a _historical_ bug, where click on anchors would be ignored within `dragula` containers in mobile
+
 # 3.0.1 Carjacking
 
 - Fixed a bug in mobile, caused by `3.0.0`, where scrolling would be impossible
