@@ -1,3 +1,7 @@
+# 3.0.3 Forest Fire
+
+- Fixed a bug in Firefox where dragging links and images would result in issues
+
 # 3.0.2 Clickhood Rainforest
 
 - Fixed a _historical_ bug, where click on anchors would be ignored within `dragula` containers in mobile
