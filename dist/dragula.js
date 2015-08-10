@@ -135,6 +135,7 @@ function dragula (initialContainers, options) {
     }
     _grabbed = context;
     eventualMovements();
+    e.preventDefault();
   }
 
   function startBecauseMouseMoved (e) {
