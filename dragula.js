@@ -161,10 +161,16 @@ function dragula (initialContainers, options) {
     }
   }
 
+<<<<<<< HEAD
+    if (isCopy(item, container)) {
+      _copy = item.cloneNode(true);
+      drake.emit('cloned', _copy, item);
+=======
   function start (context) {
     if (o.copy) {
       _copy = context.item.cloneNode(true);
       drake.emit('cloned', _copy, context.item, 'copy');
+>>>>>>> upstream/master
     }
 
     _source = context.source;
@@ -200,11 +206,12 @@ function dragula (initialContainers, options) {
       return;
     }
     var item = _copy || _item;
+    var container = item.parentElement;
     var clientX = getCoord('clientX', e);
     var clientY = getCoord('clientY', e);
     var elementBehindCursor = getElementBehindPoint(_mirror, clientX, clientY);
     var dropTarget = findDropTarget(elementBehindCursor, clientX, clientY);
-    if (dropTarget && (o.copy === false || dropTarget !== _source)) {
+    if (dropTarget && (isCopy(item, container) === false || dropTarget !== _source)) {
       drop(item, dropTarget);
     } else if (o.removeOnSpill) {
       remove();
@@ -227,11 +234,12 @@ function dragula (initialContainers, options) {
       return;
     }
     var item = _copy || _item;
+    var container = item.parentElement;
     var parent = item.parentElement;
     if (parent) {
       parent.removeChild(item);
     }
-    drake.emit(o.copy ? 'cancel' : 'remove', item, parent);
+    drake.emit(isCopy(item, container) ? 'cancel' : 'remove', item, parent);
     cleanup();
   }
 
@@ -241,12 +249,13 @@ function dragula (initialContainers, options) {
     }
     var reverts = arguments.length > 0 ? revert : o.revertOnSpill;
     var item = _copy || _item;
+    var container = item.parentElement;
     var parent = item.parentElement;
-    if (parent === _source && o.copy) {
+    if (parent === _source && isCopy(item, container)) {
       parent.removeChild(_copy);
     }
     var initial = isInitialPlacement(parent);
-    if (initial === false && o.copy === false && reverts) {
+    if (initial === false && isCopy(item, container) === false && reverts) {
       _source.insertBefore(item, _initialSibling);
     }
     if (initial || reverts) {
@@ -323,15 +332,21 @@ function dragula (initialContainers, options) {
     _mirror.style.top  = y + 'px';
 
     var item = _copy || _item;
+<<<<<<< HEAD
+    var container = item.parentElement;
+    var elementBehindCursor = getElementBehindPoint(_mirror, _clientX, _clientY);
+    var dropTarget = findDropTarget(elementBehindCursor, _clientX, _clientY);
+=======
     var elementBehindCursor = getElementBehindPoint(_mirror, clientX, clientY);
     var dropTarget = findDropTarget(elementBehindCursor, clientX, clientY);
+>>>>>>> upstream/master
     var changed = dropTarget !== null && dropTarget !== _lastDropTarget;
     if (changed || dropTarget === null) {
       out();
       _lastDropTarget = dropTarget;
       over();
     }
-    if (dropTarget === _source && o.copy) {
+    if (dropTarget === _source && isCopy(_item, container)) {
       if (item.parentElement) {
         item.parentElement.removeChild(item);
       }
@@ -340,12 +355,21 @@ function dragula (initialContainers, options) {
     var reference;
     var immediate = getImmediateChild(dropTarget, elementBehindCursor);
     if (immediate !== null) {
+<<<<<<< HEAD
+      reference = getReference(dropTarget, immediate, _clientX, _clientY);
+    } else if (o.revertOnSpill === true && !isCopy(item, container)) {
+      reference = _initialSibling;
+      dropTarget = _source;
+    } else {
+      if ((isCopy(item, container) || o.removeOnSpill === true) && item.parentElement !== null) {
+=======
       reference = getReference(dropTarget, immediate, clientX, clientY);
     } else if (o.revertOnSpill === true && !o.copy) {
       reference = _initialSibling;
       dropTarget = _source;
     } else {
       if (o.copy && item.parentElement) {
+>>>>>>> upstream/master
         item.parentElement.removeChild(item);
       }
       return;
@@ -439,6 +463,13 @@ function dragula (initialContainers, options) {
     function resolve (after) {
       return after ? nextEl(target) : target;
     }
+  }
+  
+  function isCopy (item, container) {
+    if (typeof o.copy === 'boolean') {
+      return o.copy;
+    }
+    return o.copy(item, container);
   }
 }
 
