@@ -228,5 +228,25 @@ test('when dragging stops, body becomes selectable again', function (t) {
   t.end();
 });
 
+test('when dragging, check for copy option', function (t) {
+  var div = document.createElement('div');
+  var item = document.createElement('div');
+  item.className = 'copyable';
+  var drake = dragula([div], {
+    copy: checkCondition
+  });
+  item.innerHTML = '<em>the force is <strong>with this one</strong></em>';
+  div.appendChild(item);
+  document.body.appendChild(div);
+  events.raise(item, 'mousedown', { which: 0 });
+  t.plan(1);
+  t.end();
+  function checkCondition (el) {
+    t.equal(el.className, 'copyable', 'dragged element classname is copyable');
+    return true;
+  }
+  drake.end();
+});
+
 function always () { return true; }
 function never () { return false; }

@@ -136,7 +136,17 @@ Also note that **the position where a drag starts is always going to be a valid 
 
 #### `options.copy`
 
-If `copy` is set to `true`, items will be copied rather than moved. This implies the following differences:
+You can set `copy` to a function that returns a `boolean` value indicating whether an element will be treated as a copy or not.
+Consider the code below as an example:
+
+```js
+copy: function (el, target) {
+    return el.className === 'copy-able';
+}
+```
+
+If `copy` is set to `true` or a method that returns `true`, items will be copied rather than moved. This implies the following
+differences:
 
 Event     | Move                                     | Copy
 ----------|------------------------------------------|---------------------------------------------
