@@ -1,14 +1,21 @@
-# Dragula
+[![logo.png][3]][2]
+
+[![Travis CI][5]][4] [![Flattr][6]][7]
 
 > Drag and drop so simple it hurts
 
 Browser support includes every sane browser and **IE7+**. <sub>_(Granted you polyfill the functional `Array` methods in ES5)_</sub>
 
+Framework support includes vanilla JavaScript, Angular, and React.
+
+- Official [Angular bridge][8] for `dragula` [_(demo)_][10]
+- Official [React bridge][9] for `dragula` [_(demo)_][11]
+
 # Demo
 
 [![demo.png][1]][2]
 
-Try out the [demo](http://bevacqua.github.io/dragula/)!
+Try out the [demo][2]!
 
 # Inspiration
 
@@ -44,7 +51,7 @@ Dragula provides the easiest possible API to make drag and drop a breeze in your
 
 By default, `dragula` will allow the user to drag an element in any of the `containers` and drop it in any other container in the list. If the element is dropped anywhere that's not one of the `containers`, the event will be gracefully cancelled according to the `revertOnSpill` and `removeOnSpill` options.
 
-Note that dragging is only triggered on left clicks, and only if no meta keys are pressed. Clicks on buttons and anchor tags are ignored, too.
+Note that dragging is only triggered on left clicks, and only if no meta keys are pressed.
 
 The example below allows the user to drag elements from `left` into `right`, and from `right` into `left`.
 
@@ -59,20 +66,20 @@ dragula(containers, {
   isContainer: function (el) {
     return false; // only elements in drake.containers will be taken into account
   },
-  moves: function (el, container, handle) {
+  moves: function (el, source, handle) {
     return true; // elements are always draggable by default
   },
   accepts: function (el, target, source, sibling) {
     return true; // elements can be dropped in any of the `containers` by default
   },
-  invalid: function (el, target) { // prevent buttons and anchor tags from starting a drag
-    return el.tagName === 'A' || el.tagName === 'BUTTON';
+  invalid: function (el, target) { // don't prevent any drags from initiating by default
+    return false;
   },
-  direction: 'vertical', // Y axis is considered when determining where an element would be dropped
-  copy: false,           // elements are moved by default, not copied
-  revertOnSpill: false,  // spilling will put the element back where it was dragged from, if this is true
-  removeOnSpill: false,  // spilling will `.remove` the element, if this is true
-  delay: false           // enable regular clicks by setting to true or a number of milliseconds
+  direction: 'vertical',         // Y axis is considered when determining where an element would be dropped
+  copy: false,                   // elements are moved by default, not copied
+  revertOnSpill: false,          // spilling will put the element back where it was dragged from, if this is true
+  removeOnSpill: false,          // spilling will `.remove` the element, if this is true
+  mirrorContainer: document.body // set the element that gets mirror elements appended
 });
 ```
 
@@ -119,7 +126,7 @@ var drake = dragula({
 
 #### `options.moves`
 
-You can define a `moves` method which will be invoked with `(el, container, handle)` whenever an element is clicked. If this method returns `false`, a drag event won't begin, and the event won't be prevented either. The `handle` element will be the original click target, which comes in handy to test if that element is an expected _"drag handle"_.
+You can define a `moves` method which will be invoked with `(el, source, handle)` whenever an element is clicked. If this method returns `false`, a drag event won't begin, and the event won't be prevented either. The `handle` element will be the original click target, which comes in handy to test if that element is an expected _"drag handle"_.
 
 #### `options.accepts`
 
@@ -158,33 +165,33 @@ By default, spilling an element outside of any containers will move the element 
 
 When an element is dropped onto a container, it'll be placed near the point where the mouse was released. If the `direction` is `'vertical'`, the default value, the Y axis will be considered. Otherwise, if the `direction` is `'horizontal'`, the X axis will be considered.
 
-#### `options.delay`
-
-Number of milliseconds during which clicks where the mouse button is released will be treated as regular clicks instead of very short lived drags. When `delay` is set to `true`, a default of `300` milliseconds is used. Defaults to `false`.
-
 #### `options.invalid`
 
-You can provide an `invalid` method with a `(el, target)` signature. This method should return `true` for elements that shouldn't trigger a drag. Here's the default implementation, which prevents drags originating from anchor elements and buttons.
+You can provide an `invalid` method with a `(el, target)` signature. This method should return `true` for elements that shouldn't trigger a drag. Here's the default implementation, which doesn't prevent any drags.
 
 ```js
-function invalidTarget (el) {
-  return el.tagName === 'A' || el.tagName === 'BUTTON';
+function invalidTarget (el, target) {
+  return false;
 }
 ```
 
 Note that `invalid` will be invoked on the DOM element that was clicked and every parent up to immediate children of a `drake` container.
 
+As an example, you could set `invalid` to return `false` whenever the clicked element _(or any of its parents)_ is an anchor tag.
+
+```js
+invalid: function (el) {
+  return el.tagName === 'A';
+}
+```
+
+#### `options.mirrorContainer`
+
+The DOM element where the mirror element displayed while dragging will be appended to. Defaults to `document.body`.
+
 ## API
 
 The `dragula` method returns a tiny object with a concise API. We'll refer to the API returned by `dragula` as `drake`.
-
-#### `drake.addContainer(container)`
-
-**DEPRECATED. Use [drake.containers](#drakecontainers) instead.** Adds a `container` to the `containers` collection. It can be a single DOM element or an array.
-
-#### `drake.removeContainer(container)`
-
-**DEPRECATED. Use [drake.containers](#drakecontainers) instead.** Removes a `container` from the `containers` collection. It can be a single DOM element or an array.
 
 #### `drake.containers`
 
@@ -221,13 +228,13 @@ The `drake` is an event emitter. The following events can be tracked using `drak
 
 Event Name | Listener Arguments      | Event Description
 -----------|-------------------------|-------------------------------------------------------------------------------------
-`drag`     | `el, container`         | `el` was lifted from `container`
+`drag`     | `el, source`            | `el` was lifted from `source`
 `dragend`  | `el`                    | Dragging event for `el` ended with either `cancel`, `remove`, or `drop`
-`drop`     | `el, container, source` | `el` was dropped into `container`, and originally came from `source`
-`cancel`   | `el, container`         | `el` was being dragged but it got nowhere and went back into `container`, its last stable parent
+`drop`     | `el, target, source`    | `el` was dropped into `target`, and originally came from `source`
+`cancel`   | `el, source`         | `el` was being dragged but it got nowhere and went back into `source`, its last stable parent
 `remove`   | `el, container`         | `el` was being dragged but it got nowhere and it was removed from the DOM. Its last stable parent was `container`.
 `shadow`   | `el, container`         | `el`, _the visual aid shadow_, was moved into `container`. May trigger many times as the position of `el` changes, even within the same `container`
-`cloned`   | `clone, original`       | DOM element `original` was cloned as `clone`. Triggers for mirror images and when `copy: true`
+`cloned`   | `clone, original, type` | DOM element `original` was cloned as `clone`, of `type` _(`'mirror'` or `'copy'`)_. Fired for mirror images and when `copy: true`
 `over`     | `el, container, source` | `el` is over `container`, and originally came from `source`
 `out`      | `el, container, source` | `el` was dragged out of `container` or dropped, and originally came from `source`
 
@@ -235,13 +242,36 @@ Event Name | Listener Arguments      | Event Description
 
 Removes all drag and drop events used by `dragula` to manage drag and drop between the `containers`. If `.destroy` is called while an element is being dragged, the drag will be effectively cancelled.
 
+## CSS
+
+Dragula uses only four CSS classes. Their purpose is quickly explained below, but you can check [`dist/dragula.css`][12] to see the corresponding CSS rules.
+
+- `gu-unselectable` is added to the `mirrorContainer` element when dragging. You can use it to style the `mirrorContainer` while something is being dragged.
+- `gu-transit` is added to the source element when its mirror image is dragged. It just adds opacity to it.
+- `gu-mirror` is added to the mirror image. It handles fixed positioning and `z-index` _(and removes any prior margins on the element)_. Note that the mirror image is appended to the `mirrorContainer`, not to its initial container. Keep that in mind when styling your elements with nested rules, like `.list .item { padding: 10px; }`.
+- `gu-hide` is a helper class to apply `display: none` to an element.
+
+Note that these rules must be available to your document. You can do so by  including [`dist/dragula.css`][12] or [`dist/dragula.min.css`][13] in your document. You could also include their content in your own stylesheet, in order to reduce HTTP requests.
+
+# Contributing
+
+See [contributing.markdown][14] for details.
+
 # License
 
 MIT
 
-[![eyes.png][3]][4]
-
 [1]: https://github.com/bevacqua/dragula/blob/master/resources/demo.png
 [2]: http://bevacqua.github.io/dragula/
-[3]: https://github.com/bevacqua/dragula/blob/master/resources/eyes.png
-[4]: https://www.youtube.com/watch?v=EqQuihD0hoI
+[3]: https://github.com/bevacqua/dragula/blob/master/resources/logo.png
+[4]: https://travis-ci.org/bevacqua/dragula
+[5]: https://travis-ci.org/bevacqua/dragula.svg
+[6]: http://api.flattr.com/button/flattr-badge-large.png
+[7]: http://flattr.com/thing/4127996/bevacquadragula-on-GitHub
+[8]: https://github.com/bevacqua/angular-dragula
+[9]: https://github.com/bevacqua/react-dragula
+[10]: http://bevacqua.github.io/angular-dragula/
+[11]: http://bevacqua.github.io/react-dragula/
+[12]: https://github.com/bevacqua/dragula/blob/master/dist/dragula.css
+[13]: https://github.com/bevacqua/dragula/blob/master/dist/dragula.min.css
+[14]: https://github.com/bevacqua/dragula/blob/master/contributing.markdown

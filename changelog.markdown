@@ -1,3 +1,38 @@
+# 3.0.3 Forest Fire
+
+- Fixed a bug in Firefox where dragging links and images would result in issues
+
+# 3.0.2 Clickhood Rainforest
+
+- Fixed a _historical_ bug, where click on anchors would be ignored within `dragula` containers in mobile
+- Fixed a bug where events wouldn't be gracefully removed if `drake` were destroyed during a drag event
+- Now emits `dragend` after `out` to preserve consistency _(because `drag` is emitted before `over`)_
+- Fixed another old bug where attempting to remove elements using `removeOnSpill` on mobile would fail
+
+# 3.0.1 Carjacking
+
+- Fixed a bug in mobile, caused by `3.0.0`, where scrolling would be impossible
+- Fixed a bug where dragging would cause text selection in IE8
+
+# 3.0.0 Guilty Conscience
+
+- Removed `addContainer` method, which was previously deprecated
+- Removed `removeContainer` method, which was previously deprecated
+- Removed `delay` option in favor of using `mousemove`
+- Drag events now start on the first occurrence of a `mousemove` event
+- If `mousemove` never fires, then the `drag` machinery won't start, either
+- Changed default value for `invalid`, now always returns `false` by default
+- Added `mirrorContainer` option to determine where the mirror gets appended to _(defaults to `document.body`)_
+
+# 2.1.2 Shady Sibling
+
+- Fixed a bug where `shadow` would trigger multiple times while dragging an element over the same spot
+
+# 2.1.1 Classy Drake
+
+- Fixed a bug where adding and removing classes might've caused issues on elements that had foreign CSS classes
+- Added an argument to `cloned` event that specifies the kind of clone. Possible values include `mirror` and `copy` at the moment
+
 # 2.1.0 Over and Out
 
 - Added `over` event that fires whenever an element is dragged over a container _(or whenever a drag event starts)_

@@ -1,10 +1,11 @@
 <!doctype html>
+<meta charset='utf-8'>
+<link rel="shortcut icon" href="favicon.ico">
 <link href='dist/dragula.css' rel='stylesheet' type='text/css' />
 <link href='example/example.css' rel='stylesheet' type='text/css' />
 <title>dragula</title>
-<h1>dragula</h1>
-<h3>Drag and drop so simple it hurts</h3>
-<h3 class='promo'>Who couldn't love a pun that good? &mdash; <a href='http://thenextweb.com/dd/2015/07/20/less-of-a-drag-maaaaaaaan'>The Next Web</a></h3>
+<h1><a href='https://github.com/bevacqua/dragula'><img src='resources/logo.svg' onerror='this.src="resources/logo.png"' alt='dragula'/></a></h1>
+<h3 class='tagline'>Drag and drop so simple it hurts</h3>
 <a href='https://github.com/bevacqua/dragula'>
   <img class='gh-fork' src='https://camo.githubusercontent.com/52760788cde945287fbb584134c4cbc2bc36f904/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f77686974655f6666666666662e706e67' alt='Fork me on GitHub' data-canonical-src='https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png' />
 </a>
@@ -15,9 +16,12 @@
       <div id='left1' class='container'>
         <div>You can move these elements between these two containers</div>
         <div>Moving them anywhere else isn't quite possible</div>
-        <div>There's also the possibility of moving elements around in the same container, changing their position</div>
+        <div>Anything can be moved around. That includes images, <a href='https://github.com/bevacqua/dragula'>links</a>, or any other nested elements.
+        <div class='image-thing'><img src='resources/icon.svg' onerror='this.src="resources/icon.png"' alt='dragula'/></div><sub>(You can still click on links, as usual!)</sub>
+        </div>
       </div>
       <div id='right1' class='container'>
+        <div>There's also the possibility of moving elements around in the same container, changing their position</div>
         <div>This is the default use case. You only need to specify the containers you want to use</div>
         <div>More interactive use cases lie ahead</div>
         <div>Make sure to check out the <a href='https://github.com/bevacqua/dragula#readme'>documentation on GitHub!</a></div>
@@ -49,13 +53,13 @@ dragula([document.getElementById(left), document.getElementById(right)]);
       <code>
 dragula([document.getElementById(left), document.getElementById(right)])
   .on('drag', function (el) {
-    el.className = el.className.replace(' ex-moved', '');
+    el.className = el.className.replace('ex-moved', '');
   }).on('drop', function (el) {
     el.className += ' ex-moved';
   }).on('over', function (el, container) {
     container.className += ' ex-over';
   }).on('out', function (el, container) {
-    container.className = container.className.replace(' ex-over', '');
+    container.className = container.className.replace('ex-over', '');
   });
       </code>
     </pre>
@@ -63,14 +67,17 @@ dragula([document.getElementById(left), document.getElementById(right)])
   <div class='parent'>
     <label for='hy'>Need to be able to quickly delete stuff when it spills out of the chosen containers? Note how you can easily sort the items in any containers by just dragging and dropping.</label>
     <div class='wrapper'>
-      <div id='single1' class='container'>
+      <div id='left6' class='container'>
+        <div>Anxious Cab Driver</div>
+        <div>Thriving Venture</div>
+        <div>Such <a href='http://ponyfoo.com'>a good blog</a></div>
+        <div>Calm Clam</div>
+      </div>
+      <div id='right6' class='container'>
         <div>Banana Boat</div>
         <div>Orange Juice</div>
         <div>Cuban Cigar</div>
         <div>Terrible Comedian</div>
-        <div>Anxious Cab Driver</div>
-        <div>Thriving Venture</div>
-        <div>Calm Clam</div>
       </div>
     </div>
     <pre>
@@ -147,22 +154,25 @@ dragula([document.getElementById(left), document.getElementById(right)], {
     <div>There are a few similar mechanisms to determine whether an element can be dragged from a certain container <a href='https://github.com/bevacqua/dragula#optionsmoves'>(<code>moves</code>)</a>, whether an element can be dropped into a certain container at a certain position <a href='https://github.com/bevacqua/dragula#optionsaccepts'>(<code>accepts</code>)</a>, and whether an element is able to originate a drag event <a href='https://github.com/bevacqua/dragula#optionsinvalid'>(<code>invalid</code>)</a>.</div>
   </div>
   <div class='parent'>
-    <label><strong>Click or Drag!</strong> Fires a click when the mouse button is released within <code>delay</code>, otherwise a drag event is fired.</label>
+    <label><strong>Click or Drag!</strong> Fires a click when the mouse button is released before a <code>mousemove</code> event, otherwise a drag event is fired. No extra configuration is necessary.</label>
     <div class='wrapper'>
-      <div id='single2' class='container'>
-        <div>Try dragging this element. There's a barely perceptible <em>"jank"</em> if you move it too fast, but it still works seamlessly <em>(and you'll barely notice in practice)</em>.</div>
+      <div id='single1' class='container'>
         <div>Clicking on these elements triggers a regular <code>click</code> event you can listen to.</div>
+        <div>Try dragging or clicking on this element.</div>
+        <div>Note how you can click normally?</div>
+        <div>Drags don't trigger click events.</div>
+        <div>Clicks don't end up in a drag, either.</div>
         <div>This is useful if you have elements that can be both clicked or dragged.</div>
-        <div>The <code>delay</code> indicates how long an element can be left-clicked for (and released) for the event to be considered a <code>click</code> rather than a <code>drag</code>.</div>
       </div>
     </div>
     <pre>
       <code>
-        dragula([document.getElementById(single)], { delay: 200 });
+        dragula([document.getElementById(single)]);
       </code>
     </pre>
   </div>
 </div>
+<h3 class='promo'>Who couldn't love a pun that good? &mdash; <a href='http://thenextweb.com/dd/2015/07/20/less-of-a-drag-maaaaaaaan'>The Next Web</a></h3>
 <h3>Get it on GitHub! <a href='https://github.com/bevacqua/dragula'>bevacqua/dragula</a></h3>
 <script src='dist/dragula.js'></script>
-<script src='example/example.js'></script>
+<script src='example/example.generated.js'></script>
