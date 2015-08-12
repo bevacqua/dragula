@@ -43,6 +43,12 @@ Or bower, too. <sub>_(note that it's called `dragula.js` in bower)_</sub>
 bower install dragula.js --save
 ```
 
+If you're not using either package manager, you can use `dragula` by downloading the [files in the `dist` folder][15]. We **strongly suggest** using `npm`, though.
+
+##### CSS
+
+Also, keep in mind there's [a few CSS styles][16] you need to incorporate as well.
+
 # Usage
 
 Dragula provides the easiest possible API to make drag and drop a breeze in your applications.
@@ -267,3 +273,5 @@ MIT
 [12]: https://github.com/bevacqua/dragula/blob/master/dist/dragula.css
 [13]: https://github.com/bevacqua/dragula/blob/master/dist/dragula.min.css
 [14]: https://github.com/bevacqua/dragula/blob/master/contributing.markdown
+[15]: https://github.com/bevacqua/dragula/blob/master/dist
+[16]: #css
