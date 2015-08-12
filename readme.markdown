@@ -45,7 +45,7 @@ bower install dragula.js --save
 
 If you're not using either package manager, you can use `dragula` by downloading the [files in the `dist` folder][15]. We **strongly suggest** using `npm`, though.
 
-##### CSS
+##### Include CSS
 
 Also, keep in mind there's [a few CSS styles][16] you need to incorporate as well.
 
