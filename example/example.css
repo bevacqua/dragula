@@ -151,12 +151,14 @@ button:hover {
   padding: 10px;
   background-color: rgba(0, 0, 0, 0.2);
   transition: opacity 0.4s ease-in-out;
+}
+.container > div {
   cursor: move;
   cursor: grab;
   cursor: -moz-grab;
   cursor: -webkit-grab;
 }
-.gu-unselectable {
+.gu-mirror {
   cursor: grabbing;
   cursor: -moz-grabbing;
   cursor: -webkit-grabbing;
