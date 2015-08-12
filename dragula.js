@@ -162,7 +162,7 @@ function dragula (initialContainers, options) {
   }
 
   function start (context) {
-	var container = context.item.parentElement;
+	  var container = context.item.parentElement;
     if (isCopy(context.item, container)) {
       _copy = context.item.cloneNode(true);
       drake.emit('cloned', _copy, context.item, 'copy');
@@ -201,7 +201,7 @@ function dragula (initialContainers, options) {
       return;
     }
     var item = _copy || _item;
-	var container = item.parentElement;
+	  var container = item.parentElement;
     var clientX = getCoord('clientX', e);
     var clientY = getCoord('clientY', e);
     var elementBehindCursor = getElementBehindPoint(_mirror, clientX, clientY);
@@ -229,7 +229,7 @@ function dragula (initialContainers, options) {
       return;
     }
     var item = _copy || _item;
-	var container = item.parentElement;
+	  var container = item.parentElement;
     var parent = item.parentElement;
     if (parent) {
       parent.removeChild(item);
@@ -244,7 +244,7 @@ function dragula (initialContainers, options) {
     }
     var reverts = arguments.length > 0 ? revert : o.revertOnSpill;
     var item = _copy || _item;
-	var container = item.parentElement;
+	  var container = item.parentElement;
     var parent = item.parentElement;
     if (parent === _source && isCopy(item, container)) {
       parent.removeChild(_copy);
@@ -327,7 +327,7 @@ function dragula (initialContainers, options) {
     _mirror.style.top  = y + 'px';
 
     var item = _copy || _item;
-	var container = item.parentElement;
+	  var container = item.parentElement;
     var elementBehindCursor = getElementBehindPoint(_mirror, clientX, clientY);
     var dropTarget = findDropTarget(elementBehindCursor, clientX, clientY);
     var changed = dropTarget !== null && dropTarget !== _lastDropTarget;
