@@ -37,10 +37,10 @@ You can get it on npm.
 npm install dragula --save
 ```
 
-Or bower, too. <sub>_(note that it's called `dragula.js` in bower)_</sub>
+Or bower, too.
 
 ```shell
-bower install dragula.js --save
+bower install dragula --save
 ```
 
 If you're not using either package manager, you can use `dragula` by downloading the [files in the `dist` folder][15]. We **strongly suggest** using `npm`, though.
