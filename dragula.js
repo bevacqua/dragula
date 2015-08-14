@@ -481,9 +481,6 @@ function getScroll (scrollProp, offsetProp) {
 }
 
 function getElementBehindPoint (point, x, y) {
-  if (!x && !y) {
-    return null;
-  }
   var p = point || {};
   var state = p.className;
   var el;
