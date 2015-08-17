@@ -1,6 +1,7 @@
 [![logo.png][3]][2]
 
-[![Travis CI][5]][4] [![Flattr][6]][7]
+[![Travis CI][5]][4] [![Flattr][6]][7] [![ProjectTalk](http://www.projecttalk.io/images/gh_badge-3e578a9f437f841de7446bab9a49d103.svg?vsn=d)]
+(http://www.projecttalk.io/boards/bevacqua%2Fdragula?utm_campaign=gh-badge&utm_medium=badge&utm_source=github)
 
 > Drag and drop so simple it hurts
 
