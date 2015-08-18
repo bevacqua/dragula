@@ -28,6 +28,7 @@ Have you ever wanted a drag and drop library that just works? That doesn't just 
 - **Figures out sort order** on its own
 - A shadow where the item would be dropped offers **visual feedback**
 - Touch events!
+- Seamlessly handles clicks *without any configuration*
 
 # Install
 
