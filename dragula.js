@@ -280,7 +280,7 @@ function dragula (initialContainers, options) {
     } else if (_mirror) {
       sibling = _currentSibling;
     } else {
-      sibling = nextEl(_item || _copy);
+      sibling = nextEl(_copy || _item);
     }
     return target === _source && sibling === _initialSibling;
   }
