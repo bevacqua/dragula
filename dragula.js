@@ -100,6 +100,9 @@ function dragula (initialContainers, options) {
     eventualMovements();
     if (e.type === 'mousedown') {
       e.preventDefault(); // fixes https://github.com/bevacqua/dragula/issues/155
+      if (item.tagName === 'INPUT' || item.tagName === 'TEXTAREA') {
+        item.focus(); // fixes https://github.com/bevacqua/dragula/issues/176
+      }
     }
   }
 

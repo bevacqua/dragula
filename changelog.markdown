@@ -1,3 +1,7 @@
+# 3.0.5 Mouse Rat Rock Band
+
+-
+
 # 3.0.4 IE is the old IE
 
 - Fixed a bug in IE8 by updating `crossvent` to `1.5.2`
