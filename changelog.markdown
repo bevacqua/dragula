@@ -1,6 +1,6 @@
 # 3.0.5 Mouse Rat Rock Band
 
--
+- Fixed a bug where `mousedown` would be prevented and focusing draggable inputs wouldn't be possible
 
 # 3.0.4 IE is the old IE
 
