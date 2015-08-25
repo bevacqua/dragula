@@ -29,7 +29,7 @@
   "homepage": "https://github.com/bevacqua/dragula",
   "dependencies": {
     "contra": "1.9.1",
-    "crossvent": "1.5.2"
+    "crossvent": "1.5.3"
   },
   "devDependencies": {
     "browserify": "11.0.0",

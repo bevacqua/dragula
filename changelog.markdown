@@ -1,3 +1,7 @@
+# 3.0.6 Crossroads
+
+- Fixed a bug in Webpack builds by updating `crossvent` to `1.5.3`
+
 # 3.0.5 Mouse Rat Rock Band
 
 - Fixed a bug where `mousedown` would be prevented and focusing draggable inputs wouldn't be possible
