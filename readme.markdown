@@ -149,17 +149,7 @@ Also note that **the position where a drag starts is always going to be a valid 
 
 #### `options.copy`
 
-You can set `copy` to a function that returns a `boolean` value indicating whether an element will be treated as a copy or not.
-Consider the code below as an example:
-
-```js
-copy: function (el, target) {
-    return el.className === 'copy-able';
-}
-```
-
-If `copy` is set to `true` or a method that returns `true`, items will be copied rather than moved. This implies the following
-differences:
+If `copy` is set to `true` _(or a method that returns `true`)_, items will be copied rather than moved. This implies the following differences:
 
 Event     | Move                                     | Copy
 ----------|------------------------------------------|---------------------------------------------
@@ -167,6 +157,14 @@ Event     | Move                                     | Copy
 `drop`    | Element will be moved into `target`      | Element will be cloned into `target`
 `remove`  | Element will be removed from DOM         | Nothing happens
 `cancel`  | Element will stay in `source`            | Nothing happens
+
+If a method is passed, it'll be called whenever an element starts being dragged in order to decide whether it should follow `copy` behavior or not. Consider the following example.
+
+```js
+copy: function (el, source) {
+  return el.className === 'you-may-copy-us';
+}
+```
 
 #### `options.revertOnSpill`
 

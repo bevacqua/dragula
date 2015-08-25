@@ -13,14 +13,14 @@
   <div class='parent'>
     <label for='hy'>Move stuff between these two containers. Note how the stuff gets inserted near the mouse pointer? Great stuff.</label>
     <div class='wrapper'>
-      <div id='left1' class='container'>
+      <div id='left-defaults' class='container'>
         <div>You can move these elements between these two containers</div>
         <div>Moving them anywhere else isn't quite possible</div>
         <div>Anything can be moved around. That includes images, <a href='https://github.com/bevacqua/dragula'>links</a>, or any other nested elements.
         <div class='image-thing'><img src='resources/icon.svg' onerror='this.src="resources/icon.png"' alt='dragula'/></div><sub>(You can still click on links, as usual!)</sub>
         </div>
       </div>
-      <div id='right1' class='container'>
+      <div id='right-defaults' class='container'>
         <div>There's also the possibility of moving elements around in the same container, changing their position</div>
         <div>This is the default use case. You only need to specify the containers you want to use</div>
         <div>More interactive use cases lie ahead</div>
@@ -37,13 +37,13 @@ dragula([document.getElementById(left), document.getElementById(right)]);
   <div class='parent'>
     <label for='hy'>There are plenty of events along the lifetime of a drag event. Check out <a href='https://github.com/bevacqua/dragula#drakeon-events'>all of them</a> in the docs!</label>
     <div class='wrapper'>
-      <div id='left3' class='container'>
+      <div id='left-events' class='container'>
         <div>As soon as you start dragging an element, a <code>drag</code> event is fired</div>
         <div>Whenever an element is cloned because <code>copy: true</code>, a <code>cloned</code> event fires</div>
         <div>The <code>shadow</code> event fires whenever the placeholder showing where an element would be dropped is moved to a different container or position</div>
         <div>A <code>drop</code> event is fired whenever an element is dropped anywhere other than its origin <em>(where it was initially dragged from)</em></div>
       </div>
-      <div id='right3' class='container'>
+      <div id='right-events' class='container'>
         <div>If the element gets removed from the DOM as a result of dropping outside of any containers, a <code>remove</code> event gets fired</div>
         <div>A <code>cancel</code> event is fired when an element would be dropped onto an invalid target, but retains its original placement instead</div>
         <div>The <code>over</code> event fires when you drag something over a container, and <code>out</code> fires when you drag it away from the container</div>
@@ -68,13 +68,13 @@ dragula([document.getElementById(left), document.getElementById(right)])
   <div class='parent'>
     <label for='hy'>Need to be able to quickly delete stuff when it spills out of the chosen containers? Note how you can easily sort the items in any containers by just dragging and dropping.</label>
     <div class='wrapper'>
-      <div id='left6' class='container'>
+      <div id='left-rm-spill' class='container'>
         <div>Anxious Cab Driver</div>
         <div>Thriving Venture</div>
         <div>Such <a href='http://ponyfoo.com'>a good blog</a></div>
         <div>Calm Clam</div>
       </div>
-      <div id='right6' class='container'>
+      <div id='right-rm-spill' class='container'>
         <div>Banana Boat</div>
         <div>Orange Juice</div>
         <div>Cuban Cigar</div>
@@ -92,12 +92,12 @@ dragula([document.getElementById(single)], {
   <div class='parent'>
     <label for='hy'>By default, dropping an element outside of any known containers will keep the element in the last place it went over. You can make elements go back to origin if they're dropped outside of known containers, too.</label>
     <div class='wrapper'>
-      <div id='left4' class='container'>
+      <div id='left-rollbacks' class='container'>
         <div>Moving items between containers works as usual</div>
         <div>If you try to drop an item outside of any containers, though, it'll retain its original position</div>
         <div>When that happens, a <code>cancel</code> event will be raised</div>
       </div>
-      <div id='right4' class='container'>
+      <div id='right-rollbacks' class='container'>
         <div>Note that the dragged element will go back to the place you originally dragged it from, even if you move it over other containers</div>
         <div>This is useful if you want to ensure drop events only happen when the user intends for them to happen explicitly, avoiding surprises</div>
       </div>
@@ -113,12 +113,12 @@ dragula([document.getElementById(left), document.getElementById(right)], {
   <div class='parent'>
     <label for='hy'>Copying stuff is common too, so we made it easy for you.</label>
     <div class='wrapper'>
-      <div id='left2' class='container'>
+      <div id='left-copy' class='container'>
         <div>When elements are copyable, they can't be sorted in their origin container</div>
         <div>Copying prevents original elements from being dragged. A copy gets created and <em>that</em> gets dragged instead</div>
         <div>Whenever that happens, a <code>cloned</code> event is raised</div>
       </div>
-      <div id='right2' class='container'>
+      <div id='right-copy' class='container'>
         <div>Note that the clones get destroyed if they're not dropped into another container</div>
         <div>You'll be dragging a copy, so when they're dropped into another container you'll see the duplication.</div>
       </div>
@@ -132,13 +132,39 @@ dragula([document.getElementById(left), document.getElementById(right)], {
     </pre>
   </div>
   <div class='parent'>
+    <label for='hy'>Copying stuff from only one of the containers and sorting on the other one? No problem!</label>
+    <div class='wrapper'>
+      <div id='left-copy-1tomany' class='container'>
+        <div>When elements are copyable, they can't be sorted in their origin container</div>
+        <div>Copying prevents original elements from being dragged. A copy gets created and <em>that</em> gets dragged instead</div>
+        <div>Whenever that happens, a <code>cloned</code> event is raised</div>
+        <div>Note that the clones get destroyed if they're not dropped into another container</div>
+        <div>You'll be dragging a copy, so when they're dropped into another container you'll see the duplication.</div>
+      </div>
+      <div id='right-copy-1tomany' class='container'>
+      </div>
+    </div>
+    <pre>
+      <code>
+dragula([document.getElementById(left), document.getElementById(right)], {
+  copy: function (el, source) {
+    return source === left
+  },
+  accepts: function (el, target) {
+    return target !== left
+  }
+});
+      </code>
+    </pre>
+  </div>
+  <div class='parent'>
     <label for='hy'>Drag handles float your cruise?</label>
     <div class='wrapper'>
-      <div id='left5' class='container'>
+      <div id='left-lovehandles' class='container'>
         <div><span class='handle'>+</span>Move me, but you can use the plus sign to drag me around.</div>
         <div><span class='handle'>+</span>Note that <code>handle</code> element in the <code>moves</code> handler is just the original event target.</div>
       </div>
-      <div id='right5' class='container'>
+      <div id='right-lovehandles' class='container'>
         <div><span class='handle'>+</span>This might also be useful if you want multiple children of an element to be able to trigger a drag event.</div>
         <div><span class='handle'>+</span>You can also use the <code>moves</code> option to determine whether an element can be dragged at all from a container, <em>drag handle or not</em>.</div>
       </div>
@@ -157,7 +183,7 @@ dragula([document.getElementById(left), document.getElementById(right)], {
   <div class='parent'>
     <label><strong>Click or Drag!</strong> Fires a click when the mouse button is released before a <code>mousemove</code> event, otherwise a drag event is fired. No extra configuration is necessary.</label>
     <div class='wrapper'>
-      <div id='single1' class='container'>
+      <div id='sortable' class='container'>
         <div>Clicking on these elements triggers a regular <code>click</code> event you can listen to.</div>
         <div>Try dragging or clicking on this element.</div>
         <div>Note how you can click normally?</div>
@@ -168,7 +194,7 @@ dragula([document.getElementById(left), document.getElementById(right)], {
     </div>
     <pre>
       <code>
-        dragula([document.getElementById(single)]);
+        dragula([document.getElementById(container)]);
       </code>
     </pre>
   </div>

@@ -1,3 +1,7 @@
+# 3.1.0 Copy Paste
+
+- You can now set `options.copy` to a method. It'll be invoked once per drag to ask whether the element being dragged should be treated as a copy or not
+
 # 3.0.7 Crossroads
 
 - Fixed a bug in Webpack builds by updating `crossvent` to `1.5.3`
