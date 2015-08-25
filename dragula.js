@@ -107,10 +107,11 @@ function dragula (initialContainers, options) {
   }
 
   function startBecauseMouseMoved (e) {
+    var grabbed = _grabbed; // call to end() unsets _grabbed
     eventualMovements(true);
     movements();
     end();
-    start(_grabbed);
+    start(grabbed);
 
     var offset = getOffset(_item);
     _offsetX = getCoord('pageX', e) - offset.left;

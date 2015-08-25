@@ -1,6 +1,7 @@
 # 3.1.0 Copy Paste
 
 - You can now set `options.copy` to a method. It'll be invoked once per drag to ask whether the element being dragged should be treated as a copy or not
+- Fixed a bug where starting a drag programatically while an element was being dragged resulted in an exception
 
 # 3.0.7 Crossroads
 

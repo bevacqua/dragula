@@ -7,12 +7,12 @@ var dragula = require('..');
 test('drag event gets emitted when clicking an item', function (t) {
   testCase('works for left clicks', { which: 0 });
   testCase('works for wheel clicks', { which: 1 });
+  testCase('works when clicking buttons by default', { which: 0 }, { tag: 'button', passes: true });
+  testCase('works when clicking anchors by default', { which: 0 }, { tag: 'a', passes: true });
   testCase('fails for right clicks', { which: 2 }, { passes: false });
   testCase('fails for meta-clicks', { which: 0, metaKey: true }, { passes: false });
   testCase('fails for ctrl-clicks', { which: 0, ctrlKey: true }, { passes: false });
   testCase('fails when clicking containers', { which: 0 }, { containerClick: true, passes: false });
-  testCase('fails when clicking buttons by default', { which: 0 }, { tag: 'button', passes: false });
-  testCase('fails when clicking anchors by default', { which: 0 }, { tag: 'a', passes: false });
   testCase('fails whenever invalid returns true', { which: 0 }, { passes: false, dragulaOpts: { invalid: always } });
   testCase('fails whenever moves returns false', { which: 0 }, { passes: false, dragulaOpts: { moves: never } });
   t.end();
@@ -27,20 +27,20 @@ test('drag event gets emitted when clicking an item', function (t) {
       document.body.appendChild(div);
       drake.on('drag', drag);
       events.raise(o.containerClick ? div : item, 'mousedown', eventOptions);
-      if (passes) { events.raise(o.containerClick ? div : item, 'mousemove'); }
+      events.raise(o.containerClick ? div : item, 'mousemove');
       st.plan(passes ? 4 : 1);
-      st.equal(drake.dragging, passes, 'final state is drake is ' + (passes ? '' : 'not ') + 'dragging');
+      st.equal(drake.dragging, passes, desc + ': final state is drake is ' + (passes ? '' : 'not ') + 'dragging');
       st.end();
       function drag (target, container) {
-        st[passes ? 'pass' : 'fail']('drag event was emitted synchronously');
-        st.equal(target, item, 'first argument is selected item');
-        st.equal(container, div, 'second argument is container');
+        st[passes ? 'pass' : 'fail'](desc + ': drag event was emitted synchronously');
+        st.equal(target, item, desc + ': first argument is selected item');
+        st.equal(container, div, desc + ': second argument is container');
       }
     });
   }
 });
 
-test('when already dragging, ends (cancels) previous drag', function (t) {
+test('when already dragging, mousedown/mousemove ends (cancels) previous drag', function (t) {
   var div = document.createElement('div');
   var item1 = document.createElement('div');
   var item2 = document.createElement('div');
@@ -228,10 +228,11 @@ test('when dragging stops, body becomes selectable again', function (t) {
   t.end();
 });
 
-test('when dragging, check for copy option', function (t) {
+test('when drag begins, check for copy option', function (t) {
   var div = document.createElement('div');
   var item = document.createElement('div');
   item.className = 'copyable';
+  div.className = 'contains';
   var drake = dragula([div], {
     copy: checkCondition
   });
@@ -239,10 +240,13 @@ test('when dragging, check for copy option', function (t) {
   div.appendChild(item);
   document.body.appendChild(div);
   events.raise(item, 'mousedown', { which: 0 });
-  t.plan(1);
+  events.raise(item, 'mousemove', { which: 0 });
+  events.raise(item, 'mousemove', { which: 0 }); // ensure the copy method condition is only asserted once
+  t.plan(2);
   t.end();
-  function checkCondition (el) {
+  function checkCondition (el, source) {
     t.equal(el.className, 'copyable', 'dragged element classname is copyable');
+    t.equal(source.className, 'contains', 'source container classname is contains');
     return true;
   }
   drake.end();

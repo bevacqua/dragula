@@ -24,7 +24,7 @@ test('end does not throw when not dragging', function (t) {
   t.end();
 });
 
-test('when already dragging, ends (cancels) previous drag', function (t) {
+test('when already dragging, .end() ends (cancels) previous drag', function (t) {
   var div = document.createElement('div');
   var item1 = document.createElement('div');
   var item2 = document.createElement('div');
