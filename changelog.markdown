@@ -1,4 +1,4 @@
-# 3.0.6 Crossroads
+# 3.0.7 Crossroads
 
 - Fixed a bug in Webpack builds by updating `crossvent` to `1.5.3`
 
