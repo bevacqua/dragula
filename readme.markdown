@@ -166,6 +166,15 @@ copy: function (el, source) {
 }
 ```
 
+#### `options.copySortSource`
+
+If `copy` is set to `true` _(or a method that returns `true`)_ and `copySortSource` to true as well, item will be allowed to moved _(reordered)_ in same container.
+
+```js
+copy: true,
+copySortSource: true
+```
+
 #### `options.revertOnSpill`
 
 By default, spilling an element outside of any containers will move the element back to the _drop position previewed by the feedback shadow_. Setting `revertOnSpill` to `true` will ensure elements dropped outside of any approved containers are moved back to the source element where the drag event began, rather than stay at the _drop position previewed by the feedback shadow_.
