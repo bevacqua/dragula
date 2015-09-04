@@ -78,8 +78,8 @@ label {
 
 sub {
   display: block;
+  text-align: right;
   margin-top: -10px;
-  margin-bottom: 15px;
   font-size: 11px;
   font-style: italic;
 }
@@ -145,18 +145,20 @@ button:hover {
  * note that styling gu-mirror directly is a bad practice because it's too generic.
  * you're better off giving the draggable elements a unique class and styling that directly!
  */
-.container div,
+.container > div,
 .gu-mirror {
   margin: 10px;
   padding: 10px;
   background-color: rgba(0, 0, 0, 0.2);
   transition: opacity 0.4s ease-in-out;
+}
+.container > div {
   cursor: move;
   cursor: grab;
   cursor: -moz-grab;
   cursor: -webkit-grab;
 }
-.gu-unselectable {
+.gu-mirror {
   cursor: grabbing;
   cursor: -moz-grabbing;
   cursor: -webkit-grabbing;
@@ -172,4 +174,9 @@ button:hover {
   margin-right: 5px;
   background-color: rgba(0, 0, 0, 0.4);
   cursor: move;
+}
+.image-thing {
+  margin: 20px 0;
+  display: block;
+  text-align: center;
 }

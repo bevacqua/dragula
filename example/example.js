@@ -1,40 +1,51 @@
 'use strict';
 
-dragula([$('left1'), $('right1')]);
-dragula([$('left2'), $('right2')], { copy: true });
-dragula([$('left3'), $('right3')])
+var crossvent = require('crossvent');
+var sortable = $('sortable');
+
+dragula([$('left-defaults'), $('right-defaults')]);
+dragula([$('left-copy'), $('right-copy')], { copy: true });
+dragula([$('left-events'), $('right-events')])
   .on('drag', function (el) {
-    el.className = el.className.replace(' ex-moved', '');
-  }).on('drop', function (el) {
+    el.className = el.className.replace('ex-moved', '');
+  })
+  .on('drop', function (el) {
     el.className += ' ex-moved';
-  }).on('over', function (el, container) {console.log('in',arguments);
+  })
+  .on('over', function (el, container) {
     container.className += ' ex-over';
-  }).on('out', function (el, container) {console.log('out',arguments);
-    container.className = container.className.replace(' ex-over', '');
+  })
+  .on('out', function (el, container) {
+    container.className = container.className.replace('ex-over', '');
   });
-dragula([$('left4'), $('right4')], { revertOnSpill: true });
-dragula([$('left5'), $('right5')], {
+dragula([$('left-rollbacks'), $('right-rollbacks')], { revertOnSpill: true });
+dragula([$('left-lovehandles'), $('right-lovehandles')], {
   moves: function (el, container, handle) {
     return handle.className === 'handle';
   }
 });
 
-var single2 = $('single2');
+dragula([$('left7'), $('right7')]);
 
-dragula([$('single1')], { removeOnSpill: true });
-dragula({ containers: [single2], delay: 200 });
+dragula([$('left-rm-spill'), $('right-rm-spill')], { removeOnSpill: true });
+dragula([$('left-copy-1tomany'), $('right-copy-1tomany')], {
+  copy: function (el, source) {
+    return source === $('left-copy-1tomany');
+  },
+  accepts: function (el, target) {
+    return target !== $('left-copy-1tomany');
+  }
+});
 
-if (single2.addEventListener) {
-  single2.addEventListener('click', clickHandler, false);
-} else {
-  single2.attachEvent('onclick', clickHandler);
-}
+dragula([sortable]);
+
+crossvent.add(sortable, 'click', clickHandler);
 
 function clickHandler (e) {
-  if (e.target === this) {
+  var target = e.target;
+  if (target === sortable) {
     return;
   }
-  var target = e.target || e.srcElement;
 
   target.innerHTML += ' [click!]';
 
