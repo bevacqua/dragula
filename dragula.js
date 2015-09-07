@@ -23,6 +23,8 @@ function dragula (initialContainers, options) {
   var _renderTimer; // timer for setTimeout renderMirrorImage
   var _lastDropTarget = null; // last container item was over
   var _grabbed; // holds mousedown context until first mousemove
+  var _moving = false; //
+  var _notMovingTimeout; //
 
   var o = options || {};
   if (o.moves === void 0) { o.moves = always; }
@@ -35,6 +37,7 @@ function dragula (initialContainers, options) {
   if (o.removeOnSpill === void 0) { o.removeOnSpill = false; }
   if (o.direction === void 0) { o.direction = 'vertical'; }
   if (o.mirrorContainer === void 0) { o.mirrorContainer = body; }
+  if (o.mirrorDelay === void 0) { o.mirrorDelay = 0; }
 
   var drake = emitter({
     containers: o.containers,
@@ -312,11 +315,19 @@ function dragula (initialContainers, options) {
     }
   }
 
-  function drag (e) {
+  function drag (e, notMoving) {
     if (!_mirror) {
       return;
     }
     e.preventDefault();
+
+    if (o.mirrorDelay !== 0) {
+      if (!notMoving) {
+        _moving = true;
+      }
+      clearTimeout(_notMovingTimeout);
+      _notMovingTimeout = setTimeout(function(){_moving = false; drag(e, true);}, o.mirrorDelay);
+    }
 
     var clientX = getCoord('clientX', e);
     var clientY = getCoord('clientY', e);
@@ -341,28 +352,30 @@ function dragula (initialContainers, options) {
       }
       return;
     }
-    var reference;
-    var immediate = getImmediateChild(dropTarget, elementBehindCursor);
-    if (immediate !== null) {
-      reference = getReference(dropTarget, immediate, clientX, clientY);
-    } else if (o.revertOnSpill === true && !_copy) {
-      reference = _initialSibling;
-      dropTarget = _source;
-    } else {
-      if (_copy && item.parentElement) {
-        item.parentElement.removeChild(item);
+    if (o.mirrorDelay === 0 || !_moving){
+      var reference;
+      var immediate = getImmediateChild(dropTarget, elementBehindCursor);
+      if (immediate !== null) {
+        reference = getReference(dropTarget, immediate, clientX, clientY);
+      } else if (o.revertOnSpill === true && !_copy) {
+        reference = _initialSibling;
+        dropTarget = _source;
+      } else {
+        if (_copy && item.parentElement) {
+          item.parentElement.removeChild(item);
+        }
+        return;
       }
-      return;
-    }
-    if (
-      reference === null ||
-      reference !== item &&
-      reference !== nextEl(item) &&
-      reference !== _currentSibling
-    ) {
-      _currentSibling = reference;
-      dropTarget.insertBefore(item, reference);
-      drake.emit('shadow', item, dropTarget);
+      if (
+        reference === null ||
+        reference !== item &&
+        reference !== nextEl(item) &&
+        reference !== _currentSibling
+      ) {
+        _currentSibling = reference;
+        dropTarget.insertBefore(item, reference);
+        drake.emit('shadow', item, dropTarget);
+      }
     }
     function moved (type) { drake.emit(type, item, _lastDropTarget, _source); }
     function over () { if (changed) { moved('over'); } }
