@@ -46,7 +46,6 @@ function clickHandler (e) {
   if (target === sortable) {
     return;
   }
-
   target.innerHTML += ' [click!]';
 
   setTimeout(function () {

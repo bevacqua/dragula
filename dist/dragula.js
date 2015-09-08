@@ -508,6 +508,14 @@ function dragula (initialContainers, options) {
     if (drake.dragging) { classes.add(el, 'gu-hide'); }
   }
 
+  function spillOver (el) {
+    classes.rm(el, 'gu-hide');
+  }
+
+  function spillOut (el) {
+    if (drake.dragging) { classes.add(el, 'gu-hide'); }
+  }
+
   function renderMirrorImage () {
     if (_mirror) {
       return;
