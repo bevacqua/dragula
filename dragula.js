@@ -177,7 +177,7 @@ function dragula (initialContainers, options) {
   }
 
   function start (context) {
-    if (isCopy(context.item, context.source) {
+    if (isCopy(context.item, context.source)) {
 	  var container = context.item.parentElement;
       _copy = context.item.cloneNode(true);
       drake.emit('cloned', _copy, context.item, 'copy');
