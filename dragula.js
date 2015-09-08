@@ -178,7 +178,6 @@ function dragula (initialContainers, options) {
 
   function start (context) {
     if (isCopy(context.item, context.source)) {
-	  var container = context.item.parentElement;
       _copy = context.item.cloneNode(true);
       drake.emit('cloned', _copy, context.item, 'copy');
     }
@@ -446,14 +445,6 @@ function dragula (initialContainers, options) {
     else {
       stopScroll();
     }
-  }
-
-  function spillOver (el) {
-    classes.rm(el, 'gu-hide');
-  }
-
-  function spillOut (el) {
-    if (drake.dragging) { classes.add(el, 'gu-hide'); }
   }
 
   function spillOver (el) {
