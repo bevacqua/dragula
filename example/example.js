@@ -34,6 +34,7 @@ dragula([$('left-copy-1tomany'), $('right-copy-1tomany')], {
     return target !== $('left-copy-1tomany');
   }
 });
+dragula([$('left-drag-scroll'), $('right-drag-scroll')]);
 
 dragula([sortable]);
 
