@@ -56,6 +56,18 @@ You can add them by including [`dist/dragula.css`][12] or [`dist/dragula.min.css
 @import 'node_modules/dragula/dragula'
 ```
 
+If you're not using either package manager, you can use `dragula` by downloading the [files in the `dist` folder][15]. We **strongly suggest** using `npm`, though.
+
+##### Include CSS
+
+There's [a few CSS styles][16] you need to incorporate in order for `dragula` to work as expected.
+
+You can add them by including [`dist/dragula.css`][12] or [`dist/dragula.min.css`][13] in your document. If you're using Stylus, you can include the styles using the directive below.
+
+```styl
+@import 'node_modules/dragula/dragula'
+```
+
 # Usage
 
 Dragula provides the easiest possible API to make drag and drop a breeze in your applications.
@@ -267,6 +279,12 @@ Dragula uses only four CSS classes. Their purpose is quickly explained below, bu
 # Contributing
 
 See [contributing.markdown][14] for details.
+
+To run tests a single time, simply run the following command. This is used in CI testing.
+
+```shell
+npm test
+```
 
 # License
 

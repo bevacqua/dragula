@@ -25,6 +25,8 @@ dragula([$('left-lovehandles'), $('right-lovehandles')], {
   }
 });
 
+dragula([$('left7'), $('right7')]);
+
 dragula([$('left-rm-spill'), $('right-rm-spill')], { removeOnSpill: true });
 dragula([$('left-copy-1tomany'), $('right-copy-1tomany')], {
   copy: function (el, source) {
