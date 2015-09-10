@@ -220,9 +220,9 @@ function dragula (initialContainers, options) {
 
   function drop (item, target) {
     var parent = item.parentElement;
-	  if (_copy && o.copySortSource && target === _source) {
-		  parent.removeChild(_item);
-	  }
+    if (_copy && o.copySortSource && target === _source) {
+      parent.removeChild(_item);
+    }
     if (isInitialPlacement(target)) {
       drake.emit('cancel', item, _source);
     } else {
