@@ -50,7 +50,6 @@ function dragula (initialContainers, options) {
   if (o.removeOnSpill === true) {
     drake.on('over', spillOver).on('out', spillOut);
   }
-  
   events();
 
   return drake;
