@@ -60,6 +60,7 @@ function dragula (initialContainers, options) {
   var _renderTimer; // timer for setTimeout renderMirrorImage
   var _lastDropTarget = null; // last container item was over
   var _grabbed; // holds mousedown context until first mousemove
+  var _copySortSource;
 
   var o = options || {};
   if (o.moves === void 0) { o.moves = always; }
@@ -72,7 +73,7 @@ function dragula (initialContainers, options) {
   if (o.removeOnSpill === void 0) { o.removeOnSpill = false; }
   if (o.direction === void 0) { o.direction = 'vertical'; }
   if (o.mirrorContainer === void 0) { o.mirrorContainer = body; }
-
+  if (o.copySortSource === void 0) { o.copySortSource = false; _copySortSource = false; }
   var drake = emitter({
     containers: o.containers,
     start: manualStart,
@@ -85,6 +86,10 @@ function dragula (initialContainers, options) {
 
   if (o.removeOnSpill === true) {
     drake.on('over', spillOver).on('out', spillOut);
+  }
+  
+  if(o.copySortSource === true) {
+    _copySortSource = true;
   }
 
   events();
@@ -207,7 +212,6 @@ function dragula (initialContainers, options) {
       _copy = context.item.cloneNode(true);
       drake.emit('cloned', _copy, context.item, 'copy');
     }
-
     _source = context.source;
     _item = context.item;
     _initialSibling = _currentSibling = nextEl(context.item);
@@ -245,7 +249,7 @@ function dragula (initialContainers, options) {
     var clientY = getCoord('clientY', e);
     var elementBehindCursor = getElementBehindPoint(_mirror, clientX, clientY);
     var dropTarget = findDropTarget(elementBehindCursor, clientX, clientY);
-    if (dropTarget && (!_copy || dropTarget !== _source)) {
+    if (dropTarget && ((_copy && _copySortSource) || (!_copy || dropTarget !== _source))) {
       drop(item, dropTarget);
     } else if (o.removeOnSpill) {
       remove();
@@ -255,6 +259,10 @@ function dragula (initialContainers, options) {
   }
 
   function drop (item, target) {
+    var parent = item.parentElement;
+	if (_copy && _copySortSource && target === _source) {
+		parent.removeChild(_item);
+	}
     if (isInitialPlacement(target)) {
       drake.emit('cancel', item, _source);
     } else {
@@ -372,7 +380,8 @@ function dragula (initialContainers, options) {
       _lastDropTarget = dropTarget;
       over();
     }
-    if (dropTarget === _source && _copy) {
+	console.log(!_copySortSource);
+    if (dropTarget === _source && _copy && !_copySortSource) {
       if (item.parentElement) {
         item.parentElement.removeChild(item);
       }
