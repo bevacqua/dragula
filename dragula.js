@@ -329,7 +329,7 @@ function dragula (initialContainers, options) {
     var y = clientY - _offsetY;
 
     _mirror.style.left = x + 'px';
-    _mirror.style.top  = y + 'px';
+    _mirror.style.top = y + 'px';
 
     var item = _copy || _item;
     var elementBehindCursor = getElementBehindPoint(_mirror, clientX, clientY);
