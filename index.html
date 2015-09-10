@@ -198,6 +198,32 @@ dragula([document.getElementById(left), document.getElementById(right)], {
       </code>
     </pre>
   </div>
+  <div id='scroll-on-drag' class='parent'>
+    <label><strong>Scroll on Drag!</strong></label>
+    <div class='wrapper'>
+      <div id='scroll-drag-vertical-left' class='container'>
+        <div>Clicking on these elements triggers a regular <code>click</code> event you can listen to.</div>
+        <div>Try dragging or clicking on this element.</div>
+        <div>Note how you can click normally?</div>
+        <div>Drags don't trigger click events.</div>
+        <div>Clicks don't end up in a drag, either.</div>
+        <div>This is useful if you have elements that can be both clicked or dragged.</div>
+      </div>
+      <div id='scroll-drag-vertical-right' class='container'>
+        <div>Clicking on these elements triggers a regular <code>click</code> event you can listen to.</div>
+        <div>Try dragging or clicking on this element.</div>
+        <div>Note how you can click normally?</div>
+        <div>Drags don't trigger click events.</div>
+        <div>Clicks don't end up in a drag, either.</div>
+        <div>This is useful if you have elements that can be both clicked or dragged.</div>
+      </div>
+    </div>
+    <pre>
+      <code>
+        dragula([document.getElementById(container)]);
+      </code>
+    </pre>
+  </div>
 </div>
 <h3 class='promo'>Who couldn't love a pun that good? &mdash; <a href='http://thenextweb.com/dd/2015/07/20/less-of-a-drag-maaaaaaaan'>The Next Web</a></h3>
 <h3>Get it on GitHub! <a href='https://github.com/bevacqua/dragula'>bevacqua/dragula</a></h3>

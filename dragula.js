@@ -35,6 +35,8 @@ function dragula (initialContainers, options) {
   if (o.removeOnSpill === void 0) { o.removeOnSpill = false; }
   if (o.direction === void 0) { o.direction = 'vertical'; }
   if (o.mirrorContainer === void 0) { o.mirrorContainer = body; }
+  if (o.scrollTriggerTop === void 0) { o.scrollTriggerTop = 70; }
+  if (o.scrollTriggerBottom === void 0) { o.scrollTriggerBottom = 70; }
 
   var drake = emitter({
     containers: o.containers,
@@ -43,7 +45,9 @@ function dragula (initialContainers, options) {
     cancel: cancel,
     remove: remove,
     destroy: destroy,
-    dragging: false
+    dragging: false,
+    scrollTriggerTop: o.scrollTriggerTop,
+    scrollTriggerBottom: o.scrollTriggerBottom
   });
 
   if (o.removeOnSpill === true) {
@@ -62,6 +66,11 @@ function dragula (initialContainers, options) {
     var op = remove ? 'remove' : 'add';
     touchy(documentElement, op, 'mousedown', grab);
     touchy(documentElement, op, 'mouseup', release);
+    if (remove) {
+      document.removeEventListener('mousemove', onMouseMove);
+    } else {
+      document.addEventListener('mousemove', onMouseMove);
+    }
   }
 
   function eventualMovements (remove) {
@@ -442,6 +451,56 @@ function dragula (initialContainers, options) {
 
     function resolve (after) {
       return after ? nextEl(target) : target;
+    }
+  }
+
+  function onMouseMove (e) {
+    var y = getCoord('pageY', e);
+    var x = getCoord('pageX', e);
+    drake.previousY = y;
+
+    if (drake.dragging) {
+      for (var i = 0; i < drake.containers.length; i++) {
+        var container = drake.containers[i];
+
+        var topTriggerContainer = {
+          top: container.offsetTop,
+          right: container.offsetWidth + container.offsetLeft,
+          bottom: container.offsetTop + o.scrollTriggerTop,
+          left: container.offsetLeft
+        };
+
+        var bottomTriggerContainer = {
+          top: container.offsetTop + container.offsetHeight - o.scrollTriggerBottom,
+          right: container.offsetWidth + container.offsetLeft,
+          bottom: container.offsetTop + container.offsetHeight,
+          left: container.offsetLeft
+        };
+
+        if (y >= topTriggerContainer.top && y <= topTriggerContainer.bottom
+        && x >= topTriggerContainer.left && x <= topTriggerContainer.right) {
+          scrollUp(container, y);
+        } else if (y >= bottomTriggerContainer.top && y <= bottomTriggerContainer.bottom
+          && x >= bottomTriggerContainer.left && x <= bottomTriggerContainer.right) {
+          scrollDown(container, y);
+        }
+      }
+    }
+  }
+
+  function scrollDown (container, y) {
+    if (y === drake.previousY) {
+      console.log('scroll Down');
+      container.scrollTop += 5;
+      setTimeout(scrollDown.bind(this, container, y), 20);
+    }
+  }
+
+  function scrollUp (container, y) {
+    if (y === drake.previousY) {
+      console.log('scroll Up');
+      container.scrollTop -= 5;
+      setTimeout(scrollUp.bind(this, container, y), 20);
     }
   }
 

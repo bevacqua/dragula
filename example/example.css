@@ -180,3 +180,14 @@ button:hover {
   display: block;
   text-align: center;
 }
+
+#scroll-on-drag .wrapper {
+  display: block;
+}
+
+#scroll-on-drag .container {
+  display: inline-block;
+  width: 49%;
+  height: 300px;
+  overflow-y: auto;
+}
