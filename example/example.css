@@ -169,6 +169,10 @@ button:hover {
 .container.ex-over {
   background-color: rgba(255, 255, 255, 0.3);
 }
+#left-lovehandles > div,
+#right-lovehandles > div {
+  cursor: initial;
+}
 .handle {
   padding: 0 5px;
   margin-right: 5px;
