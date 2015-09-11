@@ -39,6 +39,8 @@ dragula([sortable]);
 
 crossvent.add(sortable, 'click', clickHandler);
 
+dragula([$('scroll-drag-vertical-left'), $('scroll-drag-vertical-right')]);
+
 function clickHandler (e) {
   var target = e.target;
   if (target === sortable) {
