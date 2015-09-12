@@ -165,6 +165,13 @@ copy: function (el, source) {
   return el.className === 'you-may-copy-us';
 }
 ```
+#### `options.copySortSource`
+
+If `copy` is set to `true` _(or a method that returns `true`)_ and `copySortSource` to true as well, item will be allowed to moved _(reordered)_ in same container.
+
+```js
+copy: true,
+copySortSource: true
 
 #### `options.revertOnSpill`
 
