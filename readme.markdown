@@ -172,6 +172,7 @@ If `copy` is set to `true` _(or a method that returns `true`)_ and `copySortSour
 ```js
 copy: true,
 copySortSource: true
+```
 
 #### `options.revertOnSpill`
 
