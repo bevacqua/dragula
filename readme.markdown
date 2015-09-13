@@ -167,7 +167,7 @@ copy: function (el, source) {
 ```
 #### `options.copySortSource`
 
-If `copy` is set to `true` _(or a method that returns `true`)_ and `copySortSource` to true as well, item will be allowed to moved _(reordered)_ in same container.
+If `copy` is set to `true` _(or a method that returns `true`)_ and `copySortSource` is `true` as well, users will be able to sort elements in `copy`-source containers.
 
 ```js
 copy: true,

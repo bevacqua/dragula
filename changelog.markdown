@@ -1,3 +1,7 @@
+# 3.2.0 Sortable Sauce
+
+- You can now use `options.copySortSource` to enable sorting in `copy`-source containers
+
 # 3.1.0 Copy Paste
 
 - You can now set `options.copy` to a method. It'll be invoked once per drag to ask whether the element being dragged should be treated as a copy or not
