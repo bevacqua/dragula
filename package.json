@@ -53,6 +53,7 @@
     "crossvent": "1.5.4"
   },
   "devDependencies": {
+    "bower": "1.5.2",
     "browserify": "11.0.0",
     "clean-css": "3.3.6",
     "electron-prebuilt": "0.30.1",
