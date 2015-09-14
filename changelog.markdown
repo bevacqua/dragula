@@ -1,3 +1,8 @@
+# 3.3.0 Brotherhood
+
+- The `options.moves` callback now receives a fourth parameter, the `sibling` found after `el`
+- The `drop` event now receives a fourth parameter, the `sibling` found after `el`
+
 # 3.2.0 Sortable Sauce
 
 - You can now use `options.copySortSource` to enable sorting in `copy`-source containers
