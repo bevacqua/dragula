@@ -148,7 +148,7 @@ function dragula (initialContainers, options) {
       return;
     }
 
-    var movable = o.moves(item, source, handle);
+    var movable = o.moves(item, source, handle, nextEl(item));
     if (!movable) {
       return;
     }
@@ -226,7 +226,7 @@ function dragula (initialContainers, options) {
     if (isInitialPlacement(target)) {
       drake.emit('cancel', item, _source);
     } else {
-      drake.emit('drop', item, target, _source);
+      drake.emit('drop', item, target, _source, _currentSibling);
     }
     cleanup();
   }
