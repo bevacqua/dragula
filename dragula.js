@@ -17,6 +17,8 @@ function dragula (initialContainers, options) {
   var _item; // item being dragged
   var _offsetX; // reference x
   var _offsetY; // reference y
+  var _moveX; // reference move x
+  var _moveY; // reference move y
   var _initialSibling; // reference sibling when grabbed
   var _currentSibling; // reference sibling now
   var _copy; // item used for copying
@@ -63,6 +65,7 @@ function dragula (initialContainers, options) {
     var op = remove ? 'remove' : 'add';
     touchy(documentElement, op, 'mousedown', grab);
     touchy(documentElement, op, 'mouseup', release);
+    touchy(documentElement, op, 'mousemove', startBecauseMouseMoved);
   }
 
   function eventualMovements (remove) {
@@ -88,6 +91,9 @@ function dragula (initialContainers, options) {
   }
 
   function grab (e) {
+    _moveX = e.clientX;
+    _moveY = e.clientY;
+
     var ignore = (e.which !== 0 && e.which !== 1) || e.metaKey || e.ctrlKey;
     if (ignore) {
       return; // we only care about honest-to-god left clicks and touch events
@@ -108,6 +114,14 @@ function dragula (initialContainers, options) {
   }
 
   function startBecauseMouseMoved (e) {
+    if (!_grabbed) {
+      return;
+    }
+
+    if (e.clientX === _moveX && e.clientY === _moveY) {
+      return;
+    }
+
     var grabbed = _grabbed; // call to end() unsets _grabbed
     eventualMovements(true);
     movements();
