@@ -575,7 +575,7 @@ function setStyleProperty(el, property, value) {
   var i = 0;
   var vendorPrefix = ['webkit', 'Moz', 'ms', 'O'];
   var l = vendorPrefix.length;
-  for(; i < l; i++) {
+  for (; i < l; i++) {
     el.style[vendorPrefix[i] + property.charAt(0).toUpperCase() + property.slice(1)] = value;
   }
   el.style[property] = value;
