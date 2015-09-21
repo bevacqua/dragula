@@ -38,6 +38,7 @@ function dragula (initialContainers, options) {
   if (o.direction === void 0) { o.direction = 'vertical'; }
   if (o.mirrorContainer === void 0) { o.mirrorContainer = body; }
   if (o.copySortSource === void 0) { o.copySortSource = false; }
+  if (o.useTransform === void 0) {o.useTransform = false; }
 
   var drake = emitter({
     containers: o.containers,
@@ -341,9 +342,15 @@ function dragula (initialContainers, options) {
     var clientY = getCoord('clientY', e);
     var x = clientX - _offsetX;
     var y = clientY - _offsetY;
+    var translation;
 
-    _mirror.style.left = x + 'px';
-    _mirror.style.top = y + 'px';
+    if(o.useTransform === false){
+      _mirror.style.left = x + 'px';
+      _mirror.style.top = y + 'px';
+    } else {
+      translation = 'translate(' + x +'px,' + y + 'px)';
+      setStyleProperty(_mirror, 'transform', translation);
+    }
 
     var item = _copy || _item;
     var elementBehindCursor = getElementBehindPoint(_mirror, clientX, clientY);
@@ -404,6 +411,12 @@ function dragula (initialContainers, options) {
     _mirror = _item.cloneNode(true);
     _mirror.style.width = getRectWidth(rect) + 'px';
     _mirror.style.height = getRectHeight(rect) + 'px';
+
+    if(o.useTransform === true){
+      _mirror.style.left = 0;
+      _mirror.style.top = 0;
+    }
+
     classes.rm(_mirror, 'gu-transit');
     classes.add(_mirror, 'gu-mirror');
     o.mirrorContainer.appendChild(_mirror);
@@ -556,6 +569,16 @@ function getCoord (coord, e) {
     coord = missMap[coord];
   }
   return host[coord];
+}
+
+function setStyleProperty(el, property, value) {
+  var i = 0;
+  var vendorPrefix = ['webkit','Moz','ms','O'];
+  var l = vendorPrefix.length;
+  for(; i < l; i++){
+    el.style[vendorPrefix[i] + property.charAt(0).toUpperCase() + property.slice(1)] = value;
+  }
+  el.style[property] = value;
 }
 
 module.exports = dragula;
