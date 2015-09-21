@@ -210,6 +210,10 @@ invalid: function (el) {
 
 The DOM element where the mirror element displayed while dragging will be appended to. Defaults to `document.body`.
 
+#### `options.useTransform`
+
+When set to `true`, use the CSS3 transform property to move the mirror element while dragging. Defaults to `false`.
+
 ## API
 
 The `dragula` method returns a tiny object with a concise API. We'll refer to the API returned by `dragula` as `drake`.
