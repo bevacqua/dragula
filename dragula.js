@@ -38,7 +38,7 @@ function dragula (initialContainers, options) {
   if (o.direction === void 0) { o.direction = 'vertical'; }
   if (o.mirrorContainer === void 0) { o.mirrorContainer = body; }
   if (o.copySortSource === void 0) { o.copySortSource = false; }
-  if (o.useTransform === void 0) {o.useTransform = false; }
+  if (o.useTransform === void 0) { o.useTransform = false; }
 
   var drake = emitter({
     containers: o.containers,
@@ -344,11 +344,11 @@ function dragula (initialContainers, options) {
     var y = clientY - _offsetY;
     var translation;
 
-    if(o.useTransform === false){
+    if (o.useTransform === false) {
       _mirror.style.left = x + 'px';
       _mirror.style.top = y + 'px';
     } else {
-      translation = 'translate(' + x +'px,' + y + 'px)';
+      translation = 'translate(' + x + 'px,' + y + 'px)';
       setStyleProperty(_mirror, 'transform', translation);
     }
 
@@ -412,7 +412,7 @@ function dragula (initialContainers, options) {
     _mirror.style.width = getRectWidth(rect) + 'px';
     _mirror.style.height = getRectHeight(rect) + 'px';
 
-    if(o.useTransform === true){
+    if (o.useTransform === true) {
       _mirror.style.left = 0;
       _mirror.style.top = 0;
     }
@@ -573,9 +573,9 @@ function getCoord (coord, e) {
 
 function setStyleProperty(el, property, value) {
   var i = 0;
-  var vendorPrefix = ['webkit','Moz','ms','O'];
+  var vendorPrefix = ['webkit', 'Moz', 'ms', 'O'];
   var l = vendorPrefix.length;
-  for(; i < l; i++){
+  for(; i < l; i++) {
     el.style[vendorPrefix[i] + property.charAt(0).toUpperCase() + property.slice(1)] = value;
   }
   el.style[property] = value;
