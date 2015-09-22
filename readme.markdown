@@ -88,12 +88,11 @@ dragula(containers, {
   invalid: function (el, target) { // don't prevent any drags from initiating by default
     return false;
   },
-  direction: 'vertical',          // Y axis is considered when determining where an element would be dropped
-  copy: false,                    // elements are moved by default, not copied
-  revertOnSpill: false,           // spilling will put the element back where it was dragged from, if this is true
-  removeOnSpill: false,           // spilling will `.remove` the element, if this is true
-  mirrorContainer: document.body, // set the element that gets mirror elements appended
-  useTransform: false             // mirror element is moved by setting top / left coordinates
+  direction: 'vertical',         // Y axis is considered when determining where an element would be dropped
+  copy: false,                   // elements are moved by default, not copied
+  revertOnSpill: false,          // spilling will put the element back where it was dragged from, if this is true
+  removeOnSpill: false,          // spilling will `.remove` the element, if this is true
+  mirrorContainer: document.body // set the element that gets mirror elements appended
 });
 ```
 
@@ -210,10 +209,6 @@ invalid: function (el) {
 #### `options.mirrorContainer`
 
 The DOM element where the mirror element displayed while dragging will be appended to. Defaults to `document.body`.
-
-#### `options.useTransform`
-
-When set to `true`, use the CSS3 transform property to move the mirror element while dragging. Defaults to `false`.
 
 ## API
 
