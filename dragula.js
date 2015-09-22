@@ -3,6 +3,7 @@
 var emitter = require('contra/emitter');
 var crossvent = require('crossvent');
 var classes = require('./classes');
+var styleProp = require('./styleProperty');
 
 function dragula (initialContainers, options) {
   var len = arguments.length;
@@ -25,6 +26,7 @@ function dragula (initialContainers, options) {
   var _renderTimer; // timer for setTimeout renderMirrorImage
   var _lastDropTarget = null; // last container item was over
   var _grabbed; // holds mousedown context until first mousemove
+  var _useTransform = styleProp.check('transform', 'translate(1px, 1px)');
 
   var o = options || {};
   if (o.moves === void 0) { o.moves = always; }
@@ -38,7 +40,6 @@ function dragula (initialContainers, options) {
   if (o.direction === void 0) { o.direction = 'vertical'; }
   if (o.mirrorContainer === void 0) { o.mirrorContainer = body; }
   if (o.copySortSource === void 0) { o.copySortSource = false; }
-  if (o.useTransform === void 0) { o.useTransform = false; }
 
   var drake = emitter({
     containers: o.containers,
@@ -344,12 +345,12 @@ function dragula (initialContainers, options) {
     var y = clientY - _offsetY;
     var translation;
 
-    if (o.useTransform === false) {
+    if (_useTransform === false) {
       _mirror.style.left = x + 'px';
       _mirror.style.top = y + 'px';
     } else {
       translation = 'translate(' + x + 'px,' + y + 'px)';
-      setStyleProperty(_mirror, 'transform', translation);
+      styleProp.set(_mirror, 'transform', translation);
     }
 
     var item = _copy || _item;
@@ -412,7 +413,7 @@ function dragula (initialContainers, options) {
     _mirror.style.width = getRectWidth(rect) + 'px';
     _mirror.style.height = getRectHeight(rect) + 'px';
 
-    if (o.useTransform === true) {
+    if (_useTransform === true) {
       _mirror.style.left = 0;
       _mirror.style.top = 0;
     }
@@ -569,16 +570,6 @@ function getCoord (coord, e) {
     coord = missMap[coord];
   }
   return host[coord];
-}
-
-function setStyleProperty(el, property, value) {
-  var i = 0;
-  var vendorPrefix = ['webkit', 'Moz', 'ms', 'O'];
-  var l = vendorPrefix.length;
-  for (; i < l; i++) {
-    el.style[vendorPrefix[i] + property.charAt(0).toUpperCase() + property.slice(1)] = value;
-  }
-  el.style[property] = value;
 }
 
 module.exports = dragula;
