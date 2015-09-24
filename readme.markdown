@@ -252,7 +252,7 @@ Event Name | Listener Arguments               | Event Description
 `drag`     | `el, source`                     | `el` was lifted from `source`
 `dragend`  | `el`                             | Dragging event for `el` ended with either `cancel`, `remove`, or `drop`
 `drop`     | `el, target, source, sibling`    | `el` was dropped into `target` before a `sibling` element, and originally came from `source`
-`cancel`   | `el, source`                     | `el` was being dragged but it got nowhere and went back into `source`, its last stable parent
+`cancel`   | `el, container`                     | `el` was being dragged but it got nowhere and went back into `container`, its last stable parent
 `remove`   | `el, container`                  | `el` was being dragged but it got nowhere and it was removed from the DOM. Its last stable parent was `container`.
 `shadow`   | `el, container`                  | `el`, _the visual aid shadow_, was moved into `container`. May trigger many times as the position of `el` changes, even within the same `container`
 `cloned`   | `clone, original, type`          | DOM element `original` was cloned as `clone`, of `type` _(`'mirror'` or `'copy'`)_. Fired for mirror images and when `copy: true`
