@@ -254,7 +254,7 @@ function dragula (initialContainers, options) {
     if (parent) {
       parent.removeChild(item);
     }
-    drake.emit(_copy ? 'cancel' : 'remove', item, parent);
+    drake.emit(_copy ? 'cancel' : 'remove', item, parent, _source);
     cleanup();
   }
 
@@ -381,7 +381,7 @@ function dragula (initialContainers, options) {
     ) {
       _currentSibling = reference;
       dropTarget.insertBefore(item, reference);
-      drake.emit('shadow', item, dropTarget);
+      drake.emit('shadow', item, dropTarget, _source);
     }
     function moved (type) { drake.emit(type, item, _lastDropTarget, _source); }
     function over () { if (changed) { moved('over'); } }
