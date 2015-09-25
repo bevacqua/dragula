@@ -480,7 +480,7 @@ function touchy (el, op, type, fn) {
     mousedown: 'MSPointerDown',
     mousemove: 'MSPointerMove'
   };
-  if (global.navigator.msPointerEnabled) {
+  if (window.navigator.msPointerEnabled) {
     crossvent[op](el, microsoft[type], fn);
   }
   crossvent[op](el, touch[type], fn);
