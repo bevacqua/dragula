@@ -1,3 +1,7 @@
+# 3.4.0 Event Sourcing
+
+- Events for `cancel`, `remove`, and `shadow` now all provide a `source` parameter in the third position
+
 # 3.3.2 Captain Obvious
 
 - Fixed a bug where `out` would be emitted with an `undefined` container

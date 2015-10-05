@@ -237,7 +237,7 @@ function dragula (initialContainers, options) {
       parent.removeChild(_item);
     }
     if (isInitialPlacement(target)) {
-      drake.emit('cancel', item, _source);
+      drake.emit('cancel', item, _source, _source);
     } else {
       drake.emit('drop', item, target, _source, _currentSibling);
     }
@@ -272,7 +272,7 @@ function dragula (initialContainers, options) {
       _source.insertBefore(item, _initialSibling);
     }
     if (initial || reverts) {
-      drake.emit('cancel', item, _source);
+      drake.emit('cancel', item, _source, _source);
     } else {
       drake.emit('drop', item, parent, _source, _currentSibling);
     }
