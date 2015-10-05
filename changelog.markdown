@@ -1,3 +1,8 @@
+# 3.3.1 Significant Other
+
+- Fixed a fringe bug [(#207)](https://github.com/bevacqua/dragula/pull/207) where the click handler wouldn't work
+- Fixed a bug where `drop` events would sometimes not receive the current sibling
+
 # 3.3.0 Brotherhood
 
 - The `options.moves` callback now receives a fourth parameter, the `sibling` found after `el`

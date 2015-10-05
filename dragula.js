@@ -275,7 +275,7 @@ function dragula (initialContainers, options) {
     if (initial || reverts) {
       drake.emit('cancel', item, _source);
     } else {
-      drake.emit('drop', item, parent, _source);
+      drake.emit('drop', item, parent, _source, _currentSibling);
     }
     cleanup();
   }
