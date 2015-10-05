@@ -1,3 +1,7 @@
+# 3.3.2 Captain Obvious
+
+- Fixed a bug where `out` would be emitted with an `undefined` container
+
 # 3.3.1 Significant Other
 
 - Fixed a fringe bug [(#207)](https://github.com/bevacqua/dragula/pull/207) where the click handler wouldn't work
