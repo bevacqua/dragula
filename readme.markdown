@@ -29,6 +29,7 @@ Have you ever wanted a drag and drop library that just works? That doesn't just 
 - A shadow where the item would be dropped offers **visual feedback**
 - Touch events!
 - Seamlessly handles clicks *without any configuration*
+- Comprehensive programmatic API
 
 # Install
 
@@ -225,6 +226,10 @@ This property will be `true` whenever an element is being dragged.
 #### `drake.start(item)`
 
 Enter drag mode **without a shadow**. This method is most useful when providing complementary keyboard shortcuts to an existing drag and drop solution. Even though a shadow won't be created at first, the user will get one as soon as they click on `item` and start dragging it around. Note that if they click and drag something else, `.end` will be called before picking up the new item.
+
+#### `drake.lift(item)`
+
+Enter drag mode **with a shadow**. This method is most useful when we want to delay drags using customized functionality. This method is best used while the user is holding their mouse button.
 
 #### `drake.end()`
 
