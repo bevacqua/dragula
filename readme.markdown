@@ -1,6 +1,6 @@
 [![logo.png][3]][2]
 
-[![Travis CI][5]][4] [![Flattr][6]][7]
+[![Travis CI][5]][4] [![Slack Status][17]][18] [![Flattr][6]][7] [![Patreon][19]][20]
 
 > Drag and drop so simple it hurts
 
@@ -296,3 +296,7 @@ MIT
 [14]: https://github.com/bevacqua/dragula/blob/master/contributing.markdown
 [15]: https://github.com/bevacqua/dragula/blob/master/dist
 [16]: #css
+[17]: https://dragula-slackin.herokuapp.com/badge.svg
+[18]: https://dragula-slackin.herokuapp.com/
+[19]: https://rawgit.com/bevacqua/dragula/master/resources/patreon.svg
+[20]: https://patreon.com/bevacqua
