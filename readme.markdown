@@ -297,6 +297,6 @@ MIT
 [15]: https://github.com/bevacqua/dragula/blob/master/dist
 [16]: #css
 [17]: https://dragula-slackin.herokuapp.com/badge.svg
-[18]: https://dragula-slackin.herokuapp.com/
+[18]: https://bevacqua.github.io/dragula/
 [19]: https://rawgit.com/bevacqua/dragula/master/resources/patreon.svg
 [20]: https://patreon.com/bevacqua
