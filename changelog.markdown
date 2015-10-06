@@ -1,3 +1,7 @@
+# 3.5.0 Input Fanatic
+
+- Added a feature where users are able to select text ranges with their mouse in inputs within a dragula container
+
 # 3.4.1 Input Accomodation
 
 - Fixed a bug where text in inputs inside containers assigned to `dragula` couldn't be selected

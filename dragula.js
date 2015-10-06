@@ -33,11 +33,12 @@ function dragula (initialContainers, options) {
   if (o.containers === void 0) { o.containers = initialContainers || []; }
   if (o.isContainer === void 0) { o.isContainer = never; }
   if (o.copy === void 0) { o.copy = false; }
+  if (o.copySortSource === void 0) { o.copySortSource = false; }
   if (o.revertOnSpill === void 0) { o.revertOnSpill = false; }
   if (o.removeOnSpill === void 0) { o.removeOnSpill = false; }
   if (o.direction === void 0) { o.direction = 'vertical'; }
+  if (o.ignoreInputTextSelection === void 0) { o.ignoreInputTextSelection = true; }
   if (o.mirrorContainer === void 0) { o.mirrorContainer = body; }
-  if (o.copySortSource === void 0) { o.copySortSource = false; }
 
   var drake = emitter({
     containers: o.containers,
@@ -105,7 +106,7 @@ function dragula (initialContainers, options) {
     _grabbed = context;
     eventualMovements();
     if (e.type === 'mousedown') {
-      if (item.tagName === 'INPUT' || item.tagName === 'TEXTAREA') { // see also: https://github.com/bevacqua/dragula/issues/208
+      if (isInput(item)) { // see also: https://github.com/bevacqua/dragula/issues/208
         item.focus(); // fixes https://github.com/bevacqua/dragula/issues/176
       } else {
         e.preventDefault(); // fixes https://github.com/bevacqua/dragula/issues/155
@@ -117,8 +118,14 @@ function dragula (initialContainers, options) {
     if (!_grabbed) {
       return;
     }
-
+    if (e.buttons !== 1 && e.which !== 1 && e.button !== 1) {
+      release({});
+      return; // when text is selected on an input and then dragged, mouseup doesn't fire. this is our only hope
+    }
     if (e.clientX === _moveX && e.clientY === _moveY) {
+      return;
+    }
+    if (o.ignoreInputTextSelection && isInput(e.target)) {
       return;
     }
 
@@ -523,6 +530,7 @@ function never () { return false; }
 function always () { return true; }
 function getRectWidth (rect) { return rect.width || (rect.right - rect.left); }
 function getRectHeight (rect) { return rect.height || (rect.bottom - rect.top); }
+function isInput (el) { return el.tagName === 'INPUT' || el.tagName === 'TEXTAREA'; }
 
 function nextEl (el) {
   return el.nextElementSibling || manually();
