@@ -2,15 +2,19 @@
 
 Hey there! Glad you want to chime in. Here's what you need to know.
 
-### Questions
+### Support Requests
 
-If you have a question, make sure it wasn't [already answered][1]. If it wasn't, please file an issue.
+There's now a dedicated support channel in Slack. Visit the `dragula` [demo page][2] to get an invite. Support requests won't be handled through the repository anymore.
 
-Our goal is to provide answers to the most frequently asked questions somewhere in the documentation.
+If you have a question, make sure it wasn't [already answered][1]. If it wasn't, please refer to the Slack chat. To get an invite, use the badge in the [demo page][2].
+
+> Our goal is to provide answers to the most frequently asked questions somewhere in the documentation.
 
 ### Bugs
 
-Bug reports are tricky. Please provide as much context as possible, and if you want to start working on a fix, we'll be forever grateful!
+Bug reports are tricky. Please provide as much context as possible, and if you want to start working on a fix, we'll be forever grateful! Please try and test around for a bit to make sure you're dealing with a bug and not an issue in your implementation.
+
+If possible, provide a demo where the bug is isolated and turned into its smallest possible representation. That would help a lot!
 
 Thanks for reporting bugs, we'd be lost without you.
 
@@ -53,3 +57,4 @@ npm test
 ```
 
 [1]: https://github.com/bevacqua/dragula/issues?q=label%3Asupport
+[2]: http://bevacqua.github.io/dragula/
