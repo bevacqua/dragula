@@ -94,7 +94,7 @@ function dragula (initialContainers, options) {
     _moveX = e.clientX;
     _moveY = e.clientY;
 
-    var ignore = (e.which !== 0 && e.which !== 1) || e.metaKey || e.ctrlKey;
+    var ignore = whichMouseButton(e) !== 1 || e.metaKey || e.ctrlKey;
     if (ignore) {
       return; // we only care about honest-to-god left clicks and touch events
     }
@@ -118,15 +118,20 @@ function dragula (initialContainers, options) {
     if (!_grabbed) {
       return;
     }
-    if (e.buttons !== 1 && e.which !== 1 && e.button !== 1) {
+    if (whichMouseButton(e) === 0) {
       release({});
       return; // when text is selected on an input and then dragged, mouseup doesn't fire. this is our only hope
     }
     if (e.clientX === _moveX && e.clientY === _moveY) {
       return;
     }
-    if (o.ignoreInputTextSelection && isInput(e.target)) {
-      return;
+    if (o.ignoreInputTextSelection) {
+      var clientX = getCoord('clientX', e);
+      var clientY = getCoord('clientY', e);
+      var elementBehindCursor = document.elementFromPoint(clientX, clientY);
+      if (isInput(elementBehindCursor)) {
+        return;
+      }
     }
 
     var grabbed = _grabbed; // call to end() unsets _grabbed
@@ -494,6 +499,15 @@ function touchy (el, op, type, fn) {
   }
   crossvent[op](el, touch[type], fn);
   crossvent[op](el, type, fn);
+}
+
+function whichMouseButton (e) {
+  if (e.buttons !== void 0) { return e.buttons; }
+  if (e.which !== void 0) { return e.which; }
+  var button = e.button;
+  if (button !== void 0) { // see https://github.com/jquery/jquery/blob/99e8ff1baa7ae341e94bb89c3e84570c7c3ad9ea/src/event.js#L573-L575
+    return button & 1 ? 1 : button & 2 ? 3 : (button & 4 ? 2 : 0);
+  }
 }
 
 function getOffset (el) {

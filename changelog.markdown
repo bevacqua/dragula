@@ -1,3 +1,8 @@
+# 3.5.1 Which Hunt
+
+- Fixed a bug when determining the mouse button being pressed
+- Fixed a bug when determining the element behind the mouse cursor when `ignoreInputTextSelection` was enabled
+
 # 3.5.0 Input Fanatic
 
 - Added a feature where users are able to select text ranges with their mouse in inputs within a dragula container
