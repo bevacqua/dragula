@@ -1,3 +1,7 @@
+# 3.4.1 Input Accomodation
+
+- Fixed a bug where text in inputs inside containers assigned to `dragula` couldn't be selected
+
 # 3.4.0 Event Sourcing
 
 - Events for `cancel`, `remove`, and `shadow` now all provide a `source` parameter in the third position
