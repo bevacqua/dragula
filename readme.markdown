@@ -90,7 +90,7 @@ dragula(containers, {
   },
   direction: 'vertical',             // Y axis is considered when determining where an element would be dropped
   copy: false,                       // elements are moved by default, not copied
-  copySortSource: false,             // elements are moved by default, not copied
+  copySortSource: false,             // elements in copy-source containers can be reordered
   revertOnSpill: false,              // spilling will put the element back where it was dragged from, if this is true
   removeOnSpill: false,              // spilling will `.remove` the element, if this is true
   mirrorContainer: document.body,    // set the element that gets mirror elements appended
