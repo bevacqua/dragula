@@ -276,6 +276,10 @@ Dragula uses only four CSS classes. Their purpose is quickly explained below, bu
 
 See [contributing.markdown][14] for details.
 
+# Support
+
+There's now a dedicated support channel in Slack. Visit the `dragula` [demo page][2] to get an invite. Support requests won't be handled through the repository anymore.
+
 # License
 
 MIT
