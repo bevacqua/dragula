@@ -94,7 +94,8 @@ function dragula (initialContainers, options) {
     _moveX = e.clientX;
     _moveY = e.clientY;
 
-    var ignore = whichMouseButton(e) !== 1 || e.metaKey || e.ctrlKey;
+    var whichMouse = whichMouseButton(e);
+    var ignore = (whichMouse != 0 && whichMouse !== 1) || e.metaKey || e.ctrlKey;
     if (ignore) {
       return; // we only care about honest-to-god left clicks and touch events
     }
@@ -118,11 +119,7 @@ function dragula (initialContainers, options) {
     if (!_grabbed) {
       return;
     }
-    if (whichMouseButton(e) === 0) {
-      release({});
-      return; // when text is selected on an input and then dragged, mouseup doesn't fire. this is our only hope
-    }
-    if (e.clientX === _moveX && e.clientY === _moveY) {
+    if (_moveX && _moveY && e.clientX === _moveX && e.clientY === _moveY) {
       return;
     }
     if (o.ignoreInputTextSelection) {
