@@ -66,11 +66,7 @@ function dragula (initialContainers, options) {
     var op = remove ? 'remove' : 'add';
     touchy(documentElement, op, 'mousedown', grab);
     touchy(documentElement, op, 'mouseup', release);
-    if (remove) {
-      document.removeEventListener('mousemove', onMouseMove);
-    } else {
-      document.addEventListener('mousemove', onMouseMove);
-    }
+    touchy(documentElement, op, 'mousemove', onMouseMove);
   }
 
   function eventualMovements (remove) {
