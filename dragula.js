@@ -30,6 +30,7 @@ function dragula (initialContainers, options) {
   if (o.moves === void 0) { o.moves = always; }
   if (o.accepts === void 0) { o.accepts = always; }
   if (o.invalid === void 0) { o.invalid = invalidTarget; }
+  if (o.invalidChildren === void 0) { o.invalidChildren = true; }
   if (o.containers === void 0) { o.containers = initialContainers || []; }
   if (o.isContainer === void 0) { o.isContainer = never; }
   if (o.copy === void 0) { o.copy = false; }
@@ -159,11 +160,17 @@ function dragula (initialContainers, options) {
       return; // don't drag container itself
     }
     var handle = item;
+    var validItem;
     while (getParent(item) && isContainer(getParent(item)) === false) {
       if (o.invalid(item, handle)) {
+        if(!o.invalidChildren && validItem) { // if one has been validated already
+          item = validItem;
+          break;
+        }
         return;
       }
-      item = getParent(item); // drag target should be a top element
+      validItem = item; // drag target should be a top-est element
+      item = getParent(item); // keep the recursion going
       if (!item) {
         return;
       }
@@ -173,7 +180,12 @@ function dragula (initialContainers, options) {
       return;
     }
     if (o.invalid(item, handle)) {
-      return;
+      if(!o.invalidChildren && validItem) { // if one has been validated already
+        item = validItem;
+      }
+      else {
+        return;
+      }
     }
 
     var movable = o.moves(item, source, handle, nextEl(item));
@@ -287,11 +299,11 @@ function dragula (initialContainers, options) {
     if (initial === false && reverts) {
       if (_copy) {
         if (parent) {
-          parent.removeChild(_copy);
-        }
+      parent.removeChild(_copy);
+    }
       } else {
-        _source.insertBefore(item, _initialSibling);
-      }
+      _source.insertBefore(item, _initialSibling);
+    }
     }
     if (initial || reverts) {
       drake.emit('cancel', item, _source, _source);
@@ -513,9 +525,9 @@ function touchy (el, op, type, fn) {
   } else if (global.navigator.msPointerEnabled) {
     crossvent[op](el, microsoft[type], fn);
   } else {
-    crossvent[op](el, touch[type], fn);
-    crossvent[op](el, type, fn);
-  }
+  crossvent[op](el, touch[type], fn);
+  crossvent[op](el, type, fn);
+}
 }
 
 function whichMouseButton (e) {

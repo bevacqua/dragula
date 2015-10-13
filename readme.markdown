@@ -108,6 +108,7 @@ dragula(containers, {
   removeOnSpill: false,              // spilling will `.remove` the element, if this is true
   mirrorContainer: document.body,    // set the element that gets mirror elements appended
   ignoreInputTextSelection: true     // allows users to select input text, see details below
+  invalidChildren: true              // when nesting : whether or not to invalidate all the descendants too
 });
 ```
 
@@ -220,6 +221,12 @@ invalid: function (el, handle) {
   return el.tagName === 'A';
 }
 ```
+
+#### `options.invalidChildren`
+
+_(experimental)_
+
+Set to `true` by default, if a parent should not trigger a drag, none of its children should either (see the `options.invalid` option) _useful only when nesting_.
 
 #### `options.mirrorContainer`
 
