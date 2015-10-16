@@ -31,6 +31,7 @@
     "rules": {
       "consistent-return": 0,
       "no-void": 0,
+      "no-nested-ternary": 0,
       "no-inline-comments": 0,
       "object-curly-spacing": 0,
       "space-before-function-paren": 0,
