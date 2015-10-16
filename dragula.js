@@ -544,7 +544,7 @@ function never () { return false; }
 function always () { return true; }
 function getRectWidth (rect) { return rect.width || (rect.right - rect.left); }
 function getRectHeight (rect) { return rect.height || (rect.bottom - rect.top); }
-function isInput (el) { return el.tagName === 'INPUT' || el.tagName === 'TEXTAREA'; }
+function isInput (el) { return el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT'; }
 
 function nextEl (el) {
   return el.nextElementSibling || manually();
