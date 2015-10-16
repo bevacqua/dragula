@@ -1,3 +1,7 @@
+# 3.5.2 Press Start
+
+- Fixed a bug where `<select>` inputs couldn't be focused
+
 # 3.5.1 Which Hunt
 
 - Fixed a bug when determining the mouse button being pressed
