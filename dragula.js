@@ -24,6 +24,9 @@ function dragula (initialContainers, options) {
   var _copy; // item used for copying
   var _renderTimer; // timer for setTimeout renderMirrorImage
   var _lastDropTarget = null; // last container item was over
+  var _lastElementBehindCursor = null;
+  var _dragEnterEvent = createEvent('dragenter');
+  var _dragLeaveEvent = createEvent('dragleave');
   var _grabbed; // holds mousedown context until first mousemove
 
   var o = options || {};
@@ -57,6 +60,29 @@ function dragula (initialContainers, options) {
   events();
 
   return drake;
+
+  function createEvent (type) {
+    var event;
+    if (document.createEvent) {
+      event = document.createEvent('HTMLEvents');
+      event.initEvent(type, true, true);
+    } else {
+      event = document.createEventObject();
+      event.eventType = type;
+    }
+    return event;
+  }
+
+  function fireEvent (target, e) {
+    if (!target) {
+      return;
+    }
+    if (target.dispatchEvent) {
+      target.dispatchEvent(e);
+    } else {
+      target.fireEvent('on' + e.eventType, e);
+    }
+  }
 
   function isContainer (el) {
     return drake.containers.indexOf(el) !== -1 || o.isContainer(el);
@@ -234,6 +260,8 @@ function dragula (initialContainers, options) {
     var clientX = getCoord('clientX', e);
     var clientY = getCoord('clientY', e);
     var elementBehindCursor = getElementBehindPoint(_mirror, clientX, clientY);
+    fireEvent(_lastElementBehindCursor, _dragLeaveEvent);
+    _lastElementBehindCursor = null;
     var dropTarget = findDropTarget(elementBehindCursor, clientX, clientY);
     if (dropTarget && ((_copy && o.copySortSource) || (!_copy || dropTarget !== _source))) {
       drop(item, dropTarget);
@@ -361,6 +389,11 @@ function dragula (initialContainers, options) {
 
     var item = _copy || _item;
     var elementBehindCursor = getElementBehindPoint(_mirror, clientX, clientY);
+    if(elementBehindCursor !== _lastElementBehindCursor) {
+    	fireEvent(elementBehindCursor, _dragEnterEvent);
+    	fireEvent(_lastElementBehindCursor, _dragLeaveEvent);
+    	_lastElementBehindCursor = elementBehindCursor;
+    }
     var dropTarget = findDropTarget(elementBehindCursor, clientX, clientY);
     var changed = dropTarget !== null && dropTarget !== _lastDropTarget;
     if (changed || dropTarget === null) {
