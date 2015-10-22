@@ -122,7 +122,7 @@ function dragula (initialContainers, options) {
       release({});
       return; // when text is selected on an input and then dragged, mouseup doesn't fire. this is our only hope
     }
-    if (e.clientX === _moveX && e.clientY === _moveY) {
+    if (e.clientX !== void 0 && e.clientX === _moveX && e.clientY !== void 0 && e.clientY === _moveY) {
       return;
     }
     if (o.ignoreInputTextSelection) {
@@ -502,6 +502,7 @@ function touchy (el, op, type, fn) {
 }
 
 function whichMouseButton (e) {
+  if (e.touches !== void 0) { return e.touches.length; }
   if (e.buttons !== void 0) { return e.buttons; }
   if (e.which !== void 0) { return e.which; }
   var button = e.button;
