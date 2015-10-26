@@ -194,6 +194,7 @@ function dragula (initialContainers, options) {
 
   function start (context) {
     if (isCopy(context.item, context.source)) {
+      // Add custom copy override
       _copy = context.item.cloneNode(true);
       drake.emit('cloned', _copy, context.item, 'copy');
     }

@@ -17,6 +17,7 @@ dragula([$('left-events'), $('right-events')])
   })
   .on('out', function (el, container) {
     container.className = container.className.replace('ex-over', '');
+    
   });
 dragula([$('left-rollbacks'), $('right-rollbacks')], { revertOnSpill: true });
 dragula([$('left-lovehandles'), $('right-lovehandles')], {
