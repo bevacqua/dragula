@@ -33,6 +33,7 @@ function dragula (initialContainers, options) {
   if (o.containers === void 0) { o.containers = initialContainers || []; }
   if (o.isContainer === void 0) { o.isContainer = never; }
   if (o.copy === void 0) { o.copy = false; }
+  if (o.copyFunc === void 0) { o.copyFunc = simpleCopy; }
   if (o.copySortSource === void 0) { o.copySortSource = false; }
   if (o.revertOnSpill === void 0) { o.revertOnSpill = false; }
   if (o.removeOnSpill === void 0) { o.removeOnSpill = false; }
@@ -194,7 +195,8 @@ function dragula (initialContainers, options) {
 
   function start (context) {
     if (isCopy(context.item, context.source)) {
-      _copy = context.item.cloneNode(true);
+      // Add custom copy override
+      _copy = o.copyFunc(context.item, context.source);
       drake.emit('cloned', _copy, context.item, 'copy');
     }
 
@@ -542,6 +544,7 @@ function getElementBehindPoint (point, x, y) {
 
 function never () { return false; }
 function always () { return true; }
+function simpleCopy(el) { return el.cloneNode(true); }
 function getRectWidth (rect) { return rect.width || (rect.right - rect.left); }
 function getRectHeight (rect) { return rect.height || (rect.bottom - rect.top); }
 function isInput (el) { return el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT'; }
