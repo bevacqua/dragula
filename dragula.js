@@ -544,7 +544,7 @@ function getElementBehindPoint (point, x, y) {
 
 function never () { return false; }
 function always () { return true; }
-function simpleCopy(el, source) { return el.cloneNode(true); }
+function simpleCopy(el) { return el.cloneNode(true); }
 function getRectWidth (rect) { return rect.width || (rect.right - rect.left); }
 function getRectHeight (rect) { return rect.height || (rect.bottom - rect.top); }
 function isInput (el) { return el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT'; }
