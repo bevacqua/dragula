@@ -1,3 +1,7 @@
+# 3.5.3 Dragster
+
+- Fixed a bug where mobile devices wouldn't be able to drag elements
+
 # 3.5.2 Press Start
 
 - Fixed a bug where `<select>` inputs couldn't be focused
