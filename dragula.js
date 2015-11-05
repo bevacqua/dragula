@@ -3,6 +3,9 @@
 var emitter = require('contra/emitter');
 var crossvent = require('crossvent');
 var classes = require('./classes');
+var doc = document;
+var documentElement = doc.documentElement;
+var body = doc.body;
 
 function dragula (initialContainers, options) {
   var len = arguments.length;
@@ -10,8 +13,6 @@ function dragula (initialContainers, options) {
     options = initialContainers;
     initialContainers = [];
   }
-  var body = document.body;
-  var documentElement = document.documentElement;
   var _mirror; // mirror image
   var _source; // source container
   var _item; // item being dragged
@@ -129,7 +130,7 @@ function dragula (initialContainers, options) {
     if (o.ignoreInputTextSelection) {
       var clientX = getCoord('clientX', e);
       var clientY = getCoord('clientY', e);
-      var elementBehindCursor = document.elementFromPoint(clientX, clientY);
+      var elementBehindCursor = doc.elementFromPoint(clientX, clientY);
       if (isInput(elementBehindCursor)) {
         return;
       }
@@ -158,16 +159,16 @@ function dragula (initialContainers, options) {
       return; // don't drag container itself
     }
     var handle = item;
-    while (item.parentElement && isContainer(item.parentElement) === false) {
+    while (getParent(item) && isContainer(getParent(item)) === false) {
       if (o.invalid(item, handle)) {
         return;
       }
-      item = item.parentElement; // drag target should be a top element
+      item = getParent(item); // drag target should be a top element
       if (!item) {
         return;
       }
     }
-    var source = item.parentElement;
+    var source = getParent(item);
     if (!source) {
       return;
     }
@@ -216,7 +217,7 @@ function dragula (initialContainers, options) {
       return;
     }
     var item = _copy || _item;
-    drop(item, item.parentElement);
+    drop(item, getParent(item));
   }
 
   function ungrab () {
@@ -246,7 +247,7 @@ function dragula (initialContainers, options) {
   }
 
   function drop (item, target) {
-    var parent = item.parentElement;
+    var parent = getParent(item);
     if (_copy && o.copySortSource && target === _source) {
       parent.removeChild(_item);
     }
@@ -263,7 +264,7 @@ function dragula (initialContainers, options) {
       return;
     }
     var item = _copy || _item;
-    var parent = item.parentElement;
+    var parent = getParent(item);
     if (parent) {
       parent.removeChild(item);
     }
@@ -277,7 +278,7 @@ function dragula (initialContainers, options) {
     }
     var reverts = arguments.length > 0 ? revert : o.revertOnSpill;
     var item = _copy || _item;
-    var parent = item.parentElement;
+    var parent = getParent(item);
     if (parent === _source && _copy) {
       parent.removeChild(_copy);
     }
@@ -326,7 +327,7 @@ function dragula (initialContainers, options) {
   function findDropTarget (elementBehindCursor, clientX, clientY) {
     var target = elementBehindCursor;
     while (target && !accepted()) {
-      target = target.parentElement;
+      target = getParent(target);
     }
     return target;
 
@@ -369,9 +370,10 @@ function dragula (initialContainers, options) {
       _lastDropTarget = dropTarget;
       over();
     }
+    var parent = getParent(item);
     if (dropTarget === _source && _copy && !o.copySortSource) {
-      if (item.parentElement) {
-        item.parentElement.removeChild(item);
+      if (parent) {
+        parent.removeChild(item);
       }
       return;
     }
@@ -383,8 +385,8 @@ function dragula (initialContainers, options) {
       reference = _initialSibling;
       dropTarget = _source;
     } else {
-      if (_copy && item.parentElement) {
-        item.parentElement.removeChild(item);
+      if (_copy && parent) {
+        parent.removeChild(item);
       }
       return;
     }
@@ -431,15 +433,15 @@ function dragula (initialContainers, options) {
     if (_mirror) {
       classes.rm(o.mirrorContainer, 'gu-unselectable');
       touchy(documentElement, 'remove', 'mousemove', drag);
-      _mirror.parentElement.removeChild(_mirror);
+      getParent(_mirror).removeChild(_mirror);
       _mirror = null;
     }
   }
 
   function getImmediateChild (dropTarget, target) {
     var immediate = target;
-    while (immediate !== dropTarget && immediate.parentElement !== dropTarget) {
-      immediate = immediate.parentElement;
+    while (immediate !== dropTarget && getParent(immediate) !== dropTarget) {
+      immediate = getParent(immediate);
     }
     if (immediate === documentElement) {
       return null;
@@ -524,11 +526,9 @@ function getScroll (scrollProp, offsetProp) {
   if (typeof global[offsetProp] !== 'undefined') {
     return global[offsetProp];
   }
-  var documentElement = document.documentElement;
   if (documentElement.clientHeight) {
     return documentElement[scrollProp];
   }
-  var body = document.body;
   return body[scrollProp];
 }
 
@@ -537,7 +537,7 @@ function getElementBehindPoint (point, x, y) {
   var state = p.className;
   var el;
   p.className += ' gu-hide';
-  el = document.elementFromPoint(x, y);
+  el = doc.elementFromPoint(x, y);
   p.className = state;
   return el;
 }
@@ -546,6 +546,7 @@ function never () { return false; }
 function always () { return true; }
 function getRectWidth (rect) { return rect.width || (rect.right - rect.left); }
 function getRectHeight (rect) { return rect.height || (rect.bottom - rect.top); }
+function getParent (el) { return el.parentNode === doc ? null : el.parentNode; }
 function isInput (el) { return el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT'; }
 
 function nextEl (el) {
