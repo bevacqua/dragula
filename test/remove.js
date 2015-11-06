@@ -65,8 +65,8 @@ test('when dragging a copy and remove gets called, cancel event is emitted', fun
   var drake = dragula([div], { copy: true });
   div.appendChild(item);
   document.body.appendChild(div);
-  events.raise(item, 'mousedown', { which: 0 });
-  events.raise(item, 'mousemove', { which: 0 });
+  events.raise(item, 'mousedown', { which: 1 });
+  events.raise(item, 'mousemove', { which: 1 });
   drake.on('cancel', cancel);
   drake.on('dragend', dragend);
   drake.remove();

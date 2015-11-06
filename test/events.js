@@ -48,8 +48,8 @@ test('.end() emits "cancel" when not moved', function (t) {
   drake.on('dragend', dragend);
   drake.on('out', out);
   drake.on('cancel', cancel);
-  events.raise(item, 'mousedown', { which: 0 });
-  events.raise(item, 'mousemove', { which: 0 });
+  events.raise(item, 'mousedown', { which: 1 });
+  events.raise(item, 'mousemove', { which: 1 });
   drake.end();
   t.plan(4);
   t.end();
@@ -76,8 +76,8 @@ test('.end() emits "drop" when moved', function (t) {
   drake.on('dragend', dragend);
   drake.on('out', out);
   drake.on('drop', drop);
-  events.raise(item, 'mousedown', { which: 0 });
-  events.raise(item, 'mousemove', { which: 0 });
+  events.raise(item, 'mousedown', { which: 1 });
+  events.raise(item, 'mousemove', { which: 1 });
   div2.appendChild(item);
   drake.end();
   t.plan(5);
@@ -104,8 +104,8 @@ test('.remove() emits "remove" for items', function (t) {
   drake.on('dragend', dragend);
   drake.on('out', out);
   drake.on('remove', remove);
-  events.raise(item, 'mousedown', { which: 0 });
-  events.raise(item, 'mousemove', { which: 0 });
+  events.raise(item, 'mousedown', { which: 1 });
+  events.raise(item, 'mousemove', { which: 1 });
   drake.remove();
   t.plan(4);
   t.end();
@@ -130,8 +130,8 @@ test('.remove() emits "cancel" for copies', function (t) {
   drake.on('dragend', dragend);
   drake.on('out', out);
   drake.on('cancel', cancel);
-  events.raise(item, 'mousedown', { which: 0 });
-  events.raise(item, 'mousemove', { which: 0 });
+  events.raise(item, 'mousedown', { which: 1 });
+  events.raise(item, 'mousemove', { which: 1 });
   drake.remove();
   t.plan(6);
   t.end();
@@ -158,8 +158,8 @@ test('.cancel() emits "cancel" when not moved', function (t) {
   drake.on('dragend', dragend);
   drake.on('out', out);
   drake.on('cancel', cancel);
-  events.raise(item, 'mousedown', { which: 0 });
-  events.raise(item, 'mousemove', { which: 0 });
+  events.raise(item, 'mousedown', { which: 1 });
+  events.raise(item, 'mousemove', { which: 1 });
   drake.cancel();
   t.plan(4);
   t.end();
@@ -186,8 +186,8 @@ test('.cancel() emits "drop" when not reverted', function (t) {
   drake.on('dragend', dragend);
   drake.on('out', out);
   drake.on('drop', drop);
-  events.raise(item, 'mousedown', { which: 0 });
-  events.raise(item, 'mousemove', { which: 0 });
+  events.raise(item, 'mousedown', { which: 1 });
+  events.raise(item, 'mousemove', { which: 1 });
   div2.appendChild(item);
   drake.cancel();
   t.plan(5);
@@ -216,8 +216,8 @@ test('.cancel() emits "cancel" when reverts', function (t) {
   drake.on('dragend', dragend);
   drake.on('out', out);
   drake.on('cancel', cancel);
-  events.raise(item, 'mousedown', { which: 0 });
-  events.raise(item, 'mousemove', { which: 0 });
+  events.raise(item, 'mousedown', { which: 1 });
+  events.raise(item, 'mousemove', { which: 1 });
   div2.appendChild(item);
   drake.cancel();
   t.plan(4);
@@ -241,8 +241,8 @@ test('mousedown emits "cloned" for mirrors', function (t) {
   div.appendChild(item);
   document.body.appendChild(div);
   drake.on('cloned', cloned);
-  events.raise(item, 'mousedown', { which: 0 });
-  events.raise(item, 'mousemove', { which: 0 });
+  events.raise(item, 'mousedown', { which: 1 });
+  events.raise(item, 'mousemove', { which: 1 });
   t.plan(3);
   t.end();
   function cloned (copy, original, type) {
@@ -261,8 +261,8 @@ test('mousedown emits "cloned" for copies', function (t) {
   div.appendChild(item);
   document.body.appendChild(div);
   drake.on('cloned', cloned);
-  events.raise(item, 'mousedown', { which: 0 });
-  events.raise(item, 'mousemove', { which: 0 });
+  events.raise(item, 'mousedown', { which: 1 });
+  events.raise(item, 'mousemove', { which: 1 });
   t.plan(3);
   t.end();
   function cloned (copy, original, type) {
@@ -281,8 +281,8 @@ test('mousedown emits "drag" for items', function (t) {
   div.appendChild(item);
   document.body.appendChild(div);
   drake.on('drag', drag);
-  events.raise(item, 'mousedown', { which: 0 });
-  events.raise(item, 'mousemove', { which: 0 });
+  events.raise(item, 'mousedown', { which: 1 });
+  events.raise(item, 'mousemove', { which: 1 });
   t.plan(2);
   t.end();
   function drag (original, container) {
