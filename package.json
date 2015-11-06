@@ -16,7 +16,7 @@
     "sync": "git checkout gh-pages ; git merge master ; git push ; git checkout master",
     "lint": "jshint . --reporter node_modules/jshint-stylish/index.js",
     "codestyle": "xo",
-    "test": "npm run lint && npm run codestyle && browserify test/*.js | testron",
+    "test": "npm run lint && npm run codestyle && browserify test/*.js | testron | tap-spec",
     "test-watch": "hihat test/*.js -p tap-dev-tool"
   },
   "xo": {
@@ -64,6 +64,7 @@
     "nib": "1.1.0",
     "stylus": "0.52.0",
     "tap-dev-tool": "1.3.0",
+    "tap-spec": "^4.1.0",
     "tape": "4.0.1",
     "testron": "1.2.0",
     "uglify-js": "2.4.24",
