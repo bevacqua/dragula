@@ -1,3 +1,7 @@
+# 3.5.4 Parental Discretion
+
+- Switched from `.parentElement` to `.parentNode` avoiding bugs when hovering over `<svg>` elements
+
 # 3.5.3 Dragster
 
 - Fixed a bug where mobile devices wouldn't be able to drag elements
