@@ -13,7 +13,7 @@ function dragula (initialContainers, options) {
     options = initialContainers;
     initialContainers = [];
   }
-  !body && (body = doc.body);
+  if (!body) { body = doc.body; }
 
   var _mirror; // mirror image
   var _source; // source container
