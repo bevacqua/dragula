@@ -13,6 +13,8 @@ function dragula (initialContainers, options) {
     options = initialContainers;
     initialContainers = [];
   }
+  !body && (body = doc.body);
+
   var _mirror; // mirror image
   var _source; // source container
   var _item; // item being dragged
