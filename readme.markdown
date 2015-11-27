@@ -46,6 +46,10 @@ bower install dragula --save
 
 If you're not using either package manager, you can use `dragula` by downloading the [files in the `dist` folder][15]. We **strongly suggest** using `npm`, though.
 
+##### Including the JavaScript
+
+There's a caveat to `dragula`. You shouldn't include it in the `<head>` of your web applications. It's bad practice to place scripts in the `<head>`, and as such `dragula` makes no effort to support this use case.
+
 ##### Including the CSS!
 
 There's [a few CSS styles][16] you need to incorporate in order for `dragula` to work as expected.
