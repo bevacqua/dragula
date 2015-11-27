@@ -1,3 +1,41 @@
+# 3.5.4 Parental Discretion
+
+- Switched from `.parentElement` to `.parentNode` avoiding bugs when hovering over `<svg>` elements
+
+# 3.5.3 Dragster
+
+- Fixed a bug where mobile devices wouldn't be able to drag elements
+
+# 3.5.2 Press Start
+
+- Fixed a bug where `<select>` inputs couldn't be focused
+
+# 3.5.1 Which Hunt
+
+- Fixed a bug when determining the mouse button being pressed
+- Fixed a bug when determining the element behind the mouse cursor when `ignoreInputTextSelection` was enabled
+
+# 3.5.0 Input Fanatic
+
+- Added a feature where users are able to select text ranges with their mouse in inputs within a dragula container
+
+# 3.4.1 Input Accomodation
+
+- Fixed a bug where text in inputs inside containers assigned to `dragula` couldn't be selected
+
+# 3.4.0 Event Sourcing
+
+- Events for `cancel`, `remove`, and `shadow` now all provide a `source` parameter in the third position
+
+# 3.3.2 Captain Obvious
+
+- Fixed a bug where `out` would be emitted with an `undefined` container
+
+# 3.3.1 Significant Other
+
+- Fixed a fringe bug [(#207)](https://github.com/bevacqua/dragula/pull/207) where the click handler wouldn't work
+- Fixed a bug where `drop` events would sometimes not receive the current sibling
+
 # 3.3.0 Brotherhood
 
 - The `options.moves` callback now receives a fourth parameter, the `sibling` found after `el`

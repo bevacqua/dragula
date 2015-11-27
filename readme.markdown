@@ -1,6 +1,6 @@
 [![logo.png][3]][2]
 
-[![Travis CI][5]][4] [![Flattr][6]][7]
+[![Travis CI][5]][4] [![Slack Status][17]][18] [![Flattr][6]][7] [![Patreon][19]][20]
 
 > Drag and drop so simple it hurts
 
@@ -85,14 +85,16 @@ dragula(containers, {
   accepts: function (el, target, source, sibling) {
     return true; // elements can be dropped in any of the `containers` by default
   },
-  invalid: function (el, target) { // don't prevent any drags from initiating by default
-    return false;
+  invalid: function (el, target) {
+    return false; // don't prevent any drags from initiating by default
   },
-  direction: 'vertical',         // Y axis is considered when determining where an element would be dropped
-  copy: false,                   // elements are moved by default, not copied
-  revertOnSpill: false,          // spilling will put the element back where it was dragged from, if this is true
-  removeOnSpill: false,          // spilling will `.remove` the element, if this is true
-  mirrorContainer: document.body // set the element that gets mirror elements appended
+  direction: 'vertical',             // Y axis is considered when determining where an element would be dropped
+  copy: false,                       // elements are moved by default, not copied
+  copySortSource: false,             // elements in copy-source containers can be reordered
+  revertOnSpill: false,              // spilling will put the element back where it was dragged from, if this is true
+  removeOnSpill: false,              // spilling will `.remove` the element, if this is true
+  mirrorContainer: document.body,    // set the element that gets mirror elements appended
+  ignoreInputTextSelection: true     // allows users to select input text, see details below
 });
 ```
 
@@ -210,6 +212,12 @@ invalid: function (el) {
 
 The DOM element where the mirror element displayed while dragging will be appended to. Defaults to `document.body`.
 
+#### `options.ignoreInputTextSelection`
+
+When this option is enabled, if the user clicks on an input element the drag won't start until their mouse pointer exits the input. This translates into the user being able to select text in inputs contained inside draggable elements, and still drag the element by moving their mouse outside of the input -- so you get the best of both worlds.
+
+This option is enabled by default. Turn it off by setting it to `false`. If its disabled your users won't be able to select text in inputs within `dragula` containers with their mouse.
+
 ## API
 
 The `dragula` method returns a tiny object with a concise API. We'll refer to the API returned by `dragula` as `drake`.
@@ -252,12 +260,12 @@ Event Name | Listener Arguments               | Event Description
 `drag`     | `el, source`                     | `el` was lifted from `source`
 `dragend`  | `el`                             | Dragging event for `el` ended with either `cancel`, `remove`, or `drop`
 `drop`     | `el, target, source, sibling`    | `el` was dropped into `target` before a `sibling` element, and originally came from `source`
-`cancel`   | `el, source`                     | `el` was being dragged but it got nowhere and went back into `source`, its last stable parent
-`remove`   | `el, container`                  | `el` was being dragged but it got nowhere and it was removed from the DOM. Its last stable parent was `container`.
-`shadow`   | `el, container`                  | `el`, _the visual aid shadow_, was moved into `container`. May trigger many times as the position of `el` changes, even within the same `container`
-`cloned`   | `clone, original, type`          | DOM element `original` was cloned as `clone`, of `type` _(`'mirror'` or `'copy'`)_. Fired for mirror images and when `copy: true`
+`cancel`   | `el, container, source`          | `el` was being dragged but it got nowhere and went back into `container`, its last stable parent; `el` originally came from `source`
+`remove`   | `el, container, source`          | `el` was being dragged but it got nowhere and it was removed from the DOM. Its last stable parent was `container`, and originally came from `source`
+`shadow`   | `el, container, source`          | `el`, _the visual aid shadow_, was moved into `container`. May trigger many times as the position of `el` changes, even within the same `container`; `el` originally came from `source`
 `over`     | `el, container, source`          | `el` is over `container`, and originally came from `source`
 `out`      | `el, container, source`          | `el` was dragged out of `container` or dropped, and originally came from `source`
+`cloned`   | `clone, original, type`          | DOM element `original` was cloned as `clone`, of `type` _(`'mirror'` or `'copy'`)_. Fired for mirror images and when `copy: true`
 
 #### `drake.destroy()`
 
@@ -275,6 +283,10 @@ Dragula uses only four CSS classes. Their purpose is quickly explained below, bu
 # Contributing
 
 See [contributing.markdown][14] for details.
+
+# Support
+
+There's now a dedicated support channel in Slack. Visit the `dragula` [demo page][2] to get an invite. Support requests won't be handled through the repository anymore.
 
 # License
 
@@ -296,3 +308,7 @@ MIT
 [14]: https://github.com/bevacqua/dragula/blob/master/contributing.markdown
 [15]: https://github.com/bevacqua/dragula/blob/master/dist
 [16]: #css
+[17]: https://dragula-slackin.herokuapp.com/badge.svg
+[18]: https://bevacqua.github.io/dragula/
+[19]: https://rawgit.com/bevacqua/dragula/master/resources/patreon.svg
+[20]: https://patreon.com/bevacqua
