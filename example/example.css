@@ -44,6 +44,14 @@ h3 div {
 .tagline {
   margin-top: 0;
 }
+.tagline-text {
+  vertical-align: middle;
+}
+.__slackin {
+  float: right;
+  margin-left: 10px;
+  vertical-align: middle;
+}
 
 .promo {
   margin-bottom: 0;

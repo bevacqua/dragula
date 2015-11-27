@@ -65,31 +65,8 @@ test('when dragging a copy and remove gets called, cancel event is emitted', fun
   var drake = dragula([div], { copy: true });
   div.appendChild(item);
   document.body.appendChild(div);
-  events.raise(item, 'mousedown', { which: 0 });
-  events.raise(item, 'mousemove', { which: 0 });
-  drake.on('cancel', cancel);
-  drake.on('dragend', dragend);
-  drake.remove();
-  t.plan(4);
-  t.end();
-  function dragend () {
-    t.pass('dragend got called');
-  }
-  function cancel (target, container) {
-    t.equal(target.className, 'gu-transit', 'cancel was invoked with item');
-    t.notEqual(target, item, 'item is a copy and not the original');
-    t.equal(container, null, 'cancel was invoked with container');
-  }
-});
-
-test('when dragging a copy and remove gets called, cancel event is emitted', function (t) {
-  var div = document.createElement('div');
-  var item = document.createElement('div');
-  var drake = dragula([div], { copy: true });
-  div.appendChild(item);
-  document.body.appendChild(div);
-  events.raise(item, 'mousedown', { which: 0 });
-  events.raise(item, 'mousemove', { which: 0 });
+  events.raise(item, 'mousedown', { which: 1 });
+  events.raise(item, 'mousemove', { which: 1 });
   drake.on('cancel', cancel);
   drake.on('dragend', dragend);
   drake.remove();
