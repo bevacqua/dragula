@@ -50,6 +50,8 @@ If you're not using either package manager, you can use `dragula` by downloading
 
 There's a caveat to `dragula`. You shouldn't include it in the `<head>` of your web applications. It's bad practice to place scripts in the `<head>`, and as such `dragula` makes no effort to support this use case.
 
+Place `dragula` in the `<body>`, instead.
+
 ##### Including the CSS!
 
 There's [a few CSS styles][16] you need to incorporate in order for `dragula` to work as expected.
