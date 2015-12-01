@@ -391,9 +391,10 @@ function dragula (initialContainers, options) {
       return;
     }
     if (
-      reference === null ||
+      (reference === null && changed) ||
       reference !== item &&
-      reference !== nextEl(item)
+      reference !== nextEl(item) &&
+      reference !== _currentSibling
     ) {
       _currentSibling = reference;
       dropTarget.insertBefore(item, reference);
