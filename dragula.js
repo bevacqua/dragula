@@ -256,6 +256,7 @@ function dragula (initialContainers, options) {
   function start (context) {
     if (isCopy(context.item, context.source)) {
       _copy = o.copyFunc(context.item, context.source);
+      getParent(context.item).insertBefore(_copy, context.item);
       drake.emit('cloned', _copy, context.item, 'copy');
     }
 
