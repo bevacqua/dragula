@@ -41,6 +41,7 @@ function dragula (initialContainers, options) {
   if (o.ignoreInputTextSelection === void 0) { o.ignoreInputTextSelection = true; }
   if (o.mirrorContainer === void 0) { o.mirrorContainer = body; }
   if (o.copyFunc === void 0) { o.copyFunc = createCopy; }
+  if (o.nestedContainers === void 0) { o.nestedContainers = false; }
 
   var drake = emitter({
     containers: o.containers,
@@ -152,12 +153,33 @@ function dragula (initialContainers, options) {
     drag(e);
   }
 
+  function getNestedParent (item) {
+    var handle = item;
+    while (getParent(item)) {
+      item = getParent(item);
+      if (isContainer(item) === false) {
+        if (o.invalid(item, handle)) {
+          item = getParent(item);
+        } else {
+          return item;
+        }
+      }
+    }
+  }
+
   function canStart (item) {
     if (drake.dragging && _mirror) {
       return;
     }
     if (isContainer(item)) {
-      return; // don't drag container itself
+      if (o.nestedContainers) {
+        item = getNestedParent(item);
+        if (!item) {
+          return;
+        }
+      } else {
+        return; // don't drag container itself
+      }
     }
     var handle = item;
     while (getParent(item) && isContainer(getParent(item)) === false) {
