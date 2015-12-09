@@ -301,10 +301,11 @@ function dragula (initialContainers, options) {
     }
     if (isInitialPlacement(target)) {
       drake.emit('cancel', item, _source, _source);
+      cleanup('cancel');
     } else {
       drake.emit('drop', item, target, _source, _currentSibling);
+      cleanup('drop');
     }
-    cleanup();
   }
 
   function remove () {
@@ -313,11 +314,12 @@ function dragula (initialContainers, options) {
     }
     var item = _copy || _item;
     var parent = getParent(item);
+    var action = _copy ? 'cancel' : 'remove';
     if (parent) {
       parent.removeChild(item);
     }
-    drake.emit(_copy ? 'cancel' : 'remove', item, parent, _source);
-    cleanup();
+    drake.emit(action, item, parent, _source);
+    cleanup(action);
   }
 
   function cancel (revert) {
@@ -336,13 +338,14 @@ function dragula (initialContainers, options) {
     }
     if (initial || reverts) {
       drake.emit('cancel', item, _source, _source);
+      cleanup('cancel');
     } else {
       drake.emit('drop', item, parent, _source, _currentSibling);
+      cleanup('drop');
     }
-    cleanup();
   }
 
-  function cleanup () {
+  function cleanup (action) {
     var item = _copy || _item;
     ungrab();
     removeMirrorImage();
@@ -356,7 +359,7 @@ function dragula (initialContainers, options) {
     if (_lastDropTarget) {
       drake.emit('out', item, _lastDropTarget, _source);
     }
-    drake.emit('dragend', item);
+    drake.emit('dragend', _item, action);
     _source = _item = _copy = _initialSibling = _currentSibling = _renderTimer = _lastDropTarget = null;
   }
 
