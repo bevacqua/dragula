@@ -45,6 +45,9 @@ function dragula (initialContainers, options) {
   if (o.centerMirror === void 0) { o.centerMirror = false; }
   if (o.nestedContainers === void 0) { o.nestedContainers = false; }
   if (o.transitStyle === void 0) { o.transitStyle = true; }
+  if (o.scrollContainer === void 0) { o.scrollContainer = null; }
+  if (o.scrollSpeed === void 0) { o.scrollSpeed = 20; }
+  if (o.scrollTriggerSize === void 0) { o.scrollTriggerSize = 70; }
 
   var drake = emitter({
     containers: o.containers,
@@ -395,6 +398,10 @@ function dragula (initialContainers, options) {
       y -= _offsetY;
     }
 
+    if (o.scrollContainer) {
+      doScrolling(clientX, clientY);
+    }
+
     _mirror.style.left = x + 'px';
     _mirror.style.top = y + 'px';
 
@@ -532,6 +539,26 @@ function dragula (initialContainers, options) {
     copy.style.height = getRectHeight(rect) + 'px';
     return copy;
   }
+
+  function doScrolling (x, y) {
+    var sc = document.querySelector(o.scrollContainer);
+
+    if (sc === body || sc.tagName === 'HTML') { return; }
+
+    var op = sc.offsetParent;
+    var opTop = op.getBoundingClientRect().top; // offset parent offset top
+
+    var tt = { start: 0, end: opTop + parseStyle(op, 'paddingTop') + o.scrollTriggerSize };
+    var bt = { start: window.innerHeight - o.scrollTriggerSize, end: window.innerHeight };
+
+    if (canScroll(tt)) {
+      op.scrollTop -= o.scrollSpeed;
+    } else if (canScroll(bt)) {
+      op.scrollTop += o.scrollSpeed;
+    }
+
+    function canScroll (trigger) { return y >= trigger.start && y <= trigger.end; }
+  }
 }
 
 function touchy (el, op, type, fn) {
@@ -596,6 +623,10 @@ function getRectWidth (rect) { return rect.width || (rect.right - rect.left); }
 function getRectHeight (rect) { return rect.height || (rect.bottom - rect.top); }
 function getParent (el) { return el.parentNode === doc ? null : el.parentNode; }
 function isInput (el) { return el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT'; }
+
+function parseStyle (el, prop, pseudo) {
+  return parseInt(getComputedStyle(el, pseudo)[prop], 10);
+}
 
 function nextEl (el) {
   return el.nextElementSibling || manually();
