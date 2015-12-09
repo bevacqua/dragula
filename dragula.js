@@ -44,6 +44,7 @@ function dragula (initialContainers, options) {
   if (o.mirrorFunc === void 0) { o.mirrorFunc = createMirror; }
   if (o.centerMirror === void 0) { o.centerMirror = false; }
   if (o.nestedContainers === void 0) { o.nestedContainers = false; }
+  if (o.transitStyle === void 0) { o.transitStyle = true; }
 
   var drake = emitter({
     containers: o.containers,
@@ -150,7 +151,9 @@ function dragula (initialContainers, options) {
     _offsetX = getCoord('pageX', e) - offset.left;
     _offsetY = getCoord('pageY', e) - offset.top;
 
-    classes.add(_copy || _item, 'gu-transit');
+    if (o.transitStyle) {
+      classes.add(_copy || _item, 'gu-transit');
+    }
     renderMirrorImage();
     drag(e);
   }
@@ -323,7 +326,7 @@ function dragula (initialContainers, options) {
     var item = _copy || _item;
     ungrab();
     removeMirrorImage();
-    if (item) {
+    if (o.transitStyle && item) {
       classes.rm(item, 'gu-transit');
     }
     if (_renderTimer) {
@@ -452,7 +455,9 @@ function dragula (initialContainers, options) {
       return;
     }
     _mirror = o.mirrorFunc(_item);
-    classes.rm(_mirror, 'gu-transit');
+    if (o.transitStyle) {
+      classes.rm(_mirror, 'gu-transit');
+    }
     classes.add(_mirror, 'gu-mirror');
     o.mirrorContainer.appendChild(_mirror);
     touchy(documentElement, 'add', 'mousemove', drag);
