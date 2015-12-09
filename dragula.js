@@ -26,6 +26,13 @@ function dragula (initialContainers, options) {
   var _renderTimer; // timer for setTimeout renderMirrorImage
   var _lastDropTarget = null; // last container item was over
   var _grabbed; // holds mousedown context until first mousemove
+  var _currentAxis;
+  var _position = { // x, y coords
+    lastX: null,
+    lastY: null,
+    currentX: null,
+    currentY: null
+  };
 
   var o = options || {};
   if (o.moves === void 0) { o.moves = always; }
@@ -422,6 +429,9 @@ function dragula (initialContainers, options) {
       doScrolling(clientX, clientY);
     }
 
+    ensurePreviousCoords(clientX, clientY);
+    updateAxis(clientX, clientY);
+
     _mirror.style.left = x + 'px';
     _mirror.style.top = y + 'px';
 
@@ -454,6 +464,9 @@ function dragula (initialContainers, options) {
       }
       return;
     }
+
+    updatePreviousCoords(clientX, clientY);
+
     if (
       reference === null ||
       reference !== item &&
@@ -513,7 +526,7 @@ function dragula (initialContainers, options) {
   }
 
   function getReference (dropTarget, target, x, y) {
-    var horizontal = o.direction === 'horizontal';
+    var horizontal = getDirection(dropTarget) === 'horizontal';
     var reference = target !== dropTarget ? inside() : outside();
     return reference;
 
@@ -548,6 +561,10 @@ function dragula (initialContainers, options) {
     return typeof o.copy === 'boolean' ? o.copy : o.copy(item, container);
   }
 
+  function getDirection (target) {
+    return typeof o.direction === 'string' ? o.direction : o.direction(target, _currentAxis);
+  }
+
   function createCopy (el) {
     return el.cloneNode(true);
   }
@@ -558,6 +575,35 @@ function dragula (initialContainers, options) {
     copy.style.width = getRectWidth(rect) + 'px';
     copy.style.height = getRectHeight(rect) + 'px';
     return copy;
+  }
+
+  function ensurePreviousCoords (x, y) {
+    if (_position.lastX === null) { _position.lastX = x; }
+    if (_position.lastY === null) { _position.lastY = y; }
+    if (_position.currentX === null) { _position.currentX = x; }
+    if (_position.currentY === null) { _position.currentY = y; }
+  }
+
+  function minimumMoved (x, y) {
+    var hd = Math.abs(x - _position.currentX);
+    var vd = Math.abs(y - _position.currentY);
+    return (hd >= 6) || (vd >= 6);
+  }
+
+  function updatePreviousCoords (x, y) {
+    if (minimumMoved(x, y)) {
+      _position.lastX = _position.currentX;
+      _position.lastY = _position.currentY;
+      _position.currentX = x;
+      _position.currentY = y;
+    }
+  }
+
+  function updateAxis (x, y) {
+    var hd = Math.abs(x - _position.currentX);
+    var vd = Math.abs(y - _position.currentY);
+    if (vd > hd) { _currentAxis = 'vertical'; }
+    if (hd > vd) { _currentAxis = 'horizontal'; }
   }
 
   function doScrolling (x, y) {
