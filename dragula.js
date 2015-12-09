@@ -56,6 +56,8 @@ function dragula (initialContainers, options) {
     cancel: cancel,
     remove: remove,
     destroy: destroy,
+    setOption: setOption,
+    setOptions: setOptions,
     dragging: false
   });
 
@@ -66,6 +68,21 @@ function dragula (initialContainers, options) {
   events();
 
   return drake;
+
+  function setOption (prop, val) {
+    if (val) {
+      o[prop] = val;
+    }
+    return o[prop];
+  }
+
+  function setOptions (options) {
+    for (var key in options) {
+      if (options[key]) {
+        setOption(key, options[key]);
+      }
+    }
+  }
 
   function isContainer (el) {
     return drake.containers.indexOf(el) !== -1 || o.isContainer(el);
