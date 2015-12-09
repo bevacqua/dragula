@@ -54,6 +54,7 @@ function dragula (initialContainers, options) {
   if (o.transitStyle === void 0) { o.transitStyle = true; }
   if (o.pointerReference === void 0) { o.pointerReference = false; }
   if (o.stickOnSpill === void 0) { o.stickOnSpill = false; }
+  if (o.copySortRemove === void 0) { o.copySortRemove = o.copySortSource; }
   if (o.scrollContainer === void 0) { o.scrollContainer = null; }
   if (o.scrollSpeed === void 0) { o.scrollSpeed = 20; }
   if (o.scrollTriggerSize === void 0) { o.scrollTriggerSize = 70; }
@@ -306,9 +307,14 @@ function dragula (initialContainers, options) {
   function drop (item, target) {
     var parent = getParent(item);
     if (_copy && o.copySortSource && target === _source) {
-      parent.removeChild(_item);
+      if (o.copySortRemove) {
+        parent.removeChild(_item);
+      }
     }
     if (isInitialPlacement(target)) {
+      if (!o.copySortRemove) {
+        parent.removeChild(_copy);
+      }
       drake.emit('cancel', item, _source, _source);
       cleanup('cancel');
     } else {
