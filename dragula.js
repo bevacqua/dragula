@@ -52,6 +52,7 @@ function dragula (initialContainers, options) {
   if (o.centerMirror === void 0) { o.centerMirror = false; }
   if (o.nestedContainers === void 0) { o.nestedContainers = false; }
   if (o.transitStyle === void 0) { o.transitStyle = true; }
+  if (o.pointerReference === void 0) { o.pointerReference = false; }
   if (o.scrollContainer === void 0) { o.scrollContainer = null; }
   if (o.scrollSpeed === void 0) { o.scrollSpeed = 20; }
   if (o.scrollTriggerSize === void 0) { o.scrollTriggerSize = 70; }
@@ -547,9 +548,29 @@ function dragula (initialContainers, options) {
     function inside () { // faster, but only available if dropped inside a child element
       var rect = target.getBoundingClientRect();
       if (horizontal) {
-        return resolve(x > rect.left + getRectWidth(rect) / 2);
+        if (o.pointerReference) {
+          var hd = getHorizontalDirection();
+          if (hd === 'left') {
+            return resolve(x > rect.left + getRectWidth(rect));
+          }
+          if (hd === 'right') {
+            return resolve(x < rect.left + getRectWidth(rect));
+          }
+        } else {
+          return resolve(x > rect.left + getRectWidth(rect) / 2);
+        }
       }
-      return resolve(y > rect.top + getRectHeight(rect) / 2);
+      if (o.pointerReference) {
+        var vd = getVerticalDirection();
+        if (vd === 'up') {
+          return resolve(y > rect.top + getRectHeight(rect));
+        }
+        if (vd === 'down') {
+          return resolve(y < rect.top + getRectHeight(rect));
+        }
+      } else {
+        return resolve(y > rect.top + getRectHeight(rect) / 2);
+      }
     }
 
     function resolve (after) {
@@ -604,6 +625,16 @@ function dragula (initialContainers, options) {
     var vd = Math.abs(y - _position.currentY);
     if (vd > hd) { _currentAxis = 'vertical'; }
     if (hd > vd) { _currentAxis = 'horizontal'; }
+  }
+
+  function getVerticalDirection () {
+    var delta = _position.currentY - _position.lastY;
+    return delta !== 0 ? (delta > 0 ? 'down' : 'up') : null;
+  }
+
+  function getHorizontalDirection () {
+    var delta = _position.currentX - _position.lastX;
+    return delta !== 0 ? (delta > 0 ? 'right' : 'left') : null;
   }
 
   function doScrolling (x, y) {
