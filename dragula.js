@@ -53,6 +53,7 @@ function dragula (initialContainers, options) {
   if (o.nestedContainers === void 0) { o.nestedContainers = false; }
   if (o.transitStyle === void 0) { o.transitStyle = true; }
   if (o.pointerReference === void 0) { o.pointerReference = false; }
+  if (o.stickOnSpill === void 0) { o.stickOnSpill = false; }
   if (o.scrollContainer === void 0) { o.scrollContainer = null; }
   if (o.scrollSpeed === void 0) { o.scrollSpeed = 20; }
   if (o.scrollTriggerSize === void 0) { o.scrollTriggerSize = 70; }
@@ -337,14 +338,14 @@ function dragula (initialContainers, options) {
     var reverts = arguments.length > 0 ? revert : o.revertOnSpill;
     var item = _copy || _item;
     var parent = getParent(item);
-    if (parent === _source && _copy) {
-      parent.removeChild(_copy);
-    }
     var initial = isInitialPlacement(parent);
     if (initial === false && !_copy && reverts) {
       _source.insertBefore(item, _initialSibling);
     }
     if (initial || reverts) {
+      if (parent === _source && _copy) {
+        parent.removeChild(_copy);
+      }
       drake.emit('cancel', item, _source, _source);
       cleanup('cancel');
     } else {
@@ -459,7 +460,7 @@ function dragula (initialContainers, options) {
     } else if (o.revertOnSpill === true && !_copy) {
       reference = _initialSibling;
       dropTarget = _source;
-    } else {
+    } else if (o.stickOnSpill === false) {
       if (_copy && parent) {
         parent.removeChild(item);
       }
@@ -474,6 +475,7 @@ function dragula (initialContainers, options) {
       reference !== nextEl(item) &&
       reference !== _currentSibling
     ) {
+      if (!dropTarget) { return; }
       _currentSibling = reference;
       dropTarget.insertBefore(item, reference);
       drake.emit('shadow', item, dropTarget, _source);
