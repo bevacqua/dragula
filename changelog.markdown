@@ -1,3 +1,7 @@
+# 3.6.0 Prognosis Negative
+
+- Introduced support for `contentEditable` DOM attribute
+
 # 3.5.4 Parental Discretion
 
 - Switched from `.parentElement` to `.parentNode` avoiding bugs when hovering over `<svg>` elements
