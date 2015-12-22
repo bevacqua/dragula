@@ -492,16 +492,24 @@ function touchy (el, op, type, fn) {
     mousedown: 'touchstart',
     mousemove: 'touchmove'
   };
+  var pointers = {
+    mouseup: 'pointerup',
+    mousedown: 'pointerdown',
+    mousemove: 'pointermove'
+  };
   var microsoft = {
     mouseup: 'MSPointerUp',
     mousedown: 'MSPointerDown',
     mousemove: 'MSPointerMove'
   };
-  if (global.navigator.msPointerEnabled) {
+  if (global.navigator.pointerEnabled) {
+    crossvent[op](el, pointers[type], fn);
+  } else if (global.navigator.msPointerEnabled) {
     crossvent[op](el, microsoft[type], fn);
+  } else{
+    crossvent[op](el, touch[type], fn);
+    crossvent[op](el, type, fn);
   }
-  crossvent[op](el, touch[type], fn);
-  crossvent[op](el, type, fn);
 }
 
 function whichMouseButton (e) {
