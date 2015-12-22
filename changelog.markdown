@@ -1,3 +1,7 @@
+# 3.6.1 Point Blank
+
+- Fixed issues in touch-enabled browsers such as Windows Phone 10
+
 # 3.6.0 Prognosis Negative
 
 - Introduced support for `contentEditable` DOM attribute
