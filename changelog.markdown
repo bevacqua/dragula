@@ -1,3 +1,7 @@
+# 3.6.2 Rugrats
+
+- Fixed a _touch events_ regression introduced in `3.6.1`
+
 # 3.6.1 Point Blank
 
 - Fixed issues in touch-enabled browsers such as Windows Phone 10
