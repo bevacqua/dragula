@@ -390,6 +390,9 @@ function dragula (initialContainers, options) {
       }
       return;
     }
+    if (isParent(dropTarget, item)) {
+      return;
+    }
     if (
       reference === null ||
       reference !== item &&
@@ -397,7 +400,12 @@ function dragula (initialContainers, options) {
       reference !== _currentSibling
     ) {
       _currentSibling = reference;
-      dropTarget.insertBefore(item, reference);
+      if (!reference) {
+        dropTarget.appendChild(item);
+      } else {
+        dropTarget.insertBefore(item, reference);  
+      }
+      
       drake.emit('shadow', item, dropTarget, _source);
     }
     function moved (type) { drake.emit(type, item, _lastDropTarget, _source); }
@@ -600,6 +608,13 @@ function getCoord (coord, e) {
     coord = missMap[coord];
   }
   return host[coord];
+}
+
+function isParent (n, p) {
+  while (n && (n = n.parentNode)) {
+    if (n === p) { return true; }
+  }
+  return false;
 }
 
 module.exports = dragula;
