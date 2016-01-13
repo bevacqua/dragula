@@ -1,3 +1,7 @@
+# 3.6.3 Body Double
+
+- Fixed an issue that prevented `dragula` from execution early in the document load life-cycle
+
 # 3.6.2 Rugrats
 
 - Fixed a _touch events_ regression introduced in `3.6.1`
