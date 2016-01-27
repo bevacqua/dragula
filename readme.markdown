@@ -292,7 +292,7 @@ See [contributing.markdown][14] for details.
 
 # Support
 
-There's now a dedicated support channel in Slack. Visit the `dragula` [demo page][2] to get an invite. Support requests won't be handled through the repository anymore.
+There's now a dedicated support channel in Slack. Visit [this page][21] to get an invite. Support requests won't be handled through the repository anymore.
 
 # License
 
@@ -318,3 +318,4 @@ MIT
 [18]: https://bevacqua.github.io/dragula/
 [19]: https://rawgit.com/bevacqua/dragula/master/resources/patreon.svg
 [20]: https://patreon.com/bevacqua
+[21]: https://dragula-slackin.herokuapp.com/
