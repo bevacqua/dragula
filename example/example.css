@@ -42,6 +42,7 @@ h3 div {
 }
 
 .tagline {
+  position: relative;
   margin-top: 0;
 }
 .tagline-text {
@@ -191,4 +192,13 @@ button:hover {
   margin: 20px 0;
   display: block;
   text-align: center;
+}
+.slack-join {
+  position: absolute;
+  font-weight: normal;
+  font-size: 14px;
+  right: 10px;
+  top: 50%;
+  margin-top: -8px;
+  line-height: 16px;
 }
