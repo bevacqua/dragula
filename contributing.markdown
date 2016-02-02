@@ -36,7 +36,7 @@ To compile a standalone browserify module, use the following command. A minified
 npm run build
 ```
 
-You can also run the build continuously, _to faciliate development_, with this command.
+You can also run the build continuously, _to facilitate development_, with this command.
 
 ```shell
 npm start
