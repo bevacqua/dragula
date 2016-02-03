@@ -106,3 +106,19 @@ test('when dragging a copy and cancel gets called, revert is executed', function
     t.equal(container, div, 'cancel was invoked with container');
   }
 });
+
+test('when dragging and cancel gets called, item is returned to original position, including comment nodes', function (t) {
+  var div = document.createElement('div');
+  var item = document.createElement('div');
+  var siblingComment = document.createComment('</view>');
+  var drake = dragula([div]);
+  div.appendChild(item);
+  div.appendChild(siblingComment);
+  document.body.appendChild(div);
+  drake.start(item);
+  drake.cancel();
+  t.equal(div.children.length, 2, 'nothing happens');
+  t.equal(item.nextSibling, siblingComment);
+  t.equal(drake.dragging, false, 'drake has stopped dragging');
+  t.end();
+});
