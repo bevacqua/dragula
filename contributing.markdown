@@ -4,7 +4,7 @@ Hey there! Glad you want to chime in. Here's what you need to know.
 
 ### Support Requests
 
-There's now a dedicated support channel in Slack. Visit the `dragula` [demo page][2] to get an invite. Support requests won't be handled through the repository anymore.
+There's now a dedicated support channel in Slack. Visit [this page][3] to get an invite. Support requests won't be handled through the repository anymore.
 
 If you have a question, make sure it wasn't [already answered][1]. If it wasn't, please refer to the Slack chat. To get an invite, use the badge in the [demo page][2].
 
@@ -36,7 +36,7 @@ To compile a standalone browserify module, use the following command. A minified
 npm run build
 ```
 
-You can also run the build continuously, _to faciliate development_, with this command.
+You can also run the build continuously, _to facilitate development_, with this command.
 
 ```shell
 npm start
@@ -58,3 +58,4 @@ npm test
 
 [1]: https://github.com/bevacqua/dragula/issues?q=label%3Asupport
 [2]: http://bevacqua.github.io/dragula/
+[3]: https://dragula-slackin.herokuapp.com/
