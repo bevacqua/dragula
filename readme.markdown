@@ -44,6 +44,12 @@ Or bower, too.
 bower install dragula --save
 ```
 
+Or a CDN.
+
+```shell
+<script src='https://cdnjs.cloudflare.com/ajax/libs/dragula/$VERSION/dragula.min.js'></script>
+```
+
 If you're not using either package manager, you can use `dragula` by downloading the [files in the `dist` folder][15]. We **strongly suggest** using `npm`, though.
 
 ##### Including the JavaScript
