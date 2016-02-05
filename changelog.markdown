@@ -1,3 +1,7 @@
+# 3.6.6 Living on the Edge
+
+- Fixed a bug with clicks on IE7, IE8, IE9
+
 # 3.6.5 Shadowbane
 
 - Fixed a bug where `shadow` even would trigger multiple times when moving over the last position
