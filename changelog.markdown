@@ -1,6 +1,6 @@
 # 3.6.4 Water Tap
 
-- Fixed an instrumentation issue that prevented the build from passing
+- Fixed an instrumentation issue that prevented the tests from running
 
 # 3.6.3 Body Double
 
