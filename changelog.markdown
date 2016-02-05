@@ -1,3 +1,7 @@
+# 3.6.4 Water Tap
+
+- Fixed an instrumentation issue that prevented the build from passing
+
 # 3.6.3 Body Double
 
 - Fixed an issue that prevented `dragula` from execution early in the document load life-cycle
