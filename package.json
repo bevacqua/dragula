@@ -43,6 +43,7 @@
     "nib": "1.1.0",
     "stylus": "0.52.0",
     "tap-dev-tool": "1.3.0",
+    "tap-spec": "4.1.1",
     "tape": "4.0.1",
     "testron": "1.2.0",
     "uglify-js": "2.4.24",
