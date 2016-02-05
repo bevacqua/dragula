@@ -1,3 +1,7 @@
+# 3.6.5 Shadowbane
+
+- Fixed a bug where `shadow` even would trigger multiple times when moving over the last position
+
 # 3.6.4 Water Tap
 
 - Fixed an instrumentation issue that prevented the tests from running
