@@ -97,7 +97,7 @@ dragula(containers, {
   accepts: function (el, target, source, sibling) {
     return true; // elements can be dropped in any of the `containers` by default
   },
-  invalid: function (el, target) {
+  invalid: function (el, handle) {
     return false; // don't prevent any drags from initiating by default
   },
   direction: 'vertical',             // Y axis is considered when determining where an element would be dropped
@@ -202,10 +202,10 @@ When an element is dropped onto a container, it'll be placed near the point wher
 
 #### `options.invalid`
 
-You can provide an `invalid` method with a `(el, target)` signature. This method should return `true` for elements that shouldn't trigger a drag. Here's the default implementation, which doesn't prevent any drags.
+You can provide an `invalid` method with a `(el, handle)` signature. This method should return `true` for elements that shouldn't trigger a drag. The `handle` argument is the element that was clicked, while `el` is the item that would be dragged. Here's the default implementation, which doesn't prevent any drags.
 
 ```js
-function invalidTarget (el, target) {
+function invalidTarget (el, handle) {
   return false;
 }
 ```
@@ -215,7 +215,7 @@ Note that `invalid` will be invoked on the DOM element that was clicked and ever
 As an example, you could set `invalid` to return `false` whenever the clicked element _(or any of its parents)_ is an anchor tag.
 
 ```js
-invalid: function (el) {
+invalid: function (el, handle) {
   return el.tagName === 'A';
 }
 ```
