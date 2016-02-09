@@ -285,7 +285,9 @@ function dragula (initialContainers, options) {
     if (initial === false && !_copy && reverts) {
       _source.insertBefore(item, _initialSibling);
     }
-    if (initial || reverts) {
+    if (!_copy) {
+      drake.emit('spill', item, parent, _source);
+    } else if (initial || reverts) {
       drake.emit('cancel', item, _source, _source);
     } else {
       drake.emit('drop', item, parent, _source, _currentSibling);

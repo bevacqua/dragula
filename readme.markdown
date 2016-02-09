@@ -169,8 +169,9 @@ Event     | Move                                     | Copy
 ----------|------------------------------------------|---------------------------------------------
 `drag`    | Element will be concealed from `source`  | Nothing happens
 `drop`    | Element will be moved into `target`      | Element will be cloned into `target`
-`remove`  | Element will be removed from DOM         | Nothing happens
 `cancel`  | Element will stay in `source`            | Nothing happens
+`spill`   | Element will stay in `source`            | Nothing happens
+`remove`  | Element will be removed from DOM         | Nothing happens
 
 If a method is passed, it'll be called whenever an element starts being dragged in order to decide whether it should follow `copy` behavior or not. Consider the following example.
 
@@ -270,10 +271,11 @@ The `drake` is an event emitter. The following events can be tracked using `drak
 Event Name | Listener Arguments               | Event Description
 -----------|----------------------------------|-------------------------------------------------------------------------------------
 `drag`     | `el, source`                     | `el` was lifted from `source`
-`dragend`  | `el`                             | Dragging event for `el` ended with either `cancel`, `remove`, or `drop`
+`dragend`  | `el`                             | Dragging event for `el` ended with either `cancel`, `spill`, `remove`, or `drop`
 `drop`     | `el, target, source, sibling`    | `el` was dropped into `target` before a `sibling` element, and originally came from `source`
-`cancel`   | `el, container, source`          | `el` was being dragged but it got nowhere and went back into `container`, its last stable parent; `el` originally came from `source`
-`remove`   | `el, container, source`          | `el` was being dragged but it got nowhere and it was removed from the DOM. Its last stable parent was `container`, and originally came from `source`
+`cancel`   | `el, container, source`          | `el` was being dragged but it got nowhere and was released over its last stable parent, `container`; `el` originally came from `source`
+`spill`    | `el, container, source`          | `el` was being dragged but it got nowhere and was released outside of any containers. Its last stable parent was `container`, and originally came from `source`
+`remove`   | `el, container, source`          | `el` was being dragged but it got nowhere, was released outside of any containers, and was removed from the DOM. Its last stable parent was `container`, and originally came from `source`
 `shadow`   | `el, container, source`          | `el`, _the visual aid shadow_, was moved into `container`. May trigger many times as the position of `el` changes, even within the same `container`; `el` originally came from `source`
 `over`     | `el, container, source`          | `el` is over `container`, and originally came from `source`
 `out`      | `el, container, source`          | `el` was dragged out of `container` or dropped, and originally came from `source`
