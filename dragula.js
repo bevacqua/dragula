@@ -481,7 +481,7 @@ function dragula (initialContainers, options) {
         var distToBottom = rect.bottom - y;
         var distToRight = rect.right - x;
         var minDist = Math.min(distToLeft, distToRight, distToTop, distToBottom);
-        return resolve(distToLeft == minDist || distToTop == minDist);
+        return resolve(distToLeft === minDist || distToTop === minDist);
       }
       if (horizontal) {
         return resolve(x > rect.left + getRectWidth(rect) / 2);
