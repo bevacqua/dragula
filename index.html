@@ -148,10 +148,10 @@ dragula([document.getElementById(left), document.getElementById(right)], {
       <code>
 dragula([document.getElementById(left), document.getElementById(right)], {
   copy: function (el, source) {
-    return source === left
+    return source === document.getElementById(left)
   },
   accepts: function (el, target) {
-    return target !== left
+    return target !== document.getElementById(left)
   }
 });
       </code>
