@@ -594,6 +594,10 @@ function getCoord (coord, e) {
   if (coord in missMap && !(coord in host) && missMap[coord] in host) {
     coord = missMap[coord];
   }
+  // undefined argument to doc.elementFromPoint throws an error in Firefox, interpreted as 0 in Chrome
+  if (host[coord] === undefined) {
+    return 0;
+  }
   return host[coord];
 }
 
