@@ -461,7 +461,7 @@ function dragula (initialContainers, options) {
         el = dropTarget.children[i];
         rect = el.getBoundingClientRect();
         if (horizontal && rect.left > x) { return el; }
-        if (!horizontal && rect.top > y) { return el; }
+        if (!horizontal && (rect.top + rect.height / 2) > y) { return el; }
       }
       return null;
     }
