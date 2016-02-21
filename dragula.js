@@ -25,6 +25,7 @@ function dragula (initialContainers, options) {
   var _renderTimer; // timer for setTimeout renderMirrorImage
   var _lastDropTarget = null; // last container item was over
   var _grabbed; // holds mousedown context until first mousemove
+  var alan;
 
   var o = options || {};
   if (o.moves === void 0) { o.moves = always; }
@@ -461,7 +462,7 @@ function dragula (initialContainers, options) {
         el = dropTarget.children[i];
         rect = el.getBoundingClientRect();
         if (horizontal && rect.left > x) { return el; }
-        if (!horizontal && rect.top > y) { return el; }
+        if (!horizontal && (rect.top + rect.height / 2) > y) { return el; }
       }
       return null;
     }
