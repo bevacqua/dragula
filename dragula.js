@@ -25,7 +25,6 @@ function dragula (initialContainers, options) {
   var _renderTimer; // timer for setTimeout renderMirrorImage
   var _lastDropTarget = null; // last container item was over
   var _grabbed; // holds mousedown context until first mousemove
-  var alan;
 
   var o = options || {};
   if (o.moves === void 0) { o.moves = always; }
