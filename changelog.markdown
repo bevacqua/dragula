@@ -1,3 +1,7 @@
+# 3.6.7 Miscalculation
+
+- Fixed a long-standing bug where candidate positioning would be off by one position
+
 # 3.6.6 Living on the Edge
 
 - Fixed a bug with clicks on IE7, IE8, IE9
