@@ -1,3 +1,7 @@
+# 3.6.8 Calculated Risk
+
+- Fixed a bug where `drake.cancel` would misbehave when `copy` was `true`
+
 # 3.6.7 Miscalculation
 
 - Fixed a long-standing bug where candidate positioning would be off by one position

@@ -278,12 +278,13 @@ function dragula (initialContainers, options) {
     var reverts = arguments.length > 0 ? revert : o.revertOnSpill;
     var item = _copy || _item;
     var parent = getParent(item);
-    if (parent === _source && _copy) {
-      parent.removeChild(_copy);
-    }
     var initial = isInitialPlacement(parent);
-    if (initial === false && !_copy && reverts) {
-      _source.insertBefore(item, _initialSibling);
+    if (initial === false && reverts) {
+      if (_copy) {
+        parent.removeChild(_copy);
+      } else {
+        _source.insertBefore(item, _initialSibling);
+      }
     }
     if (initial || reverts) {
       drake.emit('cancel', item, _source, _source);
