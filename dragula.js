@@ -340,8 +340,8 @@ function dragula (initialContainers, options) {
       var immediate = getImmediateChild(target, elementBehindCursor);
       var reference = getReference(target, immediate, clientX, clientY);
       var initial = isInitialPlacement(target, reference);
-      if (initial) {
-        return true; // should always be able to drop it right back where it was
+      if (o.copy === false && initial) {
+        return true; // As long as copies are not enabled, you should always be able to drop it right back where it was
       }
       return o.accepts(_item, target, _source, reference);
     }
