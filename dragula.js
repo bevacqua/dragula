@@ -195,7 +195,7 @@ function dragula (initialContainers, options) {
 
   function start (context) {
     if (isCopy(context.item, context.source)) {
-      _copy = context.item.cloneNode(true);
+      _copy = cloneNodeWithoutCheckedRadios(context.item);
       drake.emit('cloned', _copy, context.item, 'copy');
     }
 
@@ -417,7 +417,7 @@ function dragula (initialContainers, options) {
       return;
     }
     var rect = _item.getBoundingClientRect();
-    _mirror = _item.cloneNode(true);
+    _mirror = cloneNodeWithoutCheckedRadios(_item);
     _mirror.style.width = getRectWidth(rect) + 'px';
     _mirror.style.height = getRectHeight(rect) + 'px';
     classes.rm(_mirror, 'gu-transit');
@@ -596,6 +596,20 @@ function getCoord (coord, e) {
     coord = missMap[coord];
   }
   return host[coord];
+}
+
+// Runs cloneNode, but removes any `checked` attribuets on radio inputs.
+// https://github.com/bevacqua/dragula/issues/80
+function cloneNodeWithoutCheckedRadios (el) {
+  var mirror = el.cloneNode(true);
+  var mirrorInputs = mirror.getElementsByTagName('input');
+  var len = mirrorInputs.length;
+
+  for (var i = 0; i < len; i++) {
+    if (mirrorInputs[i].type === 'radio') { mirrorInputs[i].checked = false; }
+  }
+
+  return mirror;
 }
 
 module.exports = dragula;
