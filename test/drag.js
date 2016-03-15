@@ -242,6 +242,7 @@ test('when drag begins, check for copy option', function (t) {
   events.raise(item, 'mousedown', { which: 1 });
   events.raise(item, 'mousemove', { which: 1 });
   events.raise(item, 'mousemove', { which: 1 }); // ensure the copy method condition is only asserted once
+  console.log(t);
   t.plan(2);
   t.end();
   function checkCondition (el, source) {
