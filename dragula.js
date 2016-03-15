@@ -15,6 +15,7 @@ function dragula (initialContainers, options) {
   var _mirror; // mirror image
   var _source; // source container
   var _item; // item being dragged
+  var _data; // data to transfer, the data that will be displayed on shadow and drop
   var _offsetX; // reference x
   var _offsetY; // reference y
   var _moveX; // reference move x
@@ -39,6 +40,7 @@ function dragula (initialContainers, options) {
   if (o.direction === void 0) { o.direction = 'vertical'; }
   if (o.ignoreInputTextSelection === void 0) { o.ignoreInputTextSelection = true; }
   if (o.mirrorContainer === void 0) { o.mirrorContainer = doc.body; }
+  if (o.draggedContent === void 0) { o.draggedContent = function(item) { return item; }; }
 
   var drake = emitter({
     containers: o.containers,
@@ -145,11 +147,40 @@ function dragula (initialContainers, options) {
     _offsetX = getCoord('pageX', e) - offset.left;
     _offsetY = getCoord('pageY', e) - offset.top;
 
-    classes.add(_copy || _item, 'gu-transit');
+    classes.add(_data || _copy || _item, 'gu-transit');
     renderMirrorImage();
     drag(e);
   }
 
+/*  function getXYCoord(x) {
+      var o = x;
+      var left = x.offsetLeft;
+      var top = x.offsetTop;
+      while (o=o.offsetParent) {
+        top += o.offsetTop;
+        left += o.offsetLeft;
+      }
+      return [left, top];
+  }
+
+  function setDraggedContent(item, newContent) {
+      if (item === newContent) { // Don't do more calculation if it's the default behaviour
+        return item; 
+      } 
+
+      var index = item.parentNode.children.indexOf(item);
+      var xyCoord = getXYCoord(item.parentNode);
+      var clientX = xyCoord[0];
+      var clientY = xyCoord[1];
+      console.log(clientX + ' ' + clientY);
+      var parent = item.cloneNode(true);
+      parent.style.position = 'absolute';
+      parent.style.left = clientX;
+      parent.style.right = clientY;
+      parent.children[index] = newContent;
+      return newContent;
+  }
+*/
   function canStart (item) {
     if (drake.dragging && _mirror) {
       return;
@@ -167,6 +198,12 @@ function dragula (initialContainers, options) {
         return;
       }
     }
+
+    _data = o.draggedContent(item);
+    if (_data === item && isCopy(item, item.parentNode)) {
+      _data = item.cloneNode(true);
+    }
+
     var source = getParent(item);
     if (!source) {
       return;
@@ -276,12 +313,12 @@ function dragula (initialContainers, options) {
       return;
     }
     var reverts = arguments.length > 0 ? revert : o.revertOnSpill;
-    var item = _copy || _item;
+    var item = _data || _copy || _item;
     var parent = getParent(item);
     var initial = isInitialPlacement(parent);
     if (initial === false && reverts) {
-      if (_copy) {
-        parent.removeChild(_copy);
+      if (_copy && parent) {
+        parent.removeChild(item);
       } else {
         _source.insertBefore(item, _initialSibling);
       }
@@ -299,7 +336,7 @@ function dragula (initialContainers, options) {
     ungrab();
     removeMirrorImage();
     if (item) {
-      classes.rm(item, 'gu-transit');
+      classes.rm(_data || item, 'gu-transit');
     }
     if (_renderTimer) {
       clearTimeout(_renderTimer);
@@ -396,7 +433,11 @@ function dragula (initialContainers, options) {
       reference !== nextEl(item)
     ) {
       _currentSibling = reference;
-      dropTarget.insertBefore(item, reference);
+      dropTarget.insertBefore(_data, reference);
+      if (_data !== item && parent) {
+        parent.removeChild(_item);
+      }
+
       drake.emit('shadow', item, dropTarget, _source);
     }
     function moved (type) { drake.emit(type, item, _lastDropTarget, _source); }
