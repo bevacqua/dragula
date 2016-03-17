@@ -449,7 +449,7 @@ function dragula (initialContainers, options) {
   }
 
   function getReference (dropTarget, target, x, y) {
-    var horizontal = o.direction(_item, dropTarget, _source) === 'horizontal';
+    var horizontal = (typeof o.direction === 'function' ? o.direction(_item, dropTarget, _source) : o.direction) === 'horizontal';
     var reference = target !== dropTarget ? inside() : outside();
     return reference;
 
