@@ -21,7 +21,7 @@ dragula([$('left-events'), $('right-events')])
 dragula([$('left-rollbacks'), $('right-rollbacks')], { revertOnSpill: true });
 dragula([$('left-lovehandles'), $('right-lovehandles')], {
   moves: function (el, container, handle) {
-    return handle.className === 'handle';
+    return handle.classList.contains('handle');
   }
 });
 
