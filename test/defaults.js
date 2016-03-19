@@ -15,5 +15,6 @@ test('drake has sensible default options', function (t) {
   t.equal(options.removeOnSpill, false, 'options.removeOnSpill defaults to false');
   t.equal(options.direction, 'vertical', 'options.direction defaults to \'vertical\'');
   t.equal(options.mirrorContainer, document.body, 'options.mirrorContainer defaults to an document.body');
+  t.equal(options.mirrorAnchor, null, 'options.mirrorAnchor defaults to null');
   t.end();
 });
