@@ -17,7 +17,7 @@ test('.start() emits "cloned" for copies', function (t) {
   function cloned (copy, original, type) {
     if (type === 'copy') {
       t.notEqual(copy, item, 'copy is not a reference to item');
-      t.deepEqual(copy, item, 'copy of original is provided');
+      t.equal(copy.nodeType, item.nodeType, 'copy of original is provided');
       t.equal(original, item, 'original item is provided');
     }
   }
@@ -127,7 +127,7 @@ test('.remove() emits "cancel" for copies', function (t) {
   }
   function cancel (copy, container) {
     t.notEqual(copy, item, 'copy is not a reference to item');
-    t.deepEqual(copy, item, 'item is a copy of item');
+    t.equal(copy.nodeType, item.nodeType, 'item is a copy of item');
     t.equal(container, null, 'container matches expectation');
   }
 });
@@ -219,7 +219,7 @@ test('mousedown emits "cloned" for mirrors', function (t) {
   function cloned (copy, original, type) {
     if (type === 'mirror') {
       t.notEqual(copy, item, 'mirror is not a reference to item');
-      t.deepEqual(copy, item, 'mirror of original is provided');
+      t.equal(copy.nodeType, item.nodeType, 'mirror of original is provided');
       t.equal(original, item, 'original item is provided');
     }
   }
@@ -239,7 +239,7 @@ test('mousedown emits "cloned" for copies', function (t) {
   function cloned (copy, original, type) {
     if (type === 'copy') {
       t.notEqual(copy, item, 'copy is not a reference to item');
-      t.deepEqual(copy, item, 'copy of original is provided');
+      t.equal(copy.nodeType, item.nodeType, 'copy of original is provided');
       t.equal(original, item, 'original item is provided');
     }
   }
