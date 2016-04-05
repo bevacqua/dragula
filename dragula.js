@@ -39,6 +39,7 @@ function dragula (initialContainers, options) {
   if (o.direction === void 0) { o.direction = 'vertical'; }
   if (o.ignoreInputTextSelection === void 0) { o.ignoreInputTextSelection = true; }
   if (o.mirrorContainer === void 0) { o.mirrorContainer = doc.body; }
+  if (o.allowNestedContainers === void 0) { o.allowNestedContainers = false; }
 
   var drake = emitter({
     containers: o.containers,
@@ -154,7 +155,7 @@ function dragula (initialContainers, options) {
     if (drake.dragging && _mirror) {
       return;
     }
-    if (isContainer(item)) {
+    if (isContainer(item) && !o.allowNestedContainers) {
       return; // don't drag container itself
     }
     var handle = item;
