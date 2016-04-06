@@ -116,8 +116,7 @@ function dragula (initialContainers, options) {
   }
 
   function lift (el) {
-    var grabbed = _grabbed = canStart(el);
-    if (!grabbed) {
+    if (!_grabbed && !canStart(el)) {
       return;
     }
     _offsetX = _offsetY = 0; // we could calc these on mousemove but 0,0 is simpler
