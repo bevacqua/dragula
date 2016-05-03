@@ -247,6 +247,31 @@ This property will be `true` whenever an element is being dragged.
 
 Enter drag mode **without a shadow**. This method is most useful when providing complementary keyboard shortcuts to an existing drag and drop solution. Even though a shadow won't be created at first, the user will get one as soon as they click on `item` and start dragging it around. Note that if they click and drag something else, `.end` will be called before picking up the new item.
 
+#### `drake.lift(item)`
+  
+Enter drag mode **with a shadow**. This method is most useful when we want to delay drags using customized functionality. This method is best used while the user is holding their mouse button, or want to trigger dragging based on other events, such as press.
+
+As an example of a lift happening after a 1 second delay, add an appropriate listener:
+```
+document.body.addEventListener('mousedown', function (e) {
+  setTimeout(function(){
+    if (e.target.hasClass('slide')) {
+      lifted = true;
+      drake.lift(e.target);
+    }
+  }, 1000);
+});
+```
+Then add the conditional in your `move` option to watch for the trigger:
+```
+moves: function(el, source, handle, sibling) {
+  if (lifted) { // Manage the drag after 1 second
+    lifted = false;
+    return true;
+  }
+}
+```
+
 #### `drake.end()`
 
 Gracefully end the drag event as if using **the last position marked by the preview shadow** as the drop target. The proper `cancel` or `drop` event will be fired, depending on whether the item was dropped back where it was originally lifted from _(which is essentially a no-op that's treated as a `cancel` event)_.
