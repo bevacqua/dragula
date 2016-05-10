@@ -44,6 +44,7 @@ function dragula (initialContainers, options) {
     containers: o.containers,
     start: manualStart,
     end: end,
+    grab: grab,
     cancel: cancel,
     remove: remove,
     destroy: destroy,
