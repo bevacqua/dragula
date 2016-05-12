@@ -47,6 +47,7 @@ function dragula (initialContainers, options) {
     cancel: cancel,
     remove: remove,
     destroy: destroy,
+    canMove: canMove,
     dragging: false
   });
 
@@ -184,6 +185,10 @@ function dragula (initialContainers, options) {
       item: item,
       source: source
     };
+  }
+
+  function canMove (item) {
+    return !!canStart(item);
   }
 
   function manualStart (item) {

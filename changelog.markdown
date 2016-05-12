@@ -1,3 +1,7 @@
+# 3.7.0 Party Like It's the End of the World
+
+- Added a `canMove` method that returns whether `drake` can move a DOM element
+
 # 3.6.8 Calculated Risk
 
 - Fixed a bug where `drake.cancel` would misbehave when `copy` was `true`
