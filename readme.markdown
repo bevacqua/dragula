@@ -280,6 +280,14 @@ Event Name | Listener Arguments               | Event Description
 `out`      | `el, container, source`          | `el` was dragged out of `container` or dropped, and originally came from `source`
 `cloned`   | `clone, original, type`          | DOM element `original` was cloned as `clone`, of `type` _(`'mirror'` or `'copy'`)_. Fired for mirror images and when `copy: true`
 
+#### `drake.canMove(item)`
+
+Returns whether the `drake` instance can accept drags for a DOM element `item`. This method returns `true` when all the conditions outlined below are met, and `false` otherwise.
+
+- `item` is a child of one of the specified containers for `drake`
+- `item` passes the pertinent [`invalid`](#optionsinvalid) checks
+- `item` passes a `moves` check
+
 #### `drake.destroy()`
 
 Removes all drag and drop events used by `dragula` to manage drag and drop between the `containers`. If `.destroy` is called while an element is being dragged, the drag will be effectively cancelled.
