@@ -27,6 +27,7 @@ function dragula (initialContainers, options) {
   var _grabbed; // holds mousedown context until first mousemove
 
   var o = options || {};
+  if (o.pixelThreshold === void 0) { o.pixelThreshold = 0; }
   if (o.moves === void 0) { o.moves = always; }
   if (o.accepts === void 0) { o.accepts = always; }
   if (o.invalid === void 0) { o.invalid = invalidTarget; }
@@ -362,6 +363,10 @@ function dragula (initialContainers, options) {
     var clientY = getCoord('clientY', e);
     var x = clientX - _offsetX;
     var y = clientY - _offsetY;
+
+    if (_moveX - clientX < o.pixelThreshold && _moveY - clientY < o.pixelThreshold) {
+      return;
+    }
 
     _mirror.style.left = x + 'px';
     _mirror.style.top = y + 'px';
