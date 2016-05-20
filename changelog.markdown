@@ -1,3 +1,7 @@
+# 3.7.1 Contrarian Views
+
+- Bumped `contra@1.9.4`
+
 # 3.7.0 Party Like It's the End of the World
 
 - Added a `canMove` method that returns whether `drake` can move a DOM element
