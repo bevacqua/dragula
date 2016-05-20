@@ -231,6 +231,10 @@ When this option is enabled, if the user clicks on an input element the drag won
 
 This option is enabled by default. Turn it off by setting it to `false`. If its disabled your users won't be able to select text in inputs within `dragula` containers with their mouse.
 
+#### `options.deadzone`
+
+When this option is enabled, if the user clicks on an input element the drag won't start until their mouse pointer moves the specified distance. This translates into the user being able to accidently drag a few pixels and not trigger the drag.
+
 ## API
 
 The `dragula` method returns a tiny object with a concise API. We'll refer to the API returned by `dragula` as `drake`.
