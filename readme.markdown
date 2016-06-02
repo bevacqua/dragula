@@ -326,7 +326,7 @@ MIT
 [11]: http://bevacqua.github.io/react-dragula/
 [12]: https://github.com/bevacqua/dragula/blob/master/dist/dragula.css
 [13]: https://github.com/bevacqua/dragula/blob/master/dist/dragula.min.css
-[14]: https://github.com/bevacqua/dragula/blob/master/contributing.markdown
+[14]: https://github.com/bevacqua/dragula/blob/master/.github/contributing.markdown
 [15]: https://github.com/bevacqua/dragula/blob/master/dist
 [16]: #css
 [17]: https://dragula-slackin.herokuapp.com/badge.svg
