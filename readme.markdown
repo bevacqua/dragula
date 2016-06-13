@@ -231,6 +231,17 @@ When this option is enabled, if the user clicks on an input element the drag won
 
 This option is enabled by default. Turn it off by setting it to `false`. If its disabled your users won't be able to select text in inputs within `dragula` containers with their mouse.
 
+#### `options.offset`
+
+Dragula will calculate based on mouse position where to position the element while it is being dragged. In some cases it may be useful to adjust this offset.
+
+```js
+offset: function( offset, e, item ) {
+  // Manipulate the offset
+  return offset;
+}
+```
+
 ## API
 
 The `dragula` method returns a tiny object with a concise API. We'll refer to the API returned by `dragula` as `drake`.
