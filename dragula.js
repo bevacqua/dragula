@@ -146,7 +146,7 @@ function dragula (initialContainers, options) {
     var offset = getOffset(_item);
     var calculatedOffset = o.offset({
       x: getCoord('pageX', e) - offset.left,
-     y: getCoord('pageY', e) - offset.top
+      y: getCoord('pageY', e) - offset.top
     }, e, _item);
 
     _offsetX = calculatedOffset.x;
