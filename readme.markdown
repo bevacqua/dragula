@@ -189,6 +189,19 @@ copy: true,
 copySortSource: true
 ```
 
+#### `options.draggedContent`
+
+If draggedContent is set it will override the default component dragged. It needs to return a node and take for parameter the element that is supposed to be dragged.
+
+```js
+draggedContent: function(item) {
+  if (item.id === 'test')
+    return document.getElementById('another-test');
+
+  return item;
+}
+```
+
 #### `options.revertOnSpill`
 
 By default, spilling an element outside of any containers will move the element back to the _drop position previewed by the feedback shadow_. Setting `revertOnSpill` to `true` will ensure elements dropped outside of any approved containers are moved back to the source element where the drag event began, rather than stay at the _drop position previewed by the feedback shadow_.
@@ -200,6 +213,11 @@ By default, spilling an element outside of any containers will move the element 
 #### `options.direction`
 
 When an element is dropped onto a container, it'll be placed near the point where the mouse was released. If the `direction` is `'vertical'`, the default value, the Y axis will be considered. Otherwise, if the `direction` is `'horizontal'`, the X axis will be considered.
+The direction attribute will be override by the dragula-direction attribute 
+```html
+<div class="container" dragula-direction="horizontal"></div>
+``` 
+If not present the getDirection(el, target, x, y) function will be called.
 
 #### `options.invalid`
 
