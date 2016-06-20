@@ -153,35 +153,6 @@ function dragula (initialContainers, options) {
     drag(e);
   }
 
-/*  function getXYCoord(x) {
-      var o = x;
-      var left = x.offsetLeft;
-      var top = x.offsetTop;
-      while (o=o.offsetParent) {
-        top += o.offsetTop;
-        left += o.offsetLeft;
-      }
-      return [left, top];
-  }
-
-  function setDraggedContent(item, newContent) {
-      if (item === newContent) { // Don't do more calculation if it's the default behaviour
-        return item; 
-      } 
-
-      var index = item.parentNode.children.indexOf(item);
-      var xyCoord = getXYCoord(item.parentNode);
-      var clientX = xyCoord[0];
-      var clientY = xyCoord[1];
-      console.log(clientX + ' ' + clientY);
-      var parent = item.cloneNode(true);
-      parent.style.position = 'absolute';
-      parent.style.left = clientX;
-      parent.style.right = clientY;
-      parent.children[index] = newContent;
-      return newContent;
-  }
-*/
   function canStart (item) {
     if (drake.dragging && _mirror) {
       return;
