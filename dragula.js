@@ -38,6 +38,7 @@ function dragula (initialContainers, options) {
   if (o.revertOnSpill === void 0) { o.revertOnSpill = false; }
   if (o.removeOnSpill === void 0) { o.removeOnSpill = false; }
   if (o.direction === void 0) { o.direction = 'vertical'; }
+  if (o.getDirection === void 0) { o.getDirection = function() { return o.direction; }; }
   if (o.ignoreInputTextSelection === void 0) { o.ignoreInputTextSelection = true; }
   if (o.mirrorContainer === void 0) { o.mirrorContainer = doc.body; }
   if (o.draggedContent === void 0) { o.draggedContent = function(item) { return item; }; }
@@ -490,7 +491,8 @@ function dragula (initialContainers, options) {
   }
 
   function getReference (dropTarget, target, x, y) {
-    var horizontal = o.direction === 'horizontal';
+    var direction = dropTarget.getAttribute('dragula-direction');
+    var horizontal = direction && direction !== null ? direction === 'horizontal' : o.direction === 'horizontal';
     var reference = target !== dropTarget ? inside() : outside();
     return reference;
 
