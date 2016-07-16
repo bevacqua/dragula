@@ -406,18 +406,18 @@ function dragula (initialContainers, options) {
     }
 
     var h = window.innerHeight;
-    document.addEventListener("mousemove", function(e) {     
+    document.addEventListener('mousemove', function(e) {     
         var scrollTop = (window.pageYOffset || document.scrollTop)  - (document.clientTop || 0);
         var pY = e.pageY ? e.pageY : 0;
         var mousePosition = pY - scrollTop;
         var topRegion = 220;
         var bottomRegion = h - 220;        
-        if(e.which == 1 && (mousePosition <= topRegion || mousePosition > bottomRegion )){    // e.wich = 1 => click down !                                                                                   
+        if(e.which === 1 && (mousePosition <= topRegion || mousePosition > bottomRegion )){    // e.wich = 1 => click down !                                                                                   
             var distance = e.clientY - h / 2;
             distance = distance * 0.1; // <- speed
             scrollTo(document, distance + scrollTop, 0) ;                    
         }else{
-            document.removeEventListener("mousemove",function(){});
+            document.removeEventListener('mousemove',function(){});
         }
     });
 
@@ -431,7 +431,9 @@ function dragula (initialContainers, options) {
 
       setTimeout(function() {
           element.scrollTop = element.scrollTop + perTick;
-          if (element.scrollTop === to) return;
+          if (element.scrollTop === to) {
+            return;
+          }
           scrollTo(element, to, duration - 10);
       }, 10);
     }
