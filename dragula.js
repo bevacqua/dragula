@@ -404,9 +404,38 @@ function dragula (initialContainers, options) {
       dropTarget.insertBefore(item, reference);
       drake.emit('shadow', item, dropTarget, _source);
     }
+
+    var h = window.innerHeight;
+    document.addEventListener("mousemove", function(e) {     
+        var scrollTop = (window.pageYOffset || document.scrollTop)  - (document.clientTop || 0);
+        var pY = e.pageY ? e.pageY : 0;
+        var mousePosition = pY - scrollTop;
+        var topRegion = 220;
+        var bottomRegion = h - 220;
+        console.log(h,mousePosition);
+        if(e.which == 1 && (mousePosition <= topRegion || mousePosition > bottomRegion )){    // e.wich = 1 => click down !                                                                                   
+            var distance = e.clientY - h / 2;
+            distance = distance * 0.1; // <- speed
+            scrollTo(document, distance + scrollTop, 0) ;                    
+        }else{
+            document.removeEventListener("mousemove",function(){});
+        }
+    });
+
     function moved (type) { drake.emit(type, item, _lastDropTarget, _source); }
     function over () { if (changed) { moved('over'); } }
     function out () { if (_lastDropTarget) { moved('out'); } }
+    function scrollTo(element, to, duration) {
+      if (duration <= 0) return;
+      var difference = to - element.scrollTop;
+      var perTick = difference / duration * 10;
+
+      setTimeout(function() {
+          element.scrollTop = element.scrollTop + perTick;
+          if (element.scrollTop === to) return;
+          scrollTo(element, to, duration - 10);
+      }, 10);
+    }
   }
 
   function spillOver (el) {
