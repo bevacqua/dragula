@@ -415,7 +415,7 @@ function dragula (initialContainers, options) {
         if(e.which === 1 && (mousePosition <= topRegion || mousePosition > bottomRegion )){    // e.wich = 1 => click down !                                                                                   
             var distance = e.clientY - h / 2;
             distance = distance * 0.1; // <- speed
-            scrollTo(document, distance + scrollTop, 0) ;                    
+            scrollToPosition(document, distance + scrollTop, 0);                    
         }else{
             document.removeEventListener('mousemove',function(){});
         }
@@ -426,7 +426,7 @@ function dragula (initialContainers, options) {
     function out () { if (_lastDropTarget) { moved('out'); } }    
   }
 
-  function scrollTo(element, to, duration) {
+  function scrollToPosition (element, to, duration) {
     if (duration <= 0) {
       return;
     }
@@ -438,7 +438,7 @@ function dragula (initialContainers, options) {
         if (element.scrollTop === to) {
           return;
         }
-        scrollTo(element, to, duration - 10);
+        scrollToPosition(element, to, duration - 10);
     }, 10);
   }
   
