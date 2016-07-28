@@ -101,6 +101,13 @@ dragula(containers, {
   invalid: function (el, handle) {
     return false; // don't prevent any drags from initiating by default
   },
+  mirror: function (el, offsetX, offsetY) {
+    var rect = el.getBoundingClientRect();
+    var mirror = el.cloneNode(true);
+    mirror.style.width = getRectWidth(rect) + 'px';
+    mirror.style.height = getRectHeight(rect) + 'px';
+    return mirror; // clones `el` and places it relatively to mouse click
+  },
   direction: 'vertical',             // Y axis is considered when determining where an element would be dropped
   copy: false,                       // elements are moved by default, not copied
   copySortSource: false,             // elements in copy-source containers can be reordered
@@ -220,6 +227,12 @@ invalid: function (el, handle) {
   return el.tagName === 'A';
 }
 ```
+
+#### `options.mirror`
+
+You can provide a custom `mirror` method with a `(el, offsetX, offsetY)` signature. This method should return a `HTMLElement` to be shown while dragging the clicked `el` element. You can use `offsetX` and `offsetY` to position your custom mirror relatively to the point where cursor clicked `el`.
+
+The default behavior of this method (if not provided) is cloning `el` and positioning it relatively to the mouse click.
 
 #### `options.mirrorContainer`
 
