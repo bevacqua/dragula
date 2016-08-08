@@ -196,7 +196,7 @@ dragula([document.getElementById(left), document.getElementById(right)], {
       <code>
 dragula([document.getElementById(left), document.getElementById(right)], {
   moves: function (el, container, handle) {
-    return handle.className === 'handle';
+    return handle.classList.contains('handle');
   }
 });
       </code>
