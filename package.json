@@ -1,6 +1,6 @@
 {
   "name": "dragula",
-  "version": "3.7.1",
+  "version": "3.7.2",
   "description": "Drag and drop so simple it hurts",
   "main": "dragula.js",
   "scripts": {
