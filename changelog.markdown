@@ -1,3 +1,7 @@
+# 3.7.2 Parental Control
+
+- Fixed a bug where a missing parent check would cause exceptions
+
 # 3.7.1 Contrarian Views
 
 - Bumped `contra@1.9.4`
