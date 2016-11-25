@@ -334,6 +334,7 @@ function dragula (initialContainers, options) {
 
   function findDropTarget (elementBehindCursor, clientX, clientY) {
     var target = elementBehindCursor;
+    target = getSiblingContainer(target);
     while (target && !accepted()) {
       target = getParent(target);
       target = getSiblingContainer(target);
