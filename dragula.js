@@ -39,6 +39,7 @@ function dragula (initialContainers, options) {
   if (o.direction === void 0) { o.direction = 'vertical'; }
   if (o.ignoreInputTextSelection === void 0) { o.ignoreInputTextSelection = true; }
   if (o.mirrorContainer === void 0) { o.mirrorContainer = doc.body; }
+  if (o.siblingClass === void 0) { o.siblingClass = ''; }
 
   var drake = emitter({
     containers: o.containers,
@@ -341,6 +342,7 @@ function dragula (initialContainers, options) {
 
     function getSiblingContainer(targetOriginal) {
       // no sibling class defined -> don't search for sibling elements that could be a container
+      if(targetOriginal == null || o == null || o.siblingClass === '' || isContainer(targetOriginal) || !targetOriginal.classList.contains(o.siblingClass)){
         return targetOriginal;
       }
 
@@ -472,6 +474,7 @@ function dragula (initialContainers, options) {
     var immediate = target;
     while (immediate != null && immediate !== dropTarget && getParent(immediate) !== dropTarget) {
       // is the target maked as a sibling of a container, then return the container back
+      if(o.siblingClass !== '' && immediate.classList.contains(o.siblingClass)){
         return dropTarget;
       }
 
