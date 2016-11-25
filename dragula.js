@@ -335,8 +335,29 @@ function dragula (initialContainers, options) {
     var target = elementBehindCursor;
     while (target && !accepted()) {
       target = getParent(target);
+      target = getSiblingContainer(target);
     }
     return target;
+
+    function getSiblingContainer(targetOriginal) {
+      // no sibling class defined -> don't search for sibling elements that could be a container
+        return targetOriginal;
+      }
+
+      var targetResult = targetOriginal;
+
+      // search for a sibling element that is a container
+      while(targetResult && isContainer(targetResult) === false){
+        targetResult = targetResult.nextElementSibling;
+      }
+
+      // return original target if no sibling container element found
+      if(targetResult == null){
+        return targetOriginal;
+      }
+
+      return targetResult;
+    }
 
     function accepted () {
       var droppable = isContainer(target);
@@ -344,6 +365,9 @@ function dragula (initialContainers, options) {
         return false;
       }
 
+      if(elementBehindCursor == null || target == null){
+        return false;
+      }
       var immediate = getImmediateChild(target, elementBehindCursor);
       var reference = getReference(target, immediate, clientX, clientY);
       var initial = isInitialPlacement(target, reference);
@@ -446,18 +470,23 @@ function dragula (initialContainers, options) {
 
   function getImmediateChild (dropTarget, target) {
     var immediate = target;
-    while (immediate !== dropTarget && getParent(immediate) !== dropTarget) {
+    while (immediate != null && immediate !== dropTarget && getParent(immediate) !== dropTarget) {
+      // is the target maked as a sibling of a container, then return the container back
+        return dropTarget;
+      }
+
       immediate = getParent(immediate);
     }
     if (immediate === documentElement) {
       return null;
     }
     return immediate;
+
   }
 
   function getReference (dropTarget, target, x, y) {
     var horizontal = o.direction === 'horizontal';
-    var reference = target !== dropTarget ? inside() : outside();
+    var reference = target !== dropTarget && target != null ? inside() : outside();
     return reference;
 
     function outside () { // slower, but able to figure out any position

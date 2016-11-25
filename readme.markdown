@@ -108,6 +108,7 @@ dragula(containers, {
   removeOnSpill: false,              // spilling will `.remove` the element, if this is true
   mirrorContainer: document.body,    // set the element that gets mirror elements appended
   ignoreInputTextSelection: true     // allows users to select input text, see details below
+  siblingClass: ""                   // mark an element to do a horizontally search for a container if pointer is over that element
 });
 ```
 
@@ -230,6 +231,13 @@ The DOM element where the mirror element displayed while dragging will be append
 When this option is enabled, if the user clicks on an input element the drag won't start until their mouse pointer exits the input. This translates into the user being able to select text in inputs contained inside draggable elements, and still drag the element by moving their mouse outside of the input -- so you get the best of both worlds.
 
 This option is enabled by default. Turn it off by setting it to `false`. If its disabled your users won't be able to select text in inputs within `dragula` containers with their mouse.
+
+#### `options.siblingClass`
+
+Use that if you have an element that is sibling of a container element (e.g. title of the container) and you want to connect that element to the container. 
+In this case the dragged item will be automatically appended to the container if the pointer is over that sibling element.
+
+Set that property with a class name that is also set to the sibling elements you want to connect with their sibling container.
 
 ## API
 
