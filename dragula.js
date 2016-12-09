@@ -19,6 +19,7 @@ function dragula (initialContainers, options) {
   var _offsetY; // reference y
   var _moveX; // reference move x
   var _moveY; // reference move y
+  var _initialPos; // reference position for axis
   var _initialSibling; // reference sibling when grabbed
   var _currentSibling; // reference sibling now
   var _copy; // item used for copying
@@ -27,6 +28,7 @@ function dragula (initialContainers, options) {
   var _grabbed; // holds mousedown context until first mousemove
 
   var o = options || {};
+  if (o.axis === void 0) { o.axis = 'none'; }
   if (o.moves === void 0) { o.moves = always; }
   if (o.accepts === void 0) { o.accepts = always; }
   if (o.invalid === void 0) { o.invalid = invalidTarget; }
@@ -145,6 +147,15 @@ function dragula (initialContainers, options) {
     var offset = getOffset(_item);
     _offsetX = getCoord('pageX', e) - offset.left;
     _offsetY = getCoord('pageY', e) - offset.top;
+
+    switch (o.axis) {
+      case 'x':
+        _initialPos = offset.top;
+        break;
+      case 'y':
+        _initialPos = offset.left;
+        break;
+    }
 
     classes.add(_copy || _item, 'gu-transit');
     renderMirrorImage();
@@ -365,8 +376,8 @@ function dragula (initialContainers, options) {
     var x = clientX - _offsetX;
     var y = clientY - _offsetY;
 
-    _mirror.style.left = x + 'px';
-    _mirror.style.top = y + 'px';
+    _mirror.style.left = (/y/.test(o.axis) && _initialPos ? _initialPos : x) + 'px';
+    _mirror.style.top = (/x/.test(o.axis) && _initialPos ? _initialPos : y) + 'px';
 
     var item = _copy || _item;
     var elementBehindCursor = getElementBehindPoint(_mirror, clientX, clientY);
