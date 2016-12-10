@@ -36,6 +36,8 @@ dragula([$('left-copy-1tomany'), $('right-copy-1tomany')], {
 });
 
 dragula([sortable]);
+dragula([document.querySelector('.scrollable')]);
+dragula([document.querySelector('.scroll')]);
 
 crossvent.add(sortable, 'click', clickHandler);
 
