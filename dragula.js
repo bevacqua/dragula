@@ -409,6 +409,8 @@ function dragula (initialContainers, options) {
     function moved (type) { drake.emit(type, item, _lastDropTarget, _source); }
     function over () { if (changed) { moved('over'); } }
     function out () { if (_lastDropTarget) { moved('out'); } }
+
+    startScroll(_item, e);
   }
 
   function spillOver (el) {
@@ -603,6 +605,60 @@ function getCoord (coord, e) {
     coord = missMap[coord];
   }
   return host[coord];
+}
+
+function getScrollContainer(node) {
+  if (node === null) { return null; }
+  if (node.scrollHeight > node.clientHeight) {
+    return node;
+  } else {
+    if (node.parentNode.tagName !== 'HTML') {
+      return getScrollContainer(node.parentNode);
+    } else {
+      return null;
+    }
+  }
+}
+
+function startScroll(item, event) {
+  var scrollEdge = 20;
+  var scrollSpeed = 20;
+  var scrollContainer = getScrollContainer(item);
+
+  // If a container contains the list that is scrollable
+  if (scrollContainer) {
+
+    // Scrolling vertically
+    if (event.pageY - scrollContainer.getBoundingClientRect().top < scrollEdge) {
+      scrollContainer.scrollTop = scrollContainer.scrollTop - scrollSpeed;
+    } else if ((scrollContainer.getBoundingClientRect().top + scrollContainer.getBoundingClientRect().height) - event.pageY < scrollEdge) {
+      scrollContainer.scrollTop = scrollContainer.scrollTop + scrollSpeed;
+    }
+
+    // Scrolling horizontally
+    if (event.pageX - scrollContainer.getBoundingClientRect().left < scrollEdge) {
+      scrollContainer.scrollLeft = scrollContainer.scrollLeft - scrollSpeed;
+    } else if ((scrollContainer.getBoundingClientRect().left + scrollContainer.getBoundingClientRect().width) - event.pageX < scrollEdge) {
+      scrollContainer.scrollLeft = scrollContainer.scrollLeft + scrollSpeed;
+    }
+
+  // If the window contains the list
+  } else {
+
+    // Scrolling vertically
+    if ((event.pageY - window.scrollY) < scrollEdge) {
+      document.body.scrollTop = window.scrollY - scrollSpeed;
+    } else if ((window.innerHeight - (event.pageY - window.scrollY)) < scrollEdge) {
+      document.body.scrollTop = window.scrollY + scrollSpeed;
+    }
+
+    // Scrolling horizontally
+    if ((event.pageX - window.scrollX) < scrollEdge) {
+      document.body.scrollLeft = window.scrollX - scrollSpeed;
+    } else if ((window.innerWidth - (event.pageX - window.scrollX)) < scrollEdge) {
+      document.body.scrollLeft = window.scrollX + scrollSpeed;
+    }
+  }
 }
 
 module.exports = dragula;
