@@ -5,6 +5,7 @@ var crossvent = require('crossvent');
 var classes = require('./classes');
 var doc = document;
 var documentElement = doc.documentElement;
+var _autoScrollingInterval; // reference to auto scrolling
 
 function dragula (initialContainers, options) {
   var len = arguments.length;
@@ -303,6 +304,7 @@ function dragula (initialContainers, options) {
 
   function cleanup () {
     var item = _copy || _item;
+    clearInterval(_autoScrollingInterval);
     ungrab();
     removeMirrorImage();
     if (item) {
@@ -620,26 +622,34 @@ function getScrollContainer(node) {
   }
 }
 
+function startAutoScrolling(node, amount, direction) {
+  _autoScrollingInterval = setInterval(function() {
+    node[direction] += (amount * 0.25);
+  }, 15);
+}
+
 function startScroll(item, event) {
   var scrollEdge = 20;
   var scrollSpeed = 20;
   var scrollContainer = getScrollContainer(item);
 
+  clearInterval(_autoScrollingInterval);
+
   // If a container contains the list that is scrollable
-  if (scrollContainer) {
+  if (scrollContainer && scrollContainer.tagName !== 'BODY') {
 
     // Scrolling vertically
-    if (event.pageY - scrollContainer.getBoundingClientRect().top < scrollEdge) {
-      scrollContainer.scrollTop = scrollContainer.scrollTop - scrollSpeed;
-    } else if ((scrollContainer.getBoundingClientRect().top + scrollContainer.getBoundingClientRect().height) - event.pageY < scrollEdge) {
-      scrollContainer.scrollTop = scrollContainer.scrollTop + scrollSpeed;
+    if (event.pageY - getOffset(scrollContainer).top < scrollEdge) {
+      startAutoScrolling(scrollContainer, -scrollSpeed, 'scrollTop');
+    } else if ((getOffset(scrollContainer).top + scrollContainer.getBoundingClientRect().height) - event.pageY < scrollEdge) {
+      startAutoScrolling(scrollContainer, scrollSpeed, 'scrollTop');
     }
 
     // Scrolling horizontally
     if (event.pageX - scrollContainer.getBoundingClientRect().left < scrollEdge) {
-      scrollContainer.scrollLeft = scrollContainer.scrollLeft - scrollSpeed;
-    } else if ((scrollContainer.getBoundingClientRect().left + scrollContainer.getBoundingClientRect().width) - event.pageX < scrollEdge) {
-      scrollContainer.scrollLeft = scrollContainer.scrollLeft + scrollSpeed;
+      startAutoScrolling(scrollContainer, -scrollSpeed, 'scrollLeft');
+    } else if ((getOffset(scrollContainer).left + scrollContainer.getBoundingClientRect().width) - event.pageX < scrollEdge) {
+      startAutoScrolling(scrollContainer, scrollSpeed, 'scrollLeft');
     }
 
   // If the window contains the list
@@ -647,16 +657,16 @@ function startScroll(item, event) {
 
     // Scrolling vertically
     if ((event.pageY - window.scrollY) < scrollEdge) {
-      document.body.scrollTop = window.scrollY - scrollSpeed;
+      startAutoScrolling(document.body, -scrollSpeed, 'scrollTop');
     } else if ((window.innerHeight - (event.pageY - window.scrollY)) < scrollEdge) {
-      document.body.scrollTop = window.scrollY + scrollSpeed;
+      startAutoScrolling(document.body, scrollSpeed, 'scrollTop');
     }
 
     // Scrolling horizontally
     if ((event.pageX - window.scrollX) < scrollEdge) {
-      document.body.scrollLeft = window.scrollX - scrollSpeed;
+      startAutoScrolling(document.body, -scrollSpeed, 'scrollLeft');
     } else if ((window.innerWidth - (event.pageX - window.scrollX)) < scrollEdge) {
-      document.body.scrollLeft = window.scrollX + scrollSpeed;
+      startAutoScrolling(document.body, scrollSpeed, 'scrollLeft');
     }
   }
 }
