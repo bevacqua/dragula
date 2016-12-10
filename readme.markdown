@@ -138,6 +138,10 @@ The options are detailed below.
 
 Setting this option is effectively the same as passing the containers in the first argument to `dragula(containers, options)`.
 
+#### `options.animation`
+
+Specifies the duration over which transitions should occur.
+
 #### `options.isContainer`
 
 Besides the containers that you pass to `dragula`, or the containers you dynamically `push` or `unshift` from [drake.containers](#drakecontainers), you can also use this method to specify any sort of logic that defines what is a container for this particular `drake` instance.
