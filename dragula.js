@@ -219,6 +219,7 @@ function dragula (initialContainers, options) {
 
   function end () {
     if (!drake.dragging) {
+      clearInterval(_autoScrollingInterval);
       return;
     }
     var item = _copy || _item;
@@ -357,9 +358,12 @@ function dragula (initialContainers, options) {
   }
 
   function drag (e) {
-    if (!_mirror) {
-      return;
-    }
+    if (!_mirror) { return; }
+    // For iframe. When dragging an item and mouse moves out of the iframe and
+    // mouseup, then decides to move back, the event will be 0 so we should
+    // just call cancel.
+    if (whichMouseButton(e) === 0) { cancel(); }
+
     e.preventDefault();
 
     var clientX = getCoord('clientX', e);
