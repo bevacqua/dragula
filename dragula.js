@@ -614,7 +614,7 @@ function getScrollContainer(node) {
   if (node.scrollHeight > node.clientHeight) {
     return node;
   } else {
-    if (node.parentNode.tagName !== 'HTML') {
+    if (!/(body|html)/i.test(node.parentNode.tagName)) {
       return getScrollContainer(node.parentNode);
     } else {
       return null;
@@ -636,7 +636,7 @@ function startScroll(item, event) {
   clearInterval(_autoScrollingInterval);
 
   // If a container contains the list that is scrollable
-  if (scrollContainer && scrollContainer.tagName !== 'BODY') {
+  if (scrollContainer) {
 
     // Scrolling vertically
     if (event.pageY - getOffset(scrollContainer).top < scrollEdge) {
