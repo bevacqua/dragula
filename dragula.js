@@ -66,6 +66,10 @@ function dragula (initialContainers, options) {
   if (o.animation === void 0) {
     o.animation = false;
   }
+  // 设置静态不动项目
+  if (o.staticClass === void 0) {
+    o.staticClass = '';
+  }
 
   var drake = emitter({
     containers: o.containers,
@@ -436,38 +440,50 @@ function dragula (initialContainers, options) {
 
       var isBrother = item.parentElement === dropTarget;
       var shouldAnimate = isBrother && o.animation;
-      if (shouldAnimate) {
-        previous = item && previousEl(item);
-        next = item && nextEl(item);
-        previousRect, nextRect;
-        itemRect = item.getBoundingClientRect();
-
-        if (!previous) {
-          mover = next;
-          moverRect = mover.getBoundingClientRect();
-        } else if (!next) {
-          mover = previous;
-          moverRect = mover.getBoundingClientRect();
-        } else {
-          previousRect = previous.getBoundingClientRect();
-          nextRect = next.getBoundingClientRect();
-        }
-      }
+      // if (shouldAnimate) {
+      // previous = item && previousEl(item);
+      // next = item && nextEl(item);
+      // previousRect, nextRect;
+      // itemRect = item.getBoundingClientRect();
+      //
+      // if (!previous) {
+      //   mover = next;
+      //   moverRect = mover.getBoundingClientRect();
+      // } else if (!next) {
+      //   mover = previous;
+      //   moverRect = mover.getBoundingClientRect();
+      // } else {
+      //   previousRect = previous.getBoundingClientRect();
+      //   nextRect = next.getBoundingClientRect();
+      // }
+      // }
+      // console.log(mover);
+      // console.log(o.staticClass);
+      // console.log(mover.classList.contains(o.staticClass));
+      // if (mover && o.staticClass && mover.classList.contains(o.staticClass)) {
+      //   return;
+      // }
+      var itemRect = item.getBoundingClientRect();
+      var rects = Array.prototype.map.call(dropTarget.children, function (c) {
+        return c.getBoundingClientRect();
+      })
+      var movers = Array.prototype.map.call(dropTarget.children, function (c) {
+        return c;
+      })
+      var oldIndex = Array.prototype.indexOf.call(dropTarget.children, item);
       dropTarget.insertBefore(item, reference);
+      var newIndex = Array.prototype.indexOf.call(dropTarget.children, item);
+      if (!reference) {
+        mover = dropTarget.lastElementChild.previousElementSibling;
+      } else if (newIndex > oldIndex) {
+        mover = reference.previousElementSibling.previousElementSibling;
+      } else if (oldIndex > newIndex) {
+        mover = reference;
+      }
+      var moverIndex = movers.indexOf(mover);
+      console.log(rects[moverIndex]);
       if (shouldAnimate) {
-        if (!mover) {
-          currentPrevious = item && previousEl(item);
-          currentNext = item && nextEl(item);
-          if (previous === currentNext) { // up
-            mover = previous;
-            moverRect = previousRect;
-          }
-          if (next === currentPrevious) { // down
-            mover = next;
-            moverRect = nextRect;
-          }
-        }
-        animate(moverRect, mover, o.animation);
+        animate(rects[moverIndex], mover, o.animation);
         animate(itemRect, item, o.animation);
       }
       drake.emit('shadow', item, dropTarget, _source);
