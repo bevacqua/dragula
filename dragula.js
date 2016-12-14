@@ -203,7 +203,7 @@ function dragula (initialContainers, options) {
     if (!source) {
       return;
     }
-    if (o.invalid(item, handle)) {
+    if (o.invalid(item, handle) || (o.staticClass && item.classList.contains(o.staticClass))) {
       return;
     }
 
@@ -473,15 +473,24 @@ function dragula (initialContainers, options) {
       var oldIndex = Array.prototype.indexOf.call(dropTarget.children, item);
       dropTarget.insertBefore(item, reference);
       var newIndex = Array.prototype.indexOf.call(dropTarget.children, item);
+      const direc = newIndex > oldIndex ? 'down' : 'up';
       if (!reference) {
         mover = dropTarget.lastElementChild.previousElementSibling;
-      } else if (newIndex > oldIndex) {
+      } else if (direc === 'down') {
         mover = reference.previousElementSibling.previousElementSibling;
-      } else if (oldIndex > newIndex) {
+      } else if (direc === 'up') {
         mover = reference;
       }
+      if (o.staticClass && mover && mover.classList.contains(o.staticClass)) {
+        if (direc === 'down') {
+          dropTarget.insertBefore(item, dropTarget.children[oldIndex]);
+        }
+        if (direc === 'up') {
+          dropTarget.insertBefore(item, dropTarget.children[oldIndex].nextElementSibling);
+        }
+        return;
+      }
       var moverIndex = movers.indexOf(mover);
-      console.log(rects[moverIndex]);
       if (shouldAnimate) {
         animate(rects[moverIndex], mover, o.animation);
         animate(itemRect, item, o.animation);
