@@ -451,6 +451,9 @@ function dragula (initialContainers, options) {
       } else {
         mover = reference ? (reference.previousElementSibling ? reference.previousElementSibling : reference) : dropTarget.lastElementChild;
       }
+      if (o.staticClass && mover.classList.contains(o.staticClass)) {
+        return;
+      }
       oldCoord = nowCord;
       // if (shouldAnimate) {
       // previous = item && previousEl(item);
