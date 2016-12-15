@@ -5,7 +5,7 @@ var sortable = $('sortable');
 
 dragula([$('left-defaults'), $('right-defaults')], { staticClass: 'static', animation: 300 });
 dragula([$('animate')], { animation: 1000, staticClass: 'static' });
-dragula([$('left-copy'), $('right-copy')], { copy: true });
+dragula([$('left-copy'), $('right-copy')], { copy: true }, { staticClass: 'static', animation: 300 });
 dragula([$('left-events'), $('right-events')])
   .on('drag', function (el) {
     el.className = el.className.replace('ex-moved', '');
