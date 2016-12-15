@@ -5,6 +5,7 @@ var crossvent = require('crossvent');
 var classes = require('./classes');
 var doc = document;
 var documentElement = doc.documentElement;
+var oldCoord = 0;
 
 function dragula (initialContainers, options) {
   var len = arguments.length;
@@ -385,7 +386,6 @@ function dragula (initialContainers, options) {
     }
   }
 
-  var oldCoord = 0;
 
   function drag (e) {
     if (!_mirror) {
@@ -451,63 +451,14 @@ function dragula (initialContainers, options) {
       } else {
         mover = reference ? (reference.previousElementSibling ? reference.previousElementSibling : reference) : dropTarget.lastElementChild;
       }
+      oldCoord = nowCord;
       if (!mover) {
         return;
       }
       if (o.staticClass && mover.classList.contains(o.staticClass)) {
         return;
       }
-      oldCoord = nowCord;
-      // if (shouldAnimate) {
-      // previous = item && previousEl(item);
-      // next = item && nextEl(item);
-      // previousRect, nextRect;
-      // itemRect = item.getBoundingClientRect();
-      //
-      // if (!previous) {
-      //   mover = next;
-      //   moverRect = mover.getBoundingClientRect();
-      // } else if (!next) {
-      //   mover = previous;
-      //   moverRect = mover.getBoundingClientRect();
-      // } else {
-      //   previousRect = previous.getBoundingClientRect();
-      //   nextRect = next.getBoundingClientRect();
-      // }
-      // }
-      // console.log(mover);
-      // console.log(o.staticClass);
-      // console.log(mover.classList.contains(o.staticClass));
-      // if (mover && o.staticClass && mover.classList.contains(o.staticClass)) {
-      //   return;
-      // }
-      // var rects = Array.prototype.map.call(dropTarget.children, function (c) {
-      //   return c.getBoundingClientRect();
-      // })
-      // var movers = Array.prototype.map.call(dropTarget.children, function (c) {
-      //   return c;
-      // })
-      // var oldIndex = Array.prototype.indexOf.call(dropTarget.children, item);
-      // var newIndex = Array.prototype.indexOf.call(dropTarget.children, item);
-      // const direc = newIndex > oldIndex ? 'down' : 'up';
-      // if (!reference) {
-      //   mover = dropTarget.lastElementChild.previousElementSibling;
-      // } else if (direc === 'down') {
-      //   mover = reference.previousElementSibling.previousElementSibling;
-      // } else if (direc === 'up') {
-      //   mover = reference;
-      // }
-      // if (o.staticClass && mover && mover.classList.contains(o.staticClass)) {
-      //   if (direc === 'down') {
-      //     dropTarget.insertBefore(item, dropTarget.children[oldIndex]);
-      //   }
-      //   if (direc === 'up') {
-      //     dropTarget.insertBefore(item, dropTarget.children[oldIndex].nextElementSibling);
-      //   }
-      //   return;
-      // }
-      // var moverIndex = movers.indexOf(mover);
-      const moverRect = mover && mover.getBoundingClientRect();
+      var moverRect = mover && mover.getBoundingClientRect();
       dropTarget.insertBefore(item, reference);
       if (shouldAnimate && mover && moverRect) {
         animate(moverRect, mover, o.animation);
@@ -731,16 +682,16 @@ function nextEl (el) {
   }
 }
 
-function previousEl (el) {
-  return el.previousElementSibling || manually();
-  function manually () {
-    var sibling = el;
-    do {
-      sibling = sibling.previousSibling;
-    } while (sibling && sibling.nodeType !== 1);
-    return sibling;
-  }
-}
+// function previousEl (el) {
+//   return el.previousElementSibling || manually();
+//   function manually () {
+//     var sibling = el;
+//     do {
+//       sibling = sibling.previousSibling;
+//     } while (sibling && sibling.nodeType !== 1);
+//     return sibling;
+//   }
+// }
 
 function animate (prevRect, target, time) {
   if (time) {
