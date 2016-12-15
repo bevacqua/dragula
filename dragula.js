@@ -385,6 +385,8 @@ function dragula (initialContainers, options) {
     }
   }
 
+  var oldCoord = 0;
+
   function drag (e) {
     if (!_mirror) {
       return;
@@ -416,9 +418,9 @@ function dragula (initialContainers, options) {
       return;
     }
     var reference;
-    var mover, moverRect;
-    var previous, next, previousRect, nextRect, itemRect;
-    var currentPrevious, currentNext;
+    // var mover, moverRect;
+    // var previous, next, previousRect, nextRect, itemRect;
+    // var currentPrevious, currentNext;
     var immediate = getImmediateChild(dropTarget, elementBehindCursor);
     if (immediate !== null) {
       reference = getReference(dropTarget, immediate, clientX, clientY);
@@ -440,6 +442,16 @@ function dragula (initialContainers, options) {
 
       var isBrother = item.parentElement === dropTarget;
       var shouldAnimate = isBrother && o.animation;
+      var itemRect = item.getBoundingClientRect();
+      var direct = o.direction;
+      var mover;
+      var nowCord = direct === 'horizontal' ? e.pageX : e.pageY;
+      if (nowCord < oldCoord) {
+        mover = reference; //upward or right
+      } else {
+        mover = reference ? (reference.previousElementSibling ? reference.previousElementSibling : reference) : dropTarget.lastElementChild;
+      }
+      oldCoord = nowCord;
       // if (shouldAnimate) {
       // previous = item && previousEl(item);
       // next = item && nextEl(item);
@@ -463,36 +475,36 @@ function dragula (initialContainers, options) {
       // if (mover && o.staticClass && mover.classList.contains(o.staticClass)) {
       //   return;
       // }
-      var itemRect = item.getBoundingClientRect();
-      var rects = Array.prototype.map.call(dropTarget.children, function (c) {
-        return c.getBoundingClientRect();
-      })
-      var movers = Array.prototype.map.call(dropTarget.children, function (c) {
-        return c;
-      })
-      var oldIndex = Array.prototype.indexOf.call(dropTarget.children, item);
+      // var rects = Array.prototype.map.call(dropTarget.children, function (c) {
+      //   return c.getBoundingClientRect();
+      // })
+      // var movers = Array.prototype.map.call(dropTarget.children, function (c) {
+      //   return c;
+      // })
+      // var oldIndex = Array.prototype.indexOf.call(dropTarget.children, item);
+      // var newIndex = Array.prototype.indexOf.call(dropTarget.children, item);
+      // const direc = newIndex > oldIndex ? 'down' : 'up';
+      // if (!reference) {
+      //   mover = dropTarget.lastElementChild.previousElementSibling;
+      // } else if (direc === 'down') {
+      //   mover = reference.previousElementSibling.previousElementSibling;
+      // } else if (direc === 'up') {
+      //   mover = reference;
+      // }
+      // if (o.staticClass && mover && mover.classList.contains(o.staticClass)) {
+      //   if (direc === 'down') {
+      //     dropTarget.insertBefore(item, dropTarget.children[oldIndex]);
+      //   }
+      //   if (direc === 'up') {
+      //     dropTarget.insertBefore(item, dropTarget.children[oldIndex].nextElementSibling);
+      //   }
+      //   return;
+      // }
+      // var moverIndex = movers.indexOf(mover);
+      const moverRect = mover.getBoundingClientRect();
       dropTarget.insertBefore(item, reference);
-      var newIndex = Array.prototype.indexOf.call(dropTarget.children, item);
-      const direc = newIndex > oldIndex ? 'down' : 'up';
-      if (!reference) {
-        mover = dropTarget.lastElementChild.previousElementSibling;
-      } else if (direc === 'down') {
-        mover = reference.previousElementSibling.previousElementSibling;
-      } else if (direc === 'up') {
-        mover = reference;
-      }
-      if (o.staticClass && mover && mover.classList.contains(o.staticClass)) {
-        if (direc === 'down') {
-          dropTarget.insertBefore(item, dropTarget.children[oldIndex]);
-        }
-        if (direc === 'up') {
-          dropTarget.insertBefore(item, dropTarget.children[oldIndex].nextElementSibling);
-        }
-        return;
-      }
-      var moverIndex = movers.indexOf(mover);
       if (shouldAnimate) {
-        animate(rects[moverIndex], mover, o.animation);
+        animate(moverRect, mover, o.animation);
         animate(itemRect, item, o.animation);
       }
       drake.emit('shadow', item, dropTarget, _source);
