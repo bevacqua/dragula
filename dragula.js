@@ -504,9 +504,9 @@ function dragula (initialContainers, options) {
       //   return;
       // }
       // var moverIndex = movers.indexOf(mover);
-      const moverRect = mover.getBoundingClientRect();
+      const moverRect = mover && mover.getBoundingClientRect();
       dropTarget.insertBefore(item, reference);
-      if (shouldAnimate) {
+      if (shouldAnimate && mover && moverRect) {
         animate(moverRect, mover, o.animation);
         animate(itemRect, item, o.animation);
       }
