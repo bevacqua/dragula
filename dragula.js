@@ -219,7 +219,7 @@ function dragula (initialContainers, options) {
 
   function end () {
     if (!drake.dragging) {
-      clearInterval(_autoScrollingInterval);
+      cancelAnimationFrame(_autoScrollingInterval);
       return;
     }
     var item = _copy || _item;
@@ -305,7 +305,7 @@ function dragula (initialContainers, options) {
 
   function cleanup () {
     var item = _copy || _item;
-    clearInterval(_autoScrollingInterval);
+    cancelAnimationFrame(_autoScrollingInterval);
     ungrab();
     removeMirrorImage();
     if (item) {
@@ -615,21 +615,18 @@ function getCoord (coord, e) {
 
 function getScrollContainer(node) {
   if (node === null) { return null; }
-  if (node.scrollHeight > node.clientHeight) {
-    return node;
-  } else {
-    if (!/(body|html)/i.test(node.parentNode.tagName)) {
-      return getScrollContainer(node.parentNode);
-    } else {
-      return null;
-    }
-  }
+  if (node.scrollHeight > node.clientHeight) { return node; }
+  if (!/(body|html)/i.test(node.parentNode.tagName)) { return getScrollContainer(node.parentNode); }
+
+  return null;
 }
 
 function startAutoScrolling(node, amount, direction) {
-  _autoScrollingInterval = setInterval(function() {
-    node[direction] += (amount * 0.25);
-  }, 15);
+  _autoScrollingInterval = requestAnimationFrame(function() {
+    startAutoScrolling(node, amount, direction);
+  });
+
+  return node[direction] += (amount * 0.25);
 }
 
 function startScroll(item, event) {
@@ -637,7 +634,7 @@ function startScroll(item, event) {
   var scrollSpeed = 20;
   var scrollContainer = getScrollContainer(item);
 
-  clearInterval(_autoScrollingInterval);
+  cancelAnimationFrame(_autoScrollingInterval);
 
   // If a container contains the list that is scrollable
   if (scrollContainer) {
