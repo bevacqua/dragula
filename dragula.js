@@ -6,6 +6,10 @@ var classes = require('./classes');
 var doc = document;
 var documentElement = doc.documentElement;
 var _autoScrollingInterval; // reference to auto scrolling
+// A simple requestAnimationFrame polyfill
+var raf = window.requestAnimationFrame || window.webkitRequestAnimationFrame ||
+  window.mozRequestAnimationFrame || window.msRequestAnimationFrame ||
+  window.oRequestAnimationFrame || function(callback){ setTimeout(callback, 1000 / 60); };
 
 function dragula (initialContainers, options) {
   var len = arguments.length;
@@ -625,7 +629,7 @@ function getScrollContainer(node) {
 }
 
 function startAutoScrolling(node, amount, direction) {
-  _autoScrollingInterval = requestAnimationFrame(function() {
+  _autoScrollingInterval = raf(function() {
     startAutoScrolling(node, amount, direction);
   });
 
