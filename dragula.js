@@ -616,7 +616,10 @@ function getCoord (coord, e) {
 function getScrollContainer(node) {
   if (node === null) { return null; }
   if (node.scrollHeight > node.clientHeight) { return node; }
-  if (!/(body|html)/i.test(node.parentNode.tagName)) { return getScrollContainer(node.parentNode); }
+
+  var REGEX_BODY_HTML = new RegExp('(body|html)', 'i');
+
+  if (!REGEX_BODY_HTML.test(node.parentNode.tagName)) { return getScrollContainer(node.parentNode); }
 
   return null;
 }
