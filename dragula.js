@@ -44,6 +44,7 @@ function dragula (initialContainers, options) {
     containers: o.containers,
     start: manualStart,
     end: end,
+    lift: lift,
     cancel: cancel,
     remove: remove,
     destroy: destroy,
@@ -113,6 +114,24 @@ function dragula (initialContainers, options) {
         e.preventDefault(); // fixes https://github.com/bevacqua/dragula/issues/155
       }
     }
+  }
+
+  function lift (el) {
+    if (!_grabbed && !canStart(el)) {
+      return;
+    }
+    _offsetX = _offsetY = 0; // we could calc these on mousemove but 0,0 is simpler
+    startOnLift();
+  }
+
+  function startOnLift () {
+    var grabbed = _grabbed; // call to end() unsets _grabbed
+    eventualMovements(true);
+    movements();
+    end();
+    start(grabbed);
+    classes.add(_copy || _item, 'gu-transit');
+    renderMirrorImage();
   }
 
   function startBecauseMouseMoved (e) {
