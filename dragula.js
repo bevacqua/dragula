@@ -3,6 +3,7 @@
 var emitter = require('contra/emitter');
 var crossvent = require('crossvent');
 var classes = require('./classes');
+var styleProp = require('./styleProperty');
 var doc = document;
 var documentElement = doc.documentElement;
 
@@ -25,6 +26,7 @@ function dragula (initialContainers, options) {
   var _renderTimer; // timer for setTimeout renderMirrorImage
   var _lastDropTarget = null; // last container item was over
   var _grabbed; // holds mousedown context until first mousemove
+  var _useTransform = styleProp.check('transform', 'translate(1px, 1px)');
 
   var o = options || {};
   if (o.moves === void 0) { o.moves = always; }
@@ -364,9 +366,15 @@ function dragula (initialContainers, options) {
     var clientY = getCoord('clientY', e);
     var x = clientX - _offsetX;
     var y = clientY - _offsetY;
+    var translation;
 
-    _mirror.style.left = x + 'px';
-    _mirror.style.top = y + 'px';
+    if (_useTransform === false) {
+      _mirror.style.left = x + 'px';
+      _mirror.style.top = y + 'px';
+    } else {
+      translation = 'translate(' + x + 'px,' + y + 'px)';
+      styleProp.set(_mirror, 'transform', translation);
+    }
 
     var item = _copy || _item;
     var elementBehindCursor = getElementBehindPoint(_mirror, clientX, clientY);
@@ -427,6 +435,12 @@ function dragula (initialContainers, options) {
     _mirror = _item.cloneNode(true);
     _mirror.style.width = getRectWidth(rect) + 'px';
     _mirror.style.height = getRectHeight(rect) + 'px';
+
+    if (_useTransform === true) {
+      _mirror.style.left = 0;
+      _mirror.style.top = 0;
+    }
+
     classes.rm(_mirror, 'gu-transit');
     classes.add(_mirror, 'gu-mirror');
     o.mirrorContainer.appendChild(_mirror);

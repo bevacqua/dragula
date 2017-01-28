@@ -185,7 +185,7 @@ test('when dragging, mirror element gets appended to configured mirrorContainer'
   var div = document.createElement('div');
   var item = document.createElement('div');
   var drake = dragula([div], {
-    'mirrorContainer': mirrorContainer
+    mirrorContainer: mirrorContainer
   });
   item.innerHTML = '<em>the force is <strong>with this one</strong></em>';
   div.appendChild(item);
