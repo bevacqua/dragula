@@ -39,6 +39,7 @@ function dragula (initialContainers, options) {
   if (o.direction === void 0) { o.direction = 'vertical'; }
   if (o.ignoreInputTextSelection === void 0) { o.ignoreInputTextSelection = true; }
   if (o.mirrorContainer === void 0) { o.mirrorContainer = doc.body; }
+  if (o.animation === void 0) { o.animation = false; }
 
   var drake = emitter({
     containers: o.containers,
@@ -385,6 +386,9 @@ function dragula (initialContainers, options) {
       return;
     }
     var reference;
+    var mover, moverRect;
+    var previous, next, previousRect, nextRect, itemRect;
+    var currentPrevious, currentNext;
     var immediate = getImmediateChild(dropTarget, elementBehindCursor);
     if (immediate !== null) {
       reference = getReference(dropTarget, immediate, clientX, clientY);
@@ -403,7 +407,43 @@ function dragula (initialContainers, options) {
       reference !== nextEl(item)
     ) {
       _currentSibling = reference;
+
+      var isBrother = item.parentElement === dropTarget;
+      var shouldAnimate = isBrother && o.animation;
+      if (shouldAnimate) {
+        previous = item && previousEl(item);
+        next = item && nextEl(item);
+        previousRect, nextRect;
+        itemRect = item.getBoundingClientRect();
+
+        if(!previous){
+          mover = next;
+          moverRect = mover.getBoundingClientRect();
+        } else if(!next){
+          mover = previous;
+          moverRect = mover.getBoundingClientRect();
+        } else {
+          previousRect = previous.getBoundingClientRect();
+          nextRect = next.getBoundingClientRect();
+        }
+      }
       dropTarget.insertBefore(item, reference);
+      if (shouldAnimate) {
+        if(!mover){
+          currentPrevious = item && previousEl(item);
+          currentNext = item && nextEl(item);
+          if (previous === currentNext) { // up
+            mover = previous;
+            moverRect = previousRect;
+          }
+          if (next === currentPrevious) { // down
+            mover = next;
+            moverRect = nextRect;
+          }
+        }
+        animate(moverRect, mover, o.animation);
+        animate(itemRect, item, o.animation);
+      }
       drake.emit('shadow', item, dropTarget, _source);
     }
     function moved (type) { drake.emit(type, item, _lastDropTarget, _source); }
@@ -579,6 +619,35 @@ function nextEl (el) {
     return sibling;
   }
 }
+
+function previousEl (el) {
+  return el.previousElementSibling || manually();
+  function manually () {
+    var sibling = el;
+    do {
+      sibling = sibling.previousSibling;
+    } while (sibling && sibling.nodeType !== 1);
+    return sibling;
+  }
+}
+
+function animate (prevRect, target, time) {
+  if (time) {
+    var currentRect = target.getBoundingClientRect();
+    target.style.transition = 'none';
+    target.style.transform = 'translate3d(' + (prevRect.left - currentRect.left) + 'px,' + (prevRect.top - currentRect.top) + 'px,0)';
+    target.offsetWidth; // repaint
+    target.style.transition = 'all ' + time + 'ms';
+    target.style.transform = 'translate3d(0,0,0)';
+    clearTimeout(target.animated);
+    target.animated = setTimeout(function () {
+      target.style.transition = '';
+      target.style.transform = '';
+      target.animated = false;
+    }, time);
+  }
+}
+
 
 function getEventHost (e) {
   // on touchend event, we have to use `e.changedTouches`
