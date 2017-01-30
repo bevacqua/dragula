@@ -22,7 +22,7 @@ function dragula (initialContainers, options) {
   var _initialSibling; // reference sibling when grabbed
   var _currentSibling; // reference sibling now
   var _copy; // item used for copying
-  var _renderTimer; // timer for setTimeout renderMirrorImage
+  var _lastRenderTime; // time we last rendered the mirror image
   var _lastDropTarget = null; // last container item was over
   var _grabbed; // holds mousedown context until first mousemove
 
@@ -308,15 +308,12 @@ function dragula (initialContainers, options) {
     if (item) {
       classes.rm(item, 'gu-transit');
     }
-    if (_renderTimer) {
-      clearTimeout(_renderTimer);
-    }
     drake.dragging = false;
     if (_lastDropTarget) {
       drake.emit('out', item, _lastDropTarget, _source);
     }
     drake.emit('dragend', item);
-    _source = _item = _copy = _initialSibling = _currentSibling = _renderTimer = _lastDropTarget = null;
+    _source = _item = _copy = _initialSibling = _currentSibling = _lastRenderTime =  _lastDropTarget = null;
   }
 
   function isInitialPlacement (target, s) {
@@ -358,6 +355,11 @@ function dragula (initialContainers, options) {
     if (!_mirror) {
       return;
     }
+
+    if (_lastRenderTime && (_lastRenderTime - getTime()) < 20) {
+      return;
+    }
+    _lastRenderTime = getTime();
     e.preventDefault();
 
     var clientX = getCoord('clientX', e);
@@ -603,6 +605,10 @@ function getCoord (coord, e) {
     coord = missMap[coord];
   }
   return host[coord];
+}
+
+function getTime () {
+  return new Date().getTime();
 }
 
 module.exports = dragula;
