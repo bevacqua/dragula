@@ -55,6 +55,8 @@ function dragula (initialContainers, options) {
     drake.on('over', spillOver).on('out', spillOut);
   }
 
+  preventLinkSelect(o.containers);
+
   events();
 
   return drake;
@@ -489,6 +491,18 @@ function dragula (initialContainers, options) {
 
   function isCopy (item, container) {
     return typeof o.copy === 'boolean' ? o.copy : o.copy(item, container);
+  }
+
+  function preventLinkSelect (containers) { // prevent IE from stealing mouse events on links
+    var links;
+    containers.forEach( function(container) {
+      links = container.getElementsByTagName('a');
+      if (links.length > 0){
+        for (var i = links.length - 1; i >= 0; i--) {
+          links[i].setAttribute('unselectable','on');
+        }
+      }
+    });
   }
 }
 
