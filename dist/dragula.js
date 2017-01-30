@@ -243,6 +243,11 @@ function dragula (initialContainers, options) {
 
     _source = context.source;
     _item = context.item;
+    if(context.source.classList.contains('procedure-list-available') || context.source.classList.contains('child-items')) {
+      // jackchalat: November 2016, Edited for PRL Editor
+      // When dragging from the available procedure list, drop a translated procedure item into the step list
+      _copy = PRLDocument.translateCallProcInstruction(context.item, context.source);
+    }
     _initialSibling = _currentSibling = nextEl(context.item);
 
     drake.dragging = true;
@@ -462,8 +467,14 @@ function dragula (initialContainers, options) {
     }
     var rect = _item.getBoundingClientRect();
     _mirror = _item.cloneNode(true);
-    _mirror.style.width = getRectWidth(rect) + 'px';
-    _mirror.style.height = getRectHeight(rect) + 'px';
+    if(_source.classList.contains('procedure-list-available') || _source.classList.contains('child-items')) {
+      // jackchalat : November 2016, Edited for PRL Planner
+      // When dragging from the available procedure list, mirror a translated procedure item into the step list
+      _mirror = PRLDocument.translateCallProcInstruction(_mirror, _source);
+    } else {
+      _mirror.style.width = getRectWidth(rect) + 'px';
+      _mirror.style.height = getRectHeight(rect) + 'px';
+    }
     classes.rm(_mirror, 'gu-transit');
     classes.add(_mirror, 'gu-mirror');
     o.mirrorContainer.appendChild(_mirror);
