@@ -246,7 +246,7 @@ function dragula (initialContainers, options) {
     } else if (o.removeOnSpill) {
       remove(e);
     } else {
-      cancel(e);
+      cancel(undefined, e);
     }
   }
 
@@ -280,7 +280,7 @@ function dragula (initialContainers, options) {
     if (!drake.dragging) {
       return;
     }
-    var reverts = arguments.length > 0 ? revert : o.revertOnSpill;
+    var reverts = revert !== undefined ? revert : o.revertOnSpill;
     var item = _copy || _item;
     var parent = getParent(item);
     var initial = isInitialPlacement(parent);
