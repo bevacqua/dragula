@@ -3,7 +3,7 @@
 var test = require('tape');
 var dragula = require('..');
 test('with normal DOM', function(t) {
-  allTests(t, document.body);
+  domTests(t, document.body);
   t.end();
 });
 
@@ -15,33 +15,33 @@ test('with nested shadow DOM', function(t) {
   div.shadowRoot.appendChild(div2);
   document.body.appendChild(div);
   
-  allTests(t, div2.shadowRoot);
+  domTests(t, div2.shadowRoot);
   t.end();
 });
 
-function allTests(t, root) {
-  test('end does not throw when not dragging', function (t) {
-    t.test('a single time', function once (st) {
-      var drake = dragula();
-      st.doesNotThrow(function () {
-        drake.end();
-      }, 'dragula ignores a single call to drake.end');
-      st.end();
-    });
-    t.test('multiple times', function once (st) {
-      var drake = dragula();
-      st.doesNotThrow(function () {
-        drake.end();
-        drake.end();
-        drake.end();
-        drake.end();
-      }, 'dragula ignores multiple calls to drake.end');
-      st.end();
-    });
-    t.end();
+test('end does not throw when not dragging', function (t) {
+  t.test('a single time', function once (st) {
+    var drake = dragula();
+    st.doesNotThrow(function () {
+      drake.end();
+    }, 'dragula ignores a single call to drake.end');
+    st.end();
   });
+  t.test('multiple times', function once (st) {
+    var drake = dragula();
+    st.doesNotThrow(function () {
+      drake.end();
+      drake.end();
+      drake.end();
+      drake.end();
+    }, 'dragula ignores multiple calls to drake.end');
+    st.end();
+  });
+  t.end();
+});
 
-  test('when already dragging, .end() ends (cancels) previous drag', function (t) {
+function domTests(t, root) {
+  t.test('when already dragging, .end() ends (cancels) previous drag', function (t) {
     var div = document.createElement('div');
     var item1 = document.createElement('div');
     var item2 = document.createElement('div');
@@ -65,7 +65,7 @@ function allTests(t, root) {
     }
   });
 
-  test('when already dragged, ends (drops) previous drag', function (t) {
+  t.test('when already dragged, ends (drops) previous drag', function (t) {
     var div = document.createElement('div');
     var div2 = document.createElement('div');
     var item1 = document.createElement('div');

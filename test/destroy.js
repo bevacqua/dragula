@@ -3,7 +3,7 @@
 var test = require('tape');
 var dragula = require('..');
 test('with normal DOM', function(t) {
-  allTests(t, document.body);
+  domTests(t, document.body);
   t.end();
 });
 
@@ -15,33 +15,34 @@ test('with nested shadow DOM', function(t) {
   div.shadowRoot.appendChild(div2);
   document.body.appendChild(div);
   
-  allTests(t, div2.shadowRoot);
+  domTests(t, div2.shadowRoot);
   t.end();
 });
 
-function allTests(t, root) {
-  test('destroy does not throw when not dragging, destroyed, or whatever', function (t) {
-    t.test('a single time', function once (st) {
-      var drake = dragula();
-      st.doesNotThrow(function () {
-        drake.destroy();
-      }, 'dragula bites into a single call to drake.destroy');
-      st.end();
-    });
-    t.test('multiple times', function once (st) {
-      var drake = dragula();
-      st.doesNotThrow(function () {
-        drake.destroy();
-        drake.destroy();
-        drake.destroy();
-        drake.destroy();
-      }, 'dragula bites into multiple calls to drake.destroy');
-      st.end();
-    });
-    t.end();
+test('destroy does not throw when not dragging, destroyed, or whatever', function (t) {
+  t.test('a single time', function once (st) {
+    var drake = dragula();
+    st.doesNotThrow(function () {
+      drake.destroy();
+    }, 'dragula bites into a single call to drake.destroy');
+    st.end();
   });
+  t.test('multiple times', function once (st) {
+    var drake = dragula();
+    st.doesNotThrow(function () {
+      drake.destroy();
+      drake.destroy();
+      drake.destroy();
+      drake.destroy();
+    }, 'dragula bites into multiple calls to drake.destroy');
+    st.end();
+  });
+  t.end();
+});
 
-  test('when dragging and destroy gets called, nothing happens', function (t) {
+function domTests(t, root) {
+  
+  t.test('when dragging and destroy gets called, nothing happens', function (t) {
     var div = document.createElement('div');
     var item = document.createElement('div');
     var drake = dragula([div]);
@@ -54,7 +55,7 @@ function allTests(t, root) {
     t.end();
   });
 
-  test('when dragging and destroy gets called, dragend event is emitted gracefully', function (t) {
+  t.test('when dragging and destroy gets called, dragend event is emitted gracefully', function (t) {
     var div = document.createElement('div');
     var item = document.createElement('div');
     var drake = dragula([div]);
@@ -70,7 +71,7 @@ function allTests(t, root) {
     }
   });
 
-  test('when dragging a copy and destroy gets called, default does not revert', function (t) {
+  t.test('when dragging a copy and destroy gets called, default does not revert', function (t) {
     var div = document.createElement('div');
     var div2 = document.createElement('div');
     var item = document.createElement('div');
@@ -95,7 +96,7 @@ function allTests(t, root) {
     }
   });
 
-  test('when dragging a copy and destroy gets called, revert is executed', function (t) {
+  t.test('when dragging a copy and destroy gets called, revert is executed', function (t) {
     var div = document.createElement('div');
     var div2 = document.createElement('div');
     var item = document.createElement('div');

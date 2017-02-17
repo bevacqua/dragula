@@ -5,7 +5,7 @@ var events = require('./lib/events');
 var dragula = require('..');
 
 test('with normal DOM', function(t) {
-  allTests(t, document.body);
+  domTests(t, document.body);
   t.end();
 });
 
@@ -17,11 +17,11 @@ test('with nested shadow DOM', function(t) {
   div.shadowRoot.appendChild(div2);
   document.body.appendChild(div);
   
-  allTests(t, div2.shadowRoot);
+  domTests(t, div2.shadowRoot);
   t.end();
 });
 
-function allTests(t, root) {
+function domTests(t, root) {
   t.test('drag event gets emitted when clicking an item', function (t) {
     testCase('works for left clicks', { which: 1 });
     testCase('works for wheel clicks', { which: 1 });

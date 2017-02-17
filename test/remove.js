@@ -5,7 +5,7 @@ var events = require('./lib/events');
 var dragula = require('..');
 
 test('with normal DOM', function(t) {
-  allTests(t, document.body);
+  domTests(t, document.body);
   t.end();
 });
 
@@ -17,33 +17,34 @@ test('with nested shadow DOM', function(t) {
   div.shadowRoot.appendChild(div2);
   document.body.appendChild(div);
   
-  allTests(t, div2.shadowRoot);
+  domTests(t, div2.shadowRoot);
   t.end();
 });
 
-function allTests(t, root) {
-  test('remove does not throw when not dragging', function (t) {
-    t.test('a single time', function once (st) {
-      var drake = dragula();
-      st.doesNotThrow(function () {
-        drake.remove();
-      }, 'dragula ignores a single call to drake.remove');
-      st.end();
-    });
-    t.test('multiple times', function once (st) {
-      var drake = dragula();
-      st.doesNotThrow(function () {
-        drake.remove();
-        drake.remove();
-        drake.remove();
-        drake.remove();
-      }, 'dragula ignores multiple calls to drake.remove');
-      st.end();
-    });
-    t.end();
+test('remove does not throw when not dragging', function (t) {
+  t.test('a single time', function once (st) {
+    var drake = dragula();
+    st.doesNotThrow(function () {
+      drake.remove();
+    }, 'dragula ignores a single call to drake.remove');
+    st.end();
   });
+  t.test('multiple times', function once (st) {
+    var drake = dragula();
+    st.doesNotThrow(function () {
+      drake.remove();
+      drake.remove();
+      drake.remove();
+      drake.remove();
+    }, 'dragula ignores multiple calls to drake.remove');
+    st.end();
+  });
+  t.end();
+});
 
-  test('when dragging and remove gets called, element is removed', function (t) {
+function domTests(t, root) {
+
+  t.test('when dragging and remove gets called, element is removed', function (t) {
     var div = document.createElement('div');
     var item = document.createElement('div');
     var drake = dragula([div]);
@@ -56,7 +57,7 @@ function allTests(t, root) {
     t.end();
   });
 
-  test('when dragging and remove gets called, remove event is emitted', function (t) {
+  t.test('when dragging and remove gets called, remove event is emitted', function (t) {
     var div = document.createElement('div');
     var item = document.createElement('div');
     var drake = dragula([div]);
@@ -77,7 +78,7 @@ function allTests(t, root) {
     }
   });
 
-  test('when dragging a copy and remove gets called, cancel event is emitted', function (t) {
+  t.test('when dragging a copy and remove gets called, cancel event is emitted', function (t) {
     var div = document.createElement('div');
     var item = document.createElement('div');
     var drake = dragula([div], { copy: true });
