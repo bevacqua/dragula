@@ -397,13 +397,21 @@ function dragula (initialContainers, options) {
       }
       return;
     }
+    if (isParent(dropTarget, item)) {
+      return;
+    }
     if (
       (reference === null && changed) ||
       reference !== item &&
       reference !== nextEl(item)
     ) {
       _currentSibling = reference;
-      dropTarget.insertBefore(item, reference);
+      if (!reference) {
+        dropTarget.appendChild(item);
+      } else {
+        dropTarget.insertBefore(item, reference);  
+      }
+      
       drake.emit('shadow', item, dropTarget, _source);
     }
     function moved (type) { drake.emit(type, item, _lastDropTarget, _source); }
@@ -429,15 +437,18 @@ function dragula (initialContainers, options) {
     _mirror.style.height = getRectHeight(rect) + 'px';
     classes.rm(_mirror, 'gu-transit');
     classes.add(_mirror, 'gu-mirror');
-    o.mirrorContainer.appendChild(_mirror);
+
+    var mc = typeof o.mirrorContainer === 'function' ? o.mirrorContainer(_item, _source) : o.mirrorContainer;
+    mc.appendChild(_mirror);
     touchy(documentElement, 'add', 'mousemove', drag);
-    classes.add(o.mirrorContainer, 'gu-unselectable');
+    classes.add(mc, 'gu-unselectable');
     drake.emit('cloned', _mirror, _item, 'mirror');
   }
 
   function removeMirrorImage () {
     if (_mirror) {
-      classes.rm(o.mirrorContainer, 'gu-unselectable');
+      var mc = typeof o.mirrorContainer === 'function' ? o.mirrorContainer(_item, _source) : o.mirrorContainer;
+      classes.rm(mc, 'gu-unselectable');
       touchy(documentElement, 'remove', 'mousemove', drag);
       getParent(_mirror).removeChild(_mirror);
       _mirror = null;
@@ -603,6 +614,13 @@ function getCoord (coord, e) {
     coord = missMap[coord];
   }
   return host[coord];
+}
+
+function isParent (n, p) {
+  while (n && (n = n.parentNode)) {
+    if (n === p) { return true; }
+  }
+  return false;
 }
 
 module.exports = dragula;
