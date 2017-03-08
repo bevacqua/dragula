@@ -637,6 +637,7 @@ function startAutoScrolling(node, amount, direction) {
 }
 
 function startScroll(item, event) {
+  var scrollingElement = null;
   var scrollEdge = 20;
   var scrollSpeed = 20;
   var scrollContainer = getScrollContainer(item);
@@ -664,18 +665,20 @@ function startScroll(item, event) {
 
   // If the window contains the list
   } else {
+    scrollingElement = document.scrollingElement || document.documentElement || document.body;
+
     // Scrolling vertically
     if ((pageY - window.scrollY) < scrollEdge) {
-      startAutoScrolling(document.body, -scrollSpeed, 'scrollTop');
+      startAutoScrolling(scrollingElement, -scrollSpeed, 'scrollTop');
     } else if ((window.innerHeight - (pageY - window.scrollY)) < scrollEdge) {
-      startAutoScrolling(document.body, scrollSpeed, 'scrollTop');
+      startAutoScrolling(scrollingElement, scrollSpeed, 'scrollTop');
     }
 
     // Scrolling horizontally
     if ((pageX - window.scrollX) < scrollEdge) {
-      startAutoScrolling(document.body, -scrollSpeed, 'scrollLeft');
+      startAutoScrolling(scrollingElement, -scrollSpeed, 'scrollLeft');
     } else if ((window.innerWidth - (pageX - window.scrollX)) < scrollEdge) {
-      startAutoScrolling(document.body, scrollSpeed, 'scrollLeft');
+      startAutoScrolling(scrollingElement, scrollSpeed, 'scrollLeft');
     }
   }
 }
