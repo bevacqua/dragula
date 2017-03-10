@@ -641,6 +641,16 @@ function startScroll(item, event) {
   var scrollEdge = 20;
   var scrollSpeed = 20;
   var scrollContainer = getScrollContainer(item);
+  var pageX = null;
+  var pageY = null;
+
+  if (event.touches) {
+    pageX = event.touches[0].pageX;
+    pageY = event.touches[0].pageY;
+  } else {
+    pageX = event.pageX;
+    pageY = event.pageY;
+  }
 
   cancelAnimationFrame(_autoScrollingInterval);
 
@@ -648,16 +658,16 @@ function startScroll(item, event) {
   if (scrollContainer) {
 
     // Scrolling vertically
-    if (event.pageY - getOffset(scrollContainer).top < scrollEdge) {
+    if (pageY - getOffset(scrollContainer).top < scrollEdge) {
       startAutoScrolling(scrollContainer, -scrollSpeed, 'scrollTop');
-    } else if ((getOffset(scrollContainer).top + scrollContainer.getBoundingClientRect().height) - event.pageY < scrollEdge) {
+    } else if ((getOffset(scrollContainer).top + scrollContainer.getBoundingClientRect().height) - pageY < scrollEdge) {
       startAutoScrolling(scrollContainer, scrollSpeed, 'scrollTop');
     }
 
     // Scrolling horizontally
-    if (event.pageX - scrollContainer.getBoundingClientRect().left < scrollEdge) {
+    if (pageX - scrollContainer.getBoundingClientRect().left < scrollEdge) {
       startAutoScrolling(scrollContainer, -scrollSpeed, 'scrollLeft');
-    } else if ((getOffset(scrollContainer).left + scrollContainer.getBoundingClientRect().width) - event.pageX < scrollEdge) {
+    } else if ((getOffset(scrollContainer).left + scrollContainer.getBoundingClientRect().width) - pageX < scrollEdge) {
       startAutoScrolling(scrollContainer, scrollSpeed, 'scrollLeft');
     }
 
@@ -666,16 +676,16 @@ function startScroll(item, event) {
     scrollingElement = document.scrollingElement || document.documentElement || document.body;
 
     // Scrolling vertically
-    if ((event.pageY - window.scrollY) < scrollEdge) {
+    if ((pageY - window.scrollY) < scrollEdge) {
       startAutoScrolling(scrollingElement, -scrollSpeed, 'scrollTop');
-    } else if ((window.innerHeight - (event.pageY - window.scrollY)) < scrollEdge) {
+    } else if ((window.innerHeight - (pageY - window.scrollY)) < scrollEdge) {
       startAutoScrolling(scrollingElement, scrollSpeed, 'scrollTop');
     }
 
     // Scrolling horizontally
-    if ((event.pageX - window.scrollX) < scrollEdge) {
+    if ((pageX - window.scrollX) < scrollEdge) {
       startAutoScrolling(scrollingElement, -scrollSpeed, 'scrollLeft');
-    } else if ((window.innerWidth - (event.pageX - window.scrollX)) < scrollEdge) {
+    } else if ((window.innerWidth - (pageX - window.scrollX)) < scrollEdge) {
       startAutoScrolling(scrollingElement, scrollSpeed, 'scrollLeft');
     }
   }
