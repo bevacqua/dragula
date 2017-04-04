@@ -619,7 +619,10 @@ function getCoord (coord, e) {
 
 function getScrollContainer(node) {
   if (node === null) { return null; }
-  if (node.scrollHeight > node.clientHeight) { return node; }
+  var nodeOuterHeight = parseFloat(window.getComputedStyle(node).getPropertyValue('height')) +
+    parseFloat(window.getComputedStyle(node).getPropertyValue('padding-top')) +
+    parseFloat(window.getComputedStyle(node).getPropertyValue('padding-bottom'));
+  if (node.scrollHeight > Math.ceil(nodeOuterHeight)) { return node; }
 
   var REGEX_BODY_HTML = new RegExp('(body|html)', 'i');
 
@@ -676,16 +679,16 @@ function startScroll(item, event) {
     scrollingElement = document.scrollingElement || document.documentElement || document.body;
 
     // Scrolling vertically
-    if ((pageY - window.scrollY) < scrollEdge) {
+    if ((pageY - window.pageYOffset) < scrollEdge) {
       startAutoScrolling(scrollingElement, -scrollSpeed, 'scrollTop');
-    } else if ((window.innerHeight - (pageY - window.scrollY)) < scrollEdge) {
+    } else if ((window.innerHeight - (pageY - window.pageYOffset)) < scrollEdge) {
       startAutoScrolling(scrollingElement, scrollSpeed, 'scrollTop');
     }
 
     // Scrolling horizontally
-    if ((pageX - window.scrollX) < scrollEdge) {
+    if ((pageX - window.pageXOffset) < scrollEdge) {
       startAutoScrolling(scrollingElement, -scrollSpeed, 'scrollLeft');
-    } else if ((window.innerWidth - (pageX - window.scrollX)) < scrollEdge) {
+    } else if ((window.innerWidth - (pageX - window.pageXOffset)) < scrollEdge) {
       startAutoScrolling(scrollingElement, scrollSpeed, 'scrollLeft');
     }
   }
