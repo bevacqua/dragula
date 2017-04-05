@@ -619,6 +619,8 @@ function getCoord (coord, e) {
 
 function getScrollContainer(node) {
   if (node === null) { return null; }
+  // NOTE: Manually calculating height because IE's `clientHeight` isn't always
+  // reliable.
   var nodeOuterHeight = parseFloat(window.getComputedStyle(node).getPropertyValue('height')) +
     parseFloat(window.getComputedStyle(node).getPropertyValue('padding-top')) +
     parseFloat(window.getComputedStyle(node).getPropertyValue('padding-bottom'));
@@ -679,6 +681,7 @@ function startScroll(item, event) {
     scrollingElement = document.scrollingElement || document.documentElement || document.body;
 
     // Scrolling vertically
+    // NOTE: Using `window.pageYOffset` here because IE doesn't have `window.scrollY`.
     if ((pageY - window.pageYOffset) < scrollEdge) {
       startAutoScrolling(scrollingElement, -scrollSpeed, 'scrollTop');
     } else if ((window.innerHeight - (pageY - window.pageYOffset)) < scrollEdge) {
@@ -686,6 +689,7 @@ function startScroll(item, event) {
     }
 
     // Scrolling horizontally
+    // NOTE: Using `window.pageXOffset` here because IE doesn't have `window.scrollX`.
     if ((pageX - window.pageXOffset) < scrollEdge) {
       startAutoScrolling(scrollingElement, -scrollSpeed, 'scrollLeft');
     } else if ((window.innerWidth - (pageX - window.pageXOffset)) < scrollEdge) {
