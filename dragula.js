@@ -44,6 +44,7 @@ function dragula (initialContainers, options) {
   if (o.direction === void 0) { o.direction = 'vertical'; }
   if (o.ignoreInputTextSelection === void 0) { o.ignoreInputTextSelection = true; }
   if (o.mirrorContainer === void 0) { o.mirrorContainer = doc.body; }
+  if (o.scrollEdge === void 0) { o.scrollEdge = 36; }
 
   var drake = emitter({
     containers: o.containers,
@@ -420,7 +421,7 @@ function dragula (initialContainers, options) {
     function over () { if (changed) { moved('over'); } }
     function out () { if (_lastDropTarget) { moved('out'); } }
 
-    startScroll(_item, e);
+    startScroll(_item, e, o);
   }
 
   function spillOver (el) {
@@ -641,9 +642,9 @@ function startAutoScrolling(node, amount, direction) {
   return node[direction] += (amount * 0.25);
 }
 
-function startScroll(item, event) {
+function startScroll(item, event, options) {
   var scrollingElement = null;
-  var scrollEdge = 20;
+  var scrollEdge = options.scrollEdge;
   var scrollSpeed = 20;
   var scrollContainer = getScrollContainer(item);
   var pageX = null;
