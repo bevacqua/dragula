@@ -7,9 +7,8 @@ var doc = document;
 var documentElement = doc.documentElement;
 var _autoScrollingInterval; // reference to auto scrolling
 // A simple requestAnimationFrame polyfill
-var raf = window.requestAnimationFrame || window.webkitRequestAnimationFrame ||
-  window.mozRequestAnimationFrame || window.msRequestAnimationFrame ||
-  window.oRequestAnimationFrame || function(callback){ setTimeout(callback, 1000 / 60); };
+var raf = window.requestAnimationFrame || function(callback){ return setTimeout(callback, 1000 / 60); };
+var caf = window.cancelAnimationFrame || function(cafID){ clearTimeout(cafID); };
 
 function dragula (initialContainers, options) {
   var len = arguments.length;
@@ -224,7 +223,7 @@ function dragula (initialContainers, options) {
 
   function end () {
     if (!drake.dragging) {
-      cancelAnimationFrame(_autoScrollingInterval);
+      caf(_autoScrollingInterval);
       return;
     }
     var item = _copy || _item;
@@ -310,7 +309,7 @@ function dragula (initialContainers, options) {
 
   function cleanup () {
     var item = _copy || _item;
-    cancelAnimationFrame(_autoScrollingInterval);
+    caf(_autoScrollingInterval);
     ungrab();
     removeMirrorImage();
     if (item) {
@@ -658,7 +657,7 @@ function startScroll(item, event, options) {
     pageY = event.pageY;
   }
 
-  cancelAnimationFrame(_autoScrollingInterval);
+  caf(_autoScrollingInterval);
 
   // If a container contains the list that is scrollable
   if (scrollContainer) {
