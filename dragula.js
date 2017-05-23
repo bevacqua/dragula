@@ -350,7 +350,7 @@ function dragula (initialContainers, options) {
       if (initial) {
         return true; // should always be able to drop it right back where it was
       }
-      return o.accepts(_item, target, _source, reference);
+      return o.accepts(_item, target, _source, reference, {clientX, clientY});
     }
   }
 
