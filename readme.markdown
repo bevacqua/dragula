@@ -320,9 +320,9 @@ MIT
 [5]: https://travis-ci.org/bevacqua/dragula.svg
 [6]: http://api.flattr.com/button/flattr-badge-large.png
 [7]: http://flattr.com/thing/4127996/bevacquadragula-on-GitHub
-[8]: https://github.com/bevacqua/angular-dragula
+[8]: https://github.com/bevacqua/angularjs-dragula
 [9]: https://github.com/bevacqua/react-dragula
-[10]: http://bevacqua.github.io/angular-dragula/
+[10]: http://bevacqua.github.io/angularjs-dragula/
 [11]: http://bevacqua.github.io/react-dragula/
 [12]: https://github.com/bevacqua/dragula/blob/master/dist/dragula.css
 [13]: https://github.com/bevacqua/dragula/blob/master/dist/dragula.min.css
