@@ -39,6 +39,7 @@ function dragula (initialContainers, options) {
   if (o.direction === void 0) { o.direction = 'vertical'; }
   if (o.ignoreInputTextSelection === void 0) { o.ignoreInputTextSelection = true; }
   if (o.mirrorContainer === void 0) { o.mirrorContainer = doc.body; }
+  if (o.fixedContainer === void 0) { o.fixedContainer = false; }
 
   var drake = emitter({
     containers: o.containers,
@@ -239,7 +240,8 @@ function dragula (initialContainers, options) {
     var item = _copy || _item;
     var clientX = getCoord('clientX', e);
     var clientY = getCoord('clientY', e);
-    var elementBehindCursor = getElementBehindPoint(_mirror, clientX, clientY);
+    var element = getFixedElement();
+    var elementBehindCursor = getElementBehindPoint(element, clientX, clientY);
     var dropTarget = findDropTarget(elementBehindCursor, clientX, clientY);
     if (dropTarget && ((_copy && o.copySortSource) || (!_copy || dropTarget !== _source))) {
       drop(item, dropTarget);
@@ -365,11 +367,13 @@ function dragula (initialContainers, options) {
     var x = clientX - _offsetX;
     var y = clientY - _offsetY;
 
-    _mirror.style.left = x + 'px';
-    _mirror.style.top = y + 'px';
+    var element = getFixedElement();
+
+    element.style.left = x + 'px';
+    element.style.top = y + 'px';
 
     var item = _copy || _item;
-    var elementBehindCursor = getElementBehindPoint(_mirror, clientX, clientY);
+    var elementBehindCursor = getElementBehindPoint(element, clientX, clientY);
     var dropTarget = findDropTarget(elementBehindCursor, clientX, clientY);
     var changed = dropTarget !== null && dropTarget !== _lastDropTarget;
     if (changed || dropTarget === null) {
@@ -425,10 +429,14 @@ function dragula (initialContainers, options) {
     }
     var rect = _item.getBoundingClientRect();
     _mirror = _item.cloneNode(true);
-    _mirror.style.width = getRectWidth(rect) + 'px';
-    _mirror.style.height = getRectHeight(rect) + 'px';
+
+    var element = getFixedElement();
+    
+    element.style.width = getRectWidth(rect) + 'px';
+    element.style.height = getRectHeight(rect) + 'px';
+
     classes.rm(_mirror, 'gu-transit');
-    classes.add(_mirror, 'gu-mirror');
+    classes.add(element, 'gu-mirror');
     o.mirrorContainer.appendChild(_mirror);
     touchy(documentElement, 'add', 'mousemove', drag);
     classes.add(o.mirrorContainer, 'gu-unselectable');
@@ -490,6 +498,10 @@ function dragula (initialContainers, options) {
   function isCopy (item, container) {
     return typeof o.copy === 'boolean' ? o.copy : o.copy(item, container);
   }
+
+  function getFixedElement() {
+    return o.fixedContainer || _mirror;
+  }  
 }
 
 function touchy (el, op, type, fn) {
