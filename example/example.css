@@ -182,6 +182,28 @@ button:hover {
 #right-lovehandles > div {
   cursor: initial;
 }
+.scrollable {
+  display: block;
+  width: 100%;
+  overflow-y: auto;
+  height: 12em;
+}
+
+.scrollable--horizontal {
+  display: block;
+  max-width: 100%;
+  margin-top: 1.5em;
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+.scrollable--horizontal .scroll {
+  display: block;
+  width: 1000px;
+}
+.scrollable--horizontal .scroll div {
+  display: inline-block;
+  width: auto;
+}
 .handle {
   padding: 0 5px;
   margin-right: 5px;
