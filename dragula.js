@@ -48,6 +48,7 @@ function dragula (initialContainers, options) {
     cancel: cancel,
     remove: remove,
     destroy: destroy,
+    canMove: canMove,
     dragging: false
   });
 
@@ -192,6 +193,10 @@ function dragula (initialContainers, options) {
     };
   }
 
+  function canMove (item) {
+    return !!canStart(item);
+  }
+
   function manualStart (item) {
     var context = canStart(item);
     if (context) {
@@ -287,7 +292,9 @@ function dragula (initialContainers, options) {
     var initial = isInitialPlacement(parent);
     if (initial === false && reverts) {
       if (_copy) {
-        parent.removeChild(_copy);
+        if (parent) {
+          parent.removeChild(_copy);
+        }
       } else {
         _source.insertBefore(item, _initialSibling);
       }

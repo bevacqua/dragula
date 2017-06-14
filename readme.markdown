@@ -286,6 +286,14 @@ Event Name | Listener Arguments               | Event Description
 `out`      | `el, container, source`          | `el` was dragged out of `container` or dropped, and originally came from `source`
 `cloned`   | `clone, original, type`          | DOM element `original` was cloned as `clone`, of `type` _(`'mirror'` or `'copy'`)_. Fired for mirror images and when `copy: true`
 
+#### `drake.canMove(item)`
+
+Returns whether the `drake` instance can accept drags for a DOM element `item`. This method returns `true` when all the conditions outlined below are met, and `false` otherwise.
+
+- `item` is a child of one of the specified containers for `drake`
+- `item` passes the pertinent [`invalid`](#optionsinvalid) checks
+- `item` passes a `moves` check
+
 #### `drake.destroy()`
 
 Removes all drag and drop events used by `dragula` to manage drag and drop between the `containers`. If `.destroy` is called while an element is being dragged, the drag will be effectively cancelled.
@@ -318,13 +326,13 @@ MIT
 [5]: https://travis-ci.org/bevacqua/dragula.svg
 [6]: http://api.flattr.com/button/flattr-badge-large.png
 [7]: http://flattr.com/thing/4127996/bevacquadragula-on-GitHub
-[8]: https://github.com/bevacqua/angular-dragula
+[8]: https://github.com/bevacqua/angularjs-dragula
 [9]: https://github.com/bevacqua/react-dragula
-[10]: http://bevacqua.github.io/angular-dragula/
+[10]: http://bevacqua.github.io/angularjs-dragula/
 [11]: http://bevacqua.github.io/react-dragula/
 [12]: https://github.com/bevacqua/dragula/blob/master/dist/dragula.css
 [13]: https://github.com/bevacqua/dragula/blob/master/dist/dragula.min.css
-[14]: https://github.com/bevacqua/dragula/blob/master/contributing.markdown
+[14]: https://github.com/bevacqua/dragula/blob/master/.github/contributing.markdown
 [15]: https://github.com/bevacqua/dragula/blob/master/dist
 [16]: #css
 [17]: https://dragula-slackin.herokuapp.com/badge.svg
