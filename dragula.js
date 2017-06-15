@@ -123,8 +123,9 @@ function dragula (initialContainers, options) {
       release({});
       return; // when text is selected on an input and then dragged, mouseup doesn't fire. this is our only hope
     }
-    // truthy check fixes #239, equality fixes #207
-    if (e.clientX !== void 0 && e.clientX === _moveX && e.clientY !== void 0 && e.clientY === _moveY) {
+    // truthy check fixes #239, equality fixes #207 & #501
+    if ((e.clientX !== void 0 && Math.abs(e.clientX - _moveX) <= (o.slideFactorX || 0)) &&
+      (e.clientY !== void 0 && Math.abs(e.clientY - _moveY) <= (o.slideFactorY || 0))) {
       return;
     }
     if (o.ignoreInputTextSelection) {
