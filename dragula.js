@@ -127,6 +127,11 @@ function dragula (initialContainers, options) {
     if (e.clientX !== void 0 && e.clientX === _moveX && e.clientY !== void 0 && e.clientY === _moveY) {
       return;
     }
+    // #501
+    if ((Math.abs(e.clientX - _moveX) <= o.slideFactorX || o.slideFactorX === void 0)
+      && (Math.abs(e.clientY - _moveY) <= o.slideFactorY || o.slideFactorY === void 0)) {
+      return;
+    }
     if (o.ignoreInputTextSelection) {
       var clientX = getCoord('clientX', e);
       var clientY = getCoord('clientY', e);
