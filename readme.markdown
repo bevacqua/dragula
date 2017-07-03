@@ -107,7 +107,8 @@ dragula(containers, {
   revertOnSpill: false,              // spilling will put the element back where it was dragged from, if this is true
   removeOnSpill: false,              // spilling will `.remove` the element, if this is true
   mirrorContainer: document.body,    // set the element that gets mirror elements appended
-  ignoreInputTextSelection: true     // allows users to select input text, see details below
+  ignoreInputTextSelection: true,    // allows users to select input text, see details below
+  dragDelay: 0                       // require click to be held for a certain delay before dragging
 });
 ```
 
@@ -230,6 +231,10 @@ The DOM element where the mirror element displayed while dragging will be append
 When this option is enabled, if the user clicks on an input element the drag won't start until their mouse pointer exits the input. This translates into the user being able to select text in inputs contained inside draggable elements, and still drag the element by moving their mouse outside of the input -- so you get the best of both worlds.
 
 This option is enabled by default. Turn it off by setting it to `false`. If its disabled your users won't be able to select text in inputs within `dragula` containers with their mouse.
+
+#### `options.dragDelay`
+
+You can set a delay time (in milliseconds) from the time the user clicks an item until moving the mouse will start a drag.  If your elements double as both draggable and clickable this option can help safeguard against accidentally dragging when the user meant to click.  Defaults to 0ms (drag can start immediately).
 
 ## API
 

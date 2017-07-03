@@ -62,6 +62,7 @@ function dragula (initialContainers, options) {
   var _renderTimer; // timer for setTimeout renderMirrorImage
   var _lastDropTarget = null; // last container item was over
   var _grabbed; // holds mousedown context until first mousemove
+  var _grabbedTime; // holds mousedown timestamp so we can allow for delay
 
   var o = options || {};
   if (o.moves === void 0) { o.moves = always; }
@@ -76,6 +77,7 @@ function dragula (initialContainers, options) {
   if (o.direction === void 0) { o.direction = 'vertical'; }
   if (o.ignoreInputTextSelection === void 0) { o.ignoreInputTextSelection = true; }
   if (o.mirrorContainer === void 0) { o.mirrorContainer = doc.body; }
+  if (o.dragDelay === void 0) { o.dragDelay = 0; }
 
   var drake = emitter({
     containers: o.containers,
@@ -142,6 +144,7 @@ function dragula (initialContainers, options) {
       return;
     }
     _grabbed = context;
+    _grabbedTime = Date.now();
     eventualMovements();
     if (e.type === 'mousedown') {
       if (isInput(item)) { // see also: https://github.com/bevacqua/dragula/issues/208
@@ -171,6 +174,10 @@ function dragula (initialContainers, options) {
       if (isInput(elementBehindCursor)) {
         return;
       }
+    }
+    // allow for minimum grab delay
+    if (_grabbedTime + o.dragDelay > Date.now()){
+      return;
     }
 
     var grabbed = _grabbed; // call to end() unsets _grabbed
