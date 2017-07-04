@@ -8,8 +8,8 @@ Browser support includes every sane browser and **IE7+**. <sub>_(Granted you pol
 
 Framework support includes vanilla JavaScript, Angular, and React.
 
-- Official [Angular bridge][8] for `dragula` [_(demo)_][10]
-- Official [Angular 2 bridge][22] for `dragula` [_(demo)_][23]
+- Official [AngularJS bridge][8] for `dragula` [_(demo)_][10]
+- Official [Angular bridge][22] for `dragula` [_(demo)_][23]
 - Official [React bridge][9] for `dragula` [_(demo)_][11]
 
 # Demo
