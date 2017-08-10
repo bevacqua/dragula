@@ -477,7 +477,9 @@ function dragula (initialContainers, options) {
       }
 
       // check last element with matching y-coord
-      if (horizontal && lastMatchingYCoordElIndex !== -1) { return dropTarget.children[lastMatchingYCoordElIndex < len - 1 ? lastMatchingYCoordElIndex + 1 : len -1] }
+      if (horizontal && lastMatchingYCoordElIndex !== -1) {
+        return dropTarget.children[lastMatchingYCoordElIndex < len - 1 ? lastMatchingYCoordElIndex + 1 : len -1];
+      }
       return null;
     }
 
