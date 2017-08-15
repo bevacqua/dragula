@@ -25,6 +25,7 @@ function dragula (initialContainers, options) {
   var _renderTimer; // timer for setTimeout renderMirrorImage
   var _lastDropTarget = null; // last container item was over
   var _grabbed; // holds mousedown context until first mousemove
+  var _grabDelayTimer;
 
   var o = options || {};
   if (o.moves === void 0) { o.moves = always; }
@@ -39,6 +40,7 @@ function dragula (initialContainers, options) {
   if (o.direction === void 0) { o.direction = 'vertical'; }
   if (o.ignoreInputTextSelection === void 0) { o.ignoreInputTextSelection = true; }
   if (o.mirrorContainer === void 0) { o.mirrorContainer = doc.body; }
+  if (o.grabDelay === void 0) { o.grabDelay = 0; }
 
   var drake = emitter({
     containers: o.containers,
@@ -65,8 +67,23 @@ function dragula (initialContainers, options) {
 
   function events (remove) {
     var op = remove ? 'remove' : 'add';
-    touchy(documentElement, op, 'mousedown', grab);
+    touchy(documentElement, op, 'mousedown', o.grabDelay ? grabWithDelay : grab);
     touchy(documentElement, op, 'mouseup', release);
+  }
+
+  function grabDelayMovements (remove, e) {
+    var op = remove ? 'remove' : 'add';
+    touchy(documentElement, op, 'mousemove', cancelGrabDelay);
+
+    clearGrabDelayTimer();
+
+    if (!remove) {
+      _grabDelayTimer = setTimeout(function() {
+        grabDelayMovements(true);
+        grab(e);
+      }, o.grabDelay);
+    }
+
   }
 
   function eventualMovements (remove) {
@@ -91,6 +108,10 @@ function dragula (initialContainers, options) {
     }
   }
 
+  function grabWithDelay(e) {
+    grabDelayMovements(false, e);
+  }
+
   function grab (e) {
     _moveX = e.clientX;
     _moveY = e.clientY;
@@ -113,6 +134,10 @@ function dragula (initialContainers, options) {
         e.preventDefault(); // fixes https://github.com/bevacqua/dragula/issues/155
       }
     }
+  }
+
+  function cancelGrabDelay () {
+    grabDelayMovements(true);
   }
 
   function startBecauseMouseMoved (e) {
@@ -231,6 +256,11 @@ function dragula (initialContainers, options) {
   }
 
   function release (e) {
+
+    if (o.grabDelay) {
+      grabDelayMovements(true);
+    }
+
     ungrab();
 
     if (!drake.dragging) {
@@ -489,6 +519,13 @@ function dragula (initialContainers, options) {
 
   function isCopy (item, container) {
     return typeof o.copy === 'boolean' ? o.copy : o.copy(item, container);
+  }
+
+  function clearGrabDelayTimer () {
+    if (_grabDelayTimer) {
+      clearTimeout(_grabDelayTimer);
+      _grabDelayTimer = null;
+    }
   }
 }
 
