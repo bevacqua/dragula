@@ -18,6 +18,7 @@
     "test": "npm run lint && browserify test/*.js | tape-run",
     "test-watch": "hihat test/*.js -p tap-dev-tool"
   },
+  "typings": "./dragula.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/bevacqua/dragula.git"
