@@ -19,6 +19,7 @@ function dragula (initialContainers, options) {
   var _offsetY; // reference y
   var _moveX; // reference move x
   var _moveY; // reference move y
+  var _initialSiblingNode; // reference sibling node when grabbed
   var _initialSibling; // reference sibling when grabbed
   var _currentSibling; // reference sibling now
   var _copy; // item used for copying
@@ -206,6 +207,7 @@ function dragula (initialContainers, options) {
 
     _source = context.source;
     _item = context.item;
+    _initialSiblingNode = context.item.nextSibling;
     _initialSibling = _currentSibling = nextEl(context.item);
 
     drake.dragging = true;
@@ -284,14 +286,10 @@ function dragula (initialContainers, options) {
     var item = _copy || _item;
     var parent = getParent(item);
     var initial = isInitialPlacement(parent);
-    if (initial === false && reverts) {
-      if (_copy) {
-        if (parent) {
-          parent.removeChild(_copy);
-        }
-      } else {
-        _source.insertBefore(item, _initialSibling);
-      }
+    if (initial === false && reverts && _copy && parent) {
+      parent.removeChild(_copy);
+    } else if (reverts && !_copy) {
+      _source.insertBefore(item, _initialSiblingNode);
     }
     if (initial || reverts) {
       drake.emit('cancel', item, _source, _source);
@@ -316,7 +314,7 @@ function dragula (initialContainers, options) {
       drake.emit('out', item, _lastDropTarget, _source);
     }
     drake.emit('dragend', item);
-    _source = _item = _copy = _initialSibling = _currentSibling = _renderTimer = _lastDropTarget = null;
+    _source = _item = _copy = _initialSiblingNode = _initialSibling = _currentSibling = _renderTimer = _lastDropTarget = null;
   }
 
   function isInitialPlacement (target, s) {
