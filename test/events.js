@@ -16,7 +16,7 @@ test('with nested shadow DOM', function(t) {
   div2.createShadowRoot();
   div.shadowRoot.appendChild(div2);
   document.body.appendChild(div);
-  
+
   domTests(t, div2.shadowRoot);
   t.end();
 });
@@ -146,7 +146,7 @@ function domTests(t, root) {
     function cancel (copy, container) {
       t.notEqual(copy, item, 'copy is not a reference to item');
       t.equal(copy.nodeType, item.nodeType, 'item is a copy of item');
-      t.equal(container, null, 'container matches expectation');
+      t.equal(container, undefined, 'container matches expectation');
     }
   });
 

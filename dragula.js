@@ -576,7 +576,7 @@ function never () { return false; }
 function always () { return true; }
 function getRectWidth (rect) { return rect.width || (rect.right - rect.left); }
 function getRectHeight (rect) { return rect.height || (rect.bottom - rect.top); }
-function getParent (el) { return el.parentNode === doc ? null : (el.host || el.parentNode); }
+function getParent (el) { return el.parentNode === doc ? null : (el.parentNode || el.host); }
 function isInput (el) { return el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT' || isEditable(el); }
 function isEditable (el) {
   if (!el) { return false; } // no parents were editable

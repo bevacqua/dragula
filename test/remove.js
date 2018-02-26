@@ -16,7 +16,7 @@ test('with nested shadow DOM', function(t) {
   div2.createShadowRoot();
   div.shadowRoot.appendChild(div2);
   document.body.appendChild(div);
-  
+
   domTests(t, div2.shadowRoot);
   t.end();
 });
@@ -97,7 +97,7 @@ function domTests(t, root) {
     function cancel (target, container) {
       t.equal(target.className, 'gu-transit', 'cancel was invoked with item');
       t.notEqual(target, item, 'item is a copy and not the original');
-      t.equal(container, null, 'cancel was invoked with container');
+      t.equal(container, undefined, 'cancel was invoked with container');
     }
   });
 }
