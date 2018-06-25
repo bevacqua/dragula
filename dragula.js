@@ -5,6 +5,7 @@ var crossvent = require('crossvent');
 var classes = require('./classes');
 var doc = document;
 var documentElement = doc.documentElement;
+var oldCoord = 0;
 
 function dragula (initialContainers, options) {
   var len = arguments.length;
@@ -39,6 +40,8 @@ function dragula (initialContainers, options) {
   if (o.direction === void 0) { o.direction = 'vertical'; }
   if (o.ignoreInputTextSelection === void 0) { o.ignoreInputTextSelection = true; }
   if (o.mirrorContainer === void 0) { o.mirrorContainer = doc.body; }
+  if (o.animation === void 0) { o.animation = false; }
+  if (o.staticClass === void 0) { o.staticClass = ''; }
 
   var drake = emitter({
     containers: o.containers,
@@ -172,7 +175,7 @@ function dragula (initialContainers, options) {
     if (!source) {
       return;
     }
-    if (o.invalid(item, handle)) {
+    if (o.invalid(item, handle) || (o.staticClass && item.classList.contains(o.staticClass))) {
       return;
     }
 
@@ -403,7 +406,30 @@ function dragula (initialContainers, options) {
       reference !== nextEl(item)
     ) {
       _currentSibling = reference;
+      var isBrother = item.parentElement === dropTarget;
+      var shouldAnimate = isBrother && o.animation;
+      var itemRect = item.getBoundingClientRect();
+      var direct = o.direction;
+      var mover;
+      var nowCord = direct === 'horizontal' ? e.pageX : e.pageY;
+      if (nowCord < oldCoord) {
+        mover = reference; //upward or right
+      } else {
+        mover = reference ? (reference.previousElementSibling ? reference.previousElementSibling : reference) : dropTarget.lastElementChild;
+      }
+      oldCoord = nowCord;
+      if (!mover) {
+        return;
+      }
+      if (o.staticClass && mover.classList.contains(o.staticClass)) {
+        return;
+      }
+      var moverRect = mover && mover.getBoundingClientRect();
       dropTarget.insertBefore(item, reference);
+      if (shouldAnimate && mover && moverRect) {
+        animate(moverRect, mover, o.animation);
+        animate(itemRect, item, o.animation);
+      }
       drake.emit('shadow', item, dropTarget, _source);
     }
     function moved (type) { drake.emit(type, item, _lastDropTarget, _source); }
@@ -524,6 +550,7 @@ function whichMouseButton (e) {
   if (e.buttons !== void 0) { return e.buttons; }
   var button = e.button;
   if (button !== void 0) { // see https://github.com/jquery/jquery/blob/99e8ff1baa7ae341e94bb89c3e84570c7c3ad9ea/src/event.js#L573-L575
+    // return e.buttons; ?
     return button & 1 ? 1 : button & 2 ? 3 : (button & 4 ? 2 : 0);
   }
 }
@@ -577,6 +604,26 @@ function nextEl (el) {
       sibling = sibling.nextSibling;
     } while (sibling && sibling.nodeType !== 1);
     return sibling;
+  }
+}
+
+function animate (prevRect, target, time) {
+  if (time) {
+    if (!prevRect || !target) {
+      return;
+    }
+    var currentRect = target.getBoundingClientRect();
+    target.style.transition = 'none';
+    target.style.transform = 'translate3d(' + (prevRect.left - currentRect.left) + 'px,' + (prevRect.top - currentRect.top) + 'px,0)';
+    target.offsetWidth; // repaint
+    target.style.transition = 'all ' + time + 'ms';
+    target.style.transform = 'translate3d(0,0,0)';
+    clearTimeout(target.animated);
+      target.animated = setTimeout(function () {
+      target.style.transition = '';
+      target.style.transform = '';
+      target.animated = false;
+    }, time);
   }
 }
 
