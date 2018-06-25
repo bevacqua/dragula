@@ -1,6 +1,6 @@
 {
-  "name": "dragula",
-  "version": "3.7.2",
+  "name": "drzzle-dragula",
+  "version": "1.0.0",
   "description": "Drag and drop so simple it hurts",
   "main": "dragula.js",
   "scripts": {
@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/bevacqua/dragula.git"
+    "url": "https://github.com/drzzle-app/dragula.git"
   },
   "author": "Nicolas Bevacqua <nicolasbevacqua@gmail.com> (http://bevacqua.io/)",
   "license": "MIT",

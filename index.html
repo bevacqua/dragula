@@ -35,6 +35,25 @@ dragula([document.getElementById(left), document.getElementById(right)]);
       </code>
     </pre>
   </div>
+
+<div class='parent'>
+  <label for='hy'>Animation, only works when moving in the same container</label>
+  <div class='wrapper'>
+    <div id='animate' class='container'>
+      <div>You can move these elements between these two containers</div>
+      <div>Moving them anywhere else isn't quite possible</div>
+      <div>Anything can be moved around. That includes images, <a href='https://github.com/bevacqua/dragula'>links</a>, or any other nested elements.
+        <div class='image-thing'><img src='resources/icon.svg' onerror='this.src="resources/icon.png"' alt='dragula'/></div><sub>(You can still click on links, as usual!)</sub>
+      </div>
+    </div>
+  </div>
+  <pre>
+    <code>
+      dragula([document.getElementById(left), document.getElementById(right)],{animation: 1000});
+    </code>
+  </pre>
+  </div>
+
   <div class='parent'>
     <label for='hy'>There are plenty of events along the lifetime of a drag event. Check out <a href='https://github.com/bevacqua/dragula#drakeon-events'>all of them</a> in the docs!</label>
     <div class='wrapper'>
