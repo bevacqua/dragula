@@ -82,7 +82,7 @@ function dragula (initialContainers, options) {
 
   function destroy () {
     events(true);
-    release({});
+    release();
   }
 
   function preventGrabbed (e) {
@@ -120,7 +120,7 @@ function dragula (initialContainers, options) {
       return;
     }
     if (whichMouseButton(e) === 0) {
-      release({});
+      release();
       return; // when text is selected on an input and then dragged, mouseup doesn't fire. this is our only hope
     }
     // truthy check fixes #239, equality fixes #207
@@ -236,11 +236,14 @@ function dragula (initialContainers, options) {
     if (!drake.dragging) {
       return;
     }
+    var dropTarget;
     var item = _copy || _item;
-    var clientX = getCoord('clientX', e);
-    var clientY = getCoord('clientY', e);
-    var elementBehindCursor = getElementBehindPoint(_mirror, clientX, clientY);
-    var dropTarget = findDropTarget(elementBehindCursor, clientX, clientY);
+    if (e) {
+      var clientX = getCoord('clientX', e);
+      var clientY = getCoord('clientY', e);
+      var elementBehindCursor = getElementBehindPoint(_mirror, clientX, clientY);
+      dropTarget = findDropTarget(elementBehindCursor, clientX, clientY);
+    }
     if (dropTarget && ((_copy && o.copySortSource) || (!_copy || dropTarget !== _source))) {
       drop(item, dropTarget);
     } else if (o.removeOnSpill) {
