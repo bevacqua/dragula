@@ -478,12 +478,12 @@ function dragula (initialContainers, options) {
   function adjustIfTableRow(item, angular_attribute) {
     if(item.tagName === "TR")
     {
-      let tableWrapper = document.createElement('table');
+      var tableWrapper = document.createElement('table');
       if (angular_attribute) {
         tableWrapper.setAttribute(angular_attribute.localName, "");
       }
       
-      let tbodyWrapper = document.createElement('tbody');
+      var tbodyWrapper = document.createElement('tbody');
       tbodyWrapper.appendChild(item);
       tableWrapper.appendChild(tbodyWrapper);
       return tableWrapper;
