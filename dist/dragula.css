@@ -20,3 +20,11 @@
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
   filter: alpha(opacity=20);
 }
+
+/* adding css to the code divs */
+
+.codeDiv {
+  background-color: #221c3b;
+  padding-left: 5%;
+  color: white;
+}

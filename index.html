@@ -29,7 +29,7 @@
         <div>Make sure to check out the <a href='https://github.com/bevacqua/dragula#readme'>documentation on GitHub!</a></div>
       </div>
     </div>
-    <pre>
+    <pre class='codeDiv'>
       <code>
 dragula([document.getElementById(left), document.getElementById(right)]);
       </code>
@@ -51,7 +51,7 @@ dragula([document.getElementById(left), document.getElementById(right)]);
         <div>Lastly, a <code>dragend</code> event is fired whenever a drag operation ends, regardless of whether it ends in a cancellation, removal, or drop</div>
       </div>
     </div>
-    <pre>
+    <pre  class='codeDiv'>
       <code>
 dragula([document.getElementById(left), document.getElementById(right)])
   .on('drag', function (el) {
@@ -82,7 +82,7 @@ dragula([document.getElementById(left), document.getElementById(right)])
         <div>Terrible Comedian</div>
       </div>
     </div>
-    <pre>
+    <pre class='codeDiv'>
       <code>
 dragula([document.getElementById(single)], {
   removeOnSpill: true
@@ -103,7 +103,7 @@ dragula([document.getElementById(single)], {
         <div>This is useful if you want to ensure drop events only happen when the user intends for them to happen explicitly, avoiding surprises</div>
       </div>
     </div>
-    <pre>
+    <pre class='codeDiv'>
       <code>
 dragula([document.getElementById(left), document.getElementById(right)], {
   revertOnSpill: true
@@ -124,7 +124,7 @@ dragula([document.getElementById(left), document.getElementById(right)], {
         <div>You'll be dragging a copy, so when they're dropped into another container you'll see the duplication.</div>
       </div>
     </div>
-    <pre>
+    <pre class='codeDiv'>
       <code>
 dragula([document.getElementById(left), document.getElementById(right)], {
   copy: true
@@ -145,7 +145,7 @@ dragula([document.getElementById(left), document.getElementById(right)], {
       <div id='right-copy-1tomany' class='container'>
       </div>
     </div>
-    <pre>
+    <pre class='codeDiv'>
       <code>
 dragula([document.getElementById(left), document.getElementById(right)], {
   copy: function (el, source) {
@@ -170,7 +170,7 @@ dragula([document.getElementById(left), document.getElementById(right)], {
         <div><span class='handle'>+</span>You can also use the <code>moves</code> option to determine whether an element can be dragged at all from a container, <em>drag handle or not</em>.</div>
       </div>
     </div>
-    <pre>
+    <pre class='codeDiv'>
       <code>
 dragula([document.getElementById(left), document.getElementById(right)], {
   moves: function (el, container, handle) {
@@ -193,7 +193,7 @@ dragula([document.getElementById(left), document.getElementById(right)], {
         <div>This is useful if you have elements that can be both clicked or dragged.</div>
       </div>
     </div>
-    <pre>
+    <pre class='codeDiv'>
       <code>
         dragula([document.getElementById(container)]);
       </code>
