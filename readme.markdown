@@ -15,6 +15,7 @@ Framework support includes vanilla JavaScript, Angular, and React.
 # Demo
 
 [![demo.png][1]][2]
+[![dragula.gif][1]]
 
 Try out the [demo][2]!
 
