@@ -85,6 +85,29 @@ label {
   margin-bottom: 15px;
 }
 
+#superSecret {
+  opacity: 0.01;
+  background-color: rgb(0,0,0,0.3);
+  height: 60px;
+  width: 100%;
+  transition: 0.2s;
+  object-fit: cover;
+}
+
+#superSecret:hover {
+  animation: superSUPERSecret;
+  animation-duration: 0.5s;
+  animation-iteration-count: infinite;
+  opacity: 0.8;
+  background-color: rgb(0,0,0,0.1);
+}
+
+@keyframes superSUPERSecret {
+  0%{transform: rotate(3deg)}
+  50%{transform: rotate(-3deg)}
+  100%{transform: rotate(3deg)}
+}
+
 sub {
   display: block;
   text-align: right;
