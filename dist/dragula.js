@@ -469,8 +469,6 @@ function dragula (initialContainers, options) {
     var _existingMirror = document.querySelector('.gu-mirror');
     if(_existingMirror === null)
     {
-        console.log('incoming mirror');
-        console.log(_mirror);
         o.mirrorContainer.append(_mirror);
         touchy(documentElement, 'add', 'mousemove', drag);
         classes.add(o.mirrorContainer, 'gu-unselectable');
@@ -482,8 +480,6 @@ function dragula (initialContainers, options) {
     if (_mirror) {
       classes.rm(o.mirrorContainer, 'gu-unselectable');
       touchy(documentElement, 'remove', 'mousemove', drag);
-      console.log('incoming parent');
-      console.log(getParent(_mirror));
       getParent(_mirror) !== null ? getParent(_mirror).removeChild(_mirror) : null;
       _mirror = null;
     }
