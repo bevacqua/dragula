@@ -5,6 +5,7 @@ var crossvent = require('crossvent');
 var classes = require('./classes');
 var doc = document;
 var documentElement = doc.documentElement;
+var animateDuration = 300;
 
 function dragula (initialContainers, options) {
   var len = arguments.length;
@@ -404,15 +405,15 @@ function dragula (initialContainers, options) {
     ) {
       _currentSibling = reference;
 
-      var shouldAnimate = (item.parentElement === dropTarget) && o.animation;
       var itemRect = item.getBoundingClientRect();
-      var referenceRect = reference ? reference.getBoundingClientRect() : null
+      var referenceRect = reference ? reference.getBoundingClientRect() : null;
       var direct = o.direction;
-      var isPositive
+      // if isPositive is true, the direction is right or down
+      var isPositive;
       if (referenceRect) {
-        isPositive = direct === 'horizontal' ? (itemRect.x < referenceRect.x) : (itemRect.y < referenceRect.y)
+        isPositive = direct === 'horizontal' ? (itemRect.x < referenceRect.x) : (itemRect.y < referenceRect.y);
       }else{
-        isPositive = true
+        isPositive = true;
       }
       // mover is the element to be exchange passively
       var mover;
@@ -426,9 +427,9 @@ function dragula (initialContainers, options) {
       }
       var moverRect = mover && mover.getBoundingClientRect();
       dropTarget.insertBefore(item, reference);
-      if (shouldAnimate && mover && moverRect) {
-        animate(moverRect, mover, o.animation);
-        animate(itemRect, item, o.animation);
+      if (mover && moverRect) {
+        animate(moverRect, mover);
+        animate(itemRect, item);
       }
       drake.emit('shadow', item, dropTarget, _source);
     }
@@ -606,24 +607,28 @@ function nextEl (el) {
   }
 }
 
-function animate (prevRect, target, time) {
-  if (time) {
-    if (!prevRect || !target) {
-      return;
-    }
-    var currentRect = target.getBoundingClientRect();
-    target.style.transition = 'none';
-    target.style.transform = 'translate3d(' + (prevRect.left - currentRect.left) + 'px,' + (prevRect.top - currentRect.top) + 'px,0)';
-    target.offsetWidth; // repaint
-    target.style.transition = 'all ' + time + 'ms';
-    target.style.transform = 'translate3d(0,0,0)';
-    clearTimeout(target.animated);
-    target.animated = setTimeout(function () {
-      target.style.transition = '';
-      target.style.transform = '';
-      target.animated = false;
-    }, time);
+/**
+ * Create an animation from position before sorting to present position
+ * @param prevRect including element's position infomation before sorting
+ * @param target element after sorting
+ */
+function animate (prevRect, target) {
+  if (!prevRect || !target) {
+    return;
   }
+  var currentRect = target.getBoundingClientRect();
+  var originProps = {transition: target.style.transition, transform: target.style.transform};
+  Object.assign(target.style, {
+    transition: 'none',
+    transform: 'translate(' + (prevRect.left - currentRect.left) + 'px,' + (prevRect.top - currentRect.top) + 'px)'
+  });
+  target.offsetWidth; // repaint
+  Object.assign(target.style, {transition: 'all ' + animateDuration + 'ms', transform: 'translate(0,0)'});
+  clearTimeout(target.animated);
+  target.animated = setTimeout(function () {
+    Object.assign(target.style, {originProps: originProps});
+    target.animated = false;
+  }, animateDuration);
 }
 
 
