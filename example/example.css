@@ -85,6 +85,29 @@ label {
   margin-bottom: 15px;
 }
 
+#superSecret {
+  opacity: 0.01;
+  background-color: rgb(0,0,0,0.3);
+  height: 60px;
+  width: 100%;
+  transition: 0.2s;
+  object-fit: cover;
+}
+
+#superSecret:hover {
+  animation: superSUPERSecret;
+  animation-duration: 0.5s;
+  animation-iteration-count: infinite;
+  opacity: 0.8;
+  background-color: rgb(0,0,0,0.1);
+}
+
+@keyframes superSUPERSecret {
+  0%{transform: rotate(3deg)}
+  50%{transform: rotate(-3deg)}
+  100%{transform: rotate(3deg)}
+}
+
 sub {
   display: block;
   text-align: right;
@@ -201,4 +224,84 @@ button:hover {
   top: 50%;
   margin-top: -8px;
   line-height: 16px;
+}
+
+/* Carbon */
+
+#carbonads {
+  position: absolute;
+  display: block;
+  overflow: hidden;
+  margin-left: -180px;
+  padding: 1em;
+  max-width: calc(130px + 2em);
+  background-color: #aa5579;
+  text-align: center;
+  font-size: 12px;
+  font-family: Verdana, "Helvetica Neue", Helvetica, sans-serif;
+  line-height: 1.5;
+}
+
+#carbonads a {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 400;
+  transition: color .2s ease-in-out;
+}
+
+#carbonads a:hover {
+  color: #221c3b;
+}
+
+#carbonads span {
+  display: block;
+  overflow: hidden;
+}
+
+.carbon-img {
+  display: block;
+  margin: 0 auto 1em;
+}
+
+.carbon-text {
+  display: block;
+  margin-bottom: 1em;
+}
+
+.carbon-poweredby {
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 9px;
+}
+
+@media only screen and (min-width: 320px) and (max-width: 960px) {
+  #carbonads {
+    position: relative;
+    float: none;
+    margin: 0 auto -2em;
+    max-width: 330px;
+  }
+  #carbonads span {
+    position: relative;
+  }
+  #carbonads > span {
+    max-width: none;
+  }
+  .carbon-img {
+    float: left;
+    margin: 0 1em 0 0;
+  }
+  .carbon-text {
+    float: left;
+    margin-bottom: 0;
+    max-width: calc(100% - 130px - 1em);
+    text-align: left;
+  }
+  .carbon-poweredby {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    display: block;
+  }
 }
