@@ -40,6 +40,8 @@ function dragula (initialContainers, options) {
   if (o.direction === void 0) { o.direction = 'vertical'; }
   if (o.ignoreInputTextSelection === void 0) { o.ignoreInputTextSelection = true; }
   if (o.mirrorContainer === void 0) { o.mirrorContainer = doc.body; }
+  if (o.staticClass === void 0) { o.staticClass = ''; }
+
 
   var drake = emitter({
     containers: o.containers,
@@ -173,6 +175,11 @@ function dragula (initialContainers, options) {
     if (!source) {
       return;
     }
+
+    if ((o.staticClass && item.classList.contains(o.staticClass))) {
+      return;
+    }
+
     if (o.invalid(item, handle)) {
       return;
     }
@@ -423,6 +430,9 @@ function dragula (initialContainers, options) {
         mover = reference; //upward or right
       }
       if (!mover) {
+        return;
+      }
+      if (o.staticClass && mover.classList.contains(o.staticClass)) {
         return;
       }
       var moverRect = mover && mover.getBoundingClientRect();
