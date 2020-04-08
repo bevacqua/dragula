@@ -33,8 +33,8 @@ module.exports = {
   rm: rmClass
 };
 
-},{}],2:[function(require,module,exports){
-(function (global){
+},{}],2:[function(require,module,exports) {
+(function (global) {
 'use strict';
 
 var emitter = require('contra/emitter');
@@ -646,10 +646,10 @@ module.exports = dragula;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{"./classes":1,"contra/emitter":5,"crossvent":6}],3:[function(require,module,exports){
+},{"./classes":1,"contra/emitter":5,"crossvent":6}],3:[function(require,module,exports) {
 module.exports = function atoa (a, n) { return Array.prototype.slice.call(a, n); }
 
-},{}],4:[function(require,module,exports){
+},{}],4:[function(require,module,exports) {
 'use strict';
 
 var ticky = require('ticky');
@@ -661,7 +661,7 @@ module.exports = function debounce (fn, args, ctx) {
   });
 };
 
-},{"ticky":9}],5:[function(require,module,exports){
+},{"ticky":9}],5:[function(require,module,exports) {
 'use strict';
 
 var atoa = require('atoa');
@@ -717,8 +717,8 @@ module.exports = function emitter (thing, options) {
   return thing;
 };
 
-},{"./debounce":4,"atoa":3}],6:[function(require,module,exports){
-(function (global){
+},{"./debounce":4,"atoa":3}],6:[function(require,module,exports) {
+(function (global) {
 'use strict';
 
 var customEvent = require('custom-event');
@@ -841,8 +841,8 @@ module.exports = eventmap;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{}],8:[function(require,module,exports){
-(function (global){
+},{}],8:[function(require,module,exports) {
+(function (global) {
 
 var NativeCustomEvent = global.CustomEvent;
 
@@ -894,7 +894,7 @@ function CustomEvent (type, params) {
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{}],9:[function(require,module,exports){
+},{}],9:[function(require,module,exports) {
 var si = typeof setImmediate === 'function', tick;
 if (si) {
   tick = function (fn) { setImmediate(fn); };
