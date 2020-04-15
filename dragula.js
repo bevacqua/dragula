@@ -5,7 +5,7 @@ var crossvent = require('crossvent');
 var classes = require('./classes');
 var doc = document;
 var documentElement = doc.documentElement;
-
+//useless comment
 function dragula (initialContainers, options) {
   var len = arguments.length;
   if (len === 1 && Array.isArray(initialContainers) === false) {
