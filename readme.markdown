@@ -112,6 +112,7 @@ dragula(containers, {
     horizontal: false,
   },
   autoScrollWindowVertically: true,         // auto scrolls window vertically when element reaches near of the window
+  autoScrollDistance: 10                    // distance to scroll when element is dragged to end of the screen. Default value is 10
 });
 ```
 
@@ -249,6 +250,14 @@ constrainMirrorMovementWithinContainer: {
 ```
 
 This option is not enabled by default. Both horizontal and vertical constraint will be false.
+
+#### `options.autoScrollWindowVertically`
+
+This option is used to auto scroll window when user's drag an element to the bottom or top of the screen. By default, auto scroll is disabled
+
+#### `options.autoScrollDistance`
+
+This options is to specify how much distance to be scrolled when your user's drag and element to the bottom or top of the screen. By default, distance scrolled with be 10 pointers. You can specify number as you desire.
 
 ## API
 
