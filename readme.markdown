@@ -101,13 +101,18 @@ dragula(containers, {
   invalid: function (el, handle) {
     return false; // don't prevent any drags from initiating by default
   },
-  direction: 'vertical',             // Y axis is considered when determining where an element would be dropped
-  copy: false,                       // elements are moved by default, not copied
-  copySortSource: false,             // elements in copy-source containers can be reordered
-  revertOnSpill: false,              // spilling will put the element back where it was dragged from, if this is true
-  removeOnSpill: false,              // spilling will `.remove` the element, if this is true
-  mirrorContainer: document.body,    // set the element that gets mirror elements appended
-  ignoreInputTextSelection: true     // allows users to select input text, see details below
+  direction: 'vertical',                    // Y axis is considered when determining where an element would be dropped
+  copy: false,                              // elements are moved by default, not copied
+  copySortSource: false,                    // elements in copy-source containers can be reordered
+  revertOnSpill: false,                     // spilling will put the element back where it was dragged from, if this is true
+  removeOnSpill: false,                     // spilling will `.remove` the element, if this is true
+  mirrorContainer: document.body,           // set the element that gets mirror elements appended
+  ignoreInputTextSelection: true,           // allows users to select input text, see details below
+  constrainMirrorMovementWithinContainer: { // restrict mirror movement within container either vertically or horizontally or both
+    vertical: false,
+    horizontal: false,
+  },
+  autoScrollWindowVertically: true,         // auto scrolls window vertically when element reaches near of the window
 });
 ```
 
@@ -230,6 +235,21 @@ The DOM element where the mirror element displayed while dragging will be append
 When this option is enabled, if the user clicks on an input element the drag won't start until their mouse pointer exits the input. This translates into the user being able to select text in inputs contained inside draggable elements, and still drag the element by moving their mouse outside of the input -- so you get the best of both worlds.
 
 This option is enabled by default. Turn it off by setting it to `false`. If its disabled your users won't be able to select text in inputs within `dragula` containers with their mouse.
+
+#### `options.constrainMirrorMovementWithinContainer`
+
+This option takes an object where you can specify if movement has to be constrained vertically or horizontally or both within the container.
+
+As an example, to restrict dragged object from moving outside the container horizontally, you can specify set options like below.
+
+```js
+constrainMirrorMovementWithinContainer: {
+  vertical: false,
+  horizontal: true,
+}
+```
+
+This option is not enabled by default. Both horizontal and vertical constraint will be false.
 
 ## API
 
