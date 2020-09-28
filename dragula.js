@@ -547,12 +547,12 @@ function getScroll (scrollProp, offsetProp) {
 }
 
 function getElementBehindPoint (point, x, y) {
-  var p = point || {};
-  var state = p.className;
+  var p = point || { style: {} };
+  var state = p.style.visibility;
   var el;
-  p.className += ' gu-hide';
+  p.style.visibility = 'hidden';
   el = doc.elementFromPoint(x, y);
-  p.className = state;
+  p.style.visibility = state;
   return el;
 }
 
