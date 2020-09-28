@@ -35,6 +35,7 @@
   "devDependencies": {
     "browserify": "16.5.2",
     "clean-css": "4.2.3",
+    "clean-css-cli": "^4.3.0",
     "hihat": "2.6.4",
     "jshint": "2.12.0",
     "jshint-stylish": "2.2.1",
