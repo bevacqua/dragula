@@ -1,6 +1,9 @@
 [![logo.png][3]][2]
 
-[![Travis CI][5]][4] [![Slack Status][17]][18] [![Support](https://supporter.60devs.com/api/b/f4co3kmopd9mngbzjgn6ymbug)](https://supporter.60devs.com/give/f4co3kmopd9mngbzjgn6ymbug) [![Patreon][19]][20]
+[![Travis CI][5]][4]
+[![Dependencies] [6]][7]
+[![Dev Dependencies] [17]][18]
+[![Patreon][19]][20]
 
 > Drag and drop so simple it hurts
 
@@ -318,8 +321,8 @@ MIT
 [3]: https://github.com/bevacqua/dragula/blob/master/resources/logo.png
 [4]: https://travis-ci.org/bevacqua/dragula
 [5]: https://travis-ci.org/bevacqua/dragula.svg
-[6]: http://api.flattr.com/button/flattr-badge-large.png
-[7]: http://flattr.com/thing/4127996/bevacquadragula-on-GitHub
+[6]: https://david-dm.org/bevacqua/dragula.svg
+[7]: https://david-dm.org/bevacqua/dragula
 [8]: https://github.com/bevacqua/angularjs-dragula
 [9]: https://github.com/bevacqua/react-dragula
 [10]: http://bevacqua.github.io/angularjs-dragula/
@@ -329,8 +332,8 @@ MIT
 [14]: https://github.com/bevacqua/dragula/blob/master/.github/contributing.markdown
 [15]: https://github.com/bevacqua/dragula/blob/master/dist
 [16]: #css
-[17]: https://dragula-slackin.herokuapp.com/badge.svg
-[18]: https://bevacqua.github.io/dragula/
+[17]: https://david-dm.org/bevacqua/dragula/dev-status.svg
+[18]: https://david-dm.org/bevacqua/dragula#info=devDependencies
 [19]: https://rawgit.com/bevacqua/dragula/master/resources/patreon.svg
 [20]: https://patreon.com/bevacqua
 [21]: https://dragula-slackin.herokuapp.com/
