@@ -128,8 +128,8 @@ function dragula (initialContainers, options) {
       return;
     }
     if (o.ignoreInputTextSelection) {
-      var clientX = getCoord('clientX', e);
-      var clientY = getCoord('clientY', e);
+      var clientX = getCoord('clientX', e) || 0;
+      var clientY = getCoord('clientY', e) || 0;
       var elementBehindCursor = doc.elementFromPoint(clientX, clientY);
       if (isInput(elementBehindCursor)) {
         return;
@@ -237,8 +237,8 @@ function dragula (initialContainers, options) {
       return;
     }
     var item = _copy || _item;
-    var clientX = getCoord('clientX', e);
-    var clientY = getCoord('clientY', e);
+    var clientX = getCoord('clientX', e) || 0;
+    var clientY = getCoord('clientY', e) || 0;
     var elementBehindCursor = getElementBehindPoint(_mirror, clientX, clientY);
     var dropTarget = findDropTarget(elementBehindCursor, clientX, clientY);
     if (dropTarget && ((_copy && o.copySortSource) || (!_copy || dropTarget !== _source))) {
@@ -360,8 +360,8 @@ function dragula (initialContainers, options) {
     }
     e.preventDefault();
 
-    var clientX = getCoord('clientX', e);
-    var clientY = getCoord('clientY', e);
+    var clientX = getCoord('clientX', e) || 0;
+    var clientY = getCoord('clientY', e) || 0;
     var x = clientX - _offsetX;
     var y = clientY - _offsetY;
 
@@ -547,12 +547,12 @@ function getScroll (scrollProp, offsetProp) {
 }
 
 function getElementBehindPoint (point, x, y) {
-  var p = point || {};
-  var state = p.className;
+  point = point || {};
+  var state = point.className || '';
   var el;
-  p.className += ' gu-hide';
+  point.className += ' gu-hide';
   el = doc.elementFromPoint(x, y);
-  p.className = state;
+  point.className = state;
   return el;
 }
 
