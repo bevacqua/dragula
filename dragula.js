@@ -26,6 +26,17 @@ function dragula (initialContainers, options) {
   var _lastDropTarget = null; // last container item was over
   var _grabbed; // holds mousedown context until first mousemove
 
+  var _isSupportPointerEvents = (function() {
+    // Reference from:
+    // https://github.com/ausi/Feature-detection-technique-for-pointer-events/blob/master/modernizr-pointerevents.js
+    var element = document.createElement('x');
+    var isSupportPointerEvents;
+    element.style.cssText = 'pointer-events: auto';
+    isSupportPointerEvents = element.style.pointerEvents === 'auto';
+    element = null;
+    return isSupportPointerEvents;
+  })();
+
   var o = options || {};
   if (o.moves === void 0) { o.moves = always; }
   if (o.accepts === void 0) { o.accepts = always; }
@@ -490,6 +501,23 @@ function dragula (initialContainers, options) {
   function isCopy (item, container) {
     return typeof o.copy === 'boolean' ? o.copy : o.copy(item, container);
   }
+
+  function getElementBehindPoint (point, x, y) {
+    var p = point || {};
+    var state = p.className;
+    var el;
+    if (_isSupportPointerEvents) {
+      if (p.style) {
+        p.style.pointerEvents = 'none';
+      }
+      el = doc.elementFromPoint(x, y);
+    } else {
+      p.className += ' gu-hide';
+      el = doc.elementFromPoint(x, y);
+      p.className = state;
+    }
+    return el;
+  }
 }
 
 function touchy (el, op, type, fn) {
@@ -544,16 +572,6 @@ function getScroll (scrollProp, offsetProp) {
     return documentElement[scrollProp];
   }
   return doc.body[scrollProp];
-}
-
-function getElementBehindPoint (point, x, y) {
-  var p = point || {};
-  var state = p.className;
-  var el;
-  p.className += ' gu-hide';
-  el = doc.elementFromPoint(x, y);
-  p.className = state;
-  return el;
 }
 
 function never () { return false; }
