@@ -30,6 +30,7 @@ test('drag event gets emitted when clicking an item', function (t) {
       events.raise(o.containerClick ? div : item, 'mousemove');
       st.plan(passes ? 4 : 1);
       st.equal(drake.dragging, passes, desc + ': final state is drake is ' + (passes ? '' : 'not ') + 'dragging');
+      drake.destroy();
       st.end();
       function drag (target, container) {
         st[passes ? 'pass' : 'fail'](desc + ': drag event was emitted synchronously');
@@ -250,6 +251,49 @@ test('when drag begins, check for copy option', function (t) {
     return true;
   }
   drake.end();
+});
+/* */
+
+test('drag event does not fire within deadzone', function (t) {
+  var div = document.createElement('div');
+  var item = document.createElement('div');
+  var drake = dragula([div], {
+    deadzone: 10
+  });
+  div.appendChild(item);
+  document.body.appendChild(div);
+
+  t.plan(1);
+  drake.on('drag', drag);
+  events.raise(item, 'mousedown', { which: 1, clientX: 0, clientY: 0 });
+  events.raise(item, 'mousemove', { clientX: 1, clientY: 1 });
+  t.equal(drake.dragging, false, 'final state is drake is not dragging');
+  drake.destroy();
+  t.end();
+  function drag () {
+    t.fail('drag event was emitted');
+  }
+});
+
+test('drag event fires outside deadzone', function (t) {
+  var div = document.createElement('section');
+  var item = document.createElement('div');
+  var drake = dragula([div], {
+    deadzone: 10
+  });
+  div.appendChild(item);
+  document.body.appendChild(div);
+
+  t.plan(2);
+  drake.on('drag', drag);
+  events.raise(item, 'mousedown', { which: 1, clientX: 0, clientY: 0 });
+  events.raise(item, 'mousemove', { clientX: 20, clientY: 20 });
+  t.equal(drake.dragging, true, 'final state is drake is dragging');
+  drake.destroy();
+  t.end();
+  function drag () {
+    t.pass('drag event should be emitted');
+  }
 });
 
 function always () { return true; }
