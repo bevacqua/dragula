@@ -457,6 +457,7 @@ function dragula (initialContainers, options) {
 
   function getReference (dropTarget, target, x, y) {
     var horizontal = o.direction === 'horizontal';
+    var grid = o.direction === 'grid';
     var reference = target !== dropTarget ? inside() : outside();
     return reference;
 
@@ -476,6 +477,19 @@ function dragula (initialContainers, options) {
 
     function inside () { // faster, but only available if dropped inside a child element
       var rect = target.getBoundingClientRect();
+      if (grid) {
+        // we need to figure out which edge we're closest to:
+        // top edge: return nextEl(target)
+        // left edge: return nextEl(target)
+        // bottom edge: return target
+        // right edge: return target
+        var distToTop = y - rect.top;
+        var distToLeft = x - rect.left;
+        var distToBottom = rect.bottom - y;
+        var distToRight = rect.right - x;
+        var minDist = Math.min(distToLeft, distToRight, distToTop, distToBottom);
+        return resolve(distToLeft === minDist || distToTop === minDist);
+      }
       if (horizontal) {
         return resolve(x > rect.left + getRectWidth(rect) / 2);
       }
