@@ -1,3 +1,10 @@
+# 3.7.3 Parental Control
+
+- Added ability to set pixel delay in X and Y drag coordinates
+- Bumped `crossvent@1.5.5`
+- Updated all dev dependencies and fixed testing
+- Removed Bower Support
+
 # 3.7.2 Parental Control
 
 - Fixed a bug where a missing parent check would cause exceptions
