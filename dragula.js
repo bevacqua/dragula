@@ -3,8 +3,9 @@
 var emitter = require('contra/emitter');
 var crossvent = require('crossvent');
 var classes = require('./classes');
-var doc = document;
-var documentElement = doc.documentElement;
+var inBrowser = 'undefined' !== typeof document; // Check if running in browser environmnet
+var doc = inBrowser ? document : undefined;
+var documentElement = inBrowser ? doc.documentElement : {};
 
 function dragula (initialContainers, options) {
   var len = arguments.length;
