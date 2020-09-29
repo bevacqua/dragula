@@ -423,8 +423,11 @@ function dragula (initialContainers, options) {
     if (_mirror) {
       return;
     }
+    
     var rect = _item.getBoundingClientRect();
     _mirror = _item.cloneNode(true);
+    var ng_attribute = (_mirror.attributes.length > 0)? _mirror.attributes[0] : null;
+    _mirror = adjustIfTableRow(_mirror, ng_attribute);
     _mirror.style.width = getRectWidth(rect) + 'px';
     _mirror.style.height = getRectHeight(rect) + 'px';
     classes.rm(_mirror, 'gu-transit');
@@ -433,6 +436,22 @@ function dragula (initialContainers, options) {
     touchy(documentElement, 'add', 'mousemove', drag);
     classes.add(o.mirrorContainer, 'gu-unselectable');
     drake.emit('cloned', _mirror, _item, 'mirror');
+  }
+
+  function adjustIfTableRow(item, angular_attribute) {
+    if(item.tagName === "TR")
+    {
+      var tableWrapper = document.createElement('table');
+      if (angular_attribute) {
+        tableWrapper.setAttribute(angular_attribute.localName, "");
+      }
+      
+      var tbodyWrapper = document.createElement('tbody');
+      tbodyWrapper.appendChild(item);
+      tableWrapper.appendChild(tbodyWrapper);
+      return tableWrapper;
+    }
+    return item;
   }
 
   function removeMirrorImage () {
