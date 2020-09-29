@@ -111,6 +111,7 @@ dragula(containers, {
   removeOnSpill: false,              // spilling will `.remove` the element, if this is true
   mirrorContainer: document.body,    // set the element that gets mirror elements appended
   ignoreInputTextSelection: true     // allows users to select input text, see details below
+  noShadow: false                    // no visual aid shadow is used
 });
 ```
 
@@ -234,6 +235,12 @@ When this option is enabled, if the user clicks on an input element the drag won
 
 This option is enabled by default. Turn it off by setting it to `false`. If its disabled your users won't be able to select text in inputs within `dragula` containers with their mouse.
 
+#### `options.noShadow`
+
+When this option is enabled, no visual aid shadow is used, and the dragged element (the copy if `options.copy = true` or the original element otherwise) is **not automatically dropped** in the target. This is useful if you want to customize the element insertion in elements such `svg` or `canvas`.
+
+This option speeds things up because the DOM operations decrease significantly.
+
 ## API
 
 The `dragula` method returns a tiny object with a concise API. We'll refer to the API returned by `dragula` as `drake`.
@@ -275,7 +282,7 @@ Event Name | Listener Arguments               | Event Description
 -----------|----------------------------------|-------------------------------------------------------------------------------------
 `drag`     | `el, source`                     | `el` was lifted from `source`
 `dragend`  | `el`                             | Dragging event for `el` ended with either `cancel`, `remove`, or `drop`
-`drop`     | `el, target, source, sibling`    | `el` was dropped into `target` before a `sibling` element, and originally came from `source`
+`drop`     | `el, target, source, sibling, event`    | `el` was dropped into `target` before a `sibling` element at position given by `event`, and originally came from `source`
 `cancel`   | `el, container, source`          | `el` was being dragged but it got nowhere and went back into `container`, its last stable parent; `el` originally came from `source`
 `remove`   | `el, container, source`          | `el` was being dragged but it got nowhere and it was removed from the DOM. Its last stable parent was `container`, and originally came from `source`
 `shadow`   | `el, container, source`          | `el`, _the visual aid shadow_, was moved into `container`. May trigger many times as the position of `el` changes, even within the same `container`; `el` originally came from `source`

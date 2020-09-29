@@ -39,6 +39,7 @@ function dragula (initialContainers, options) {
   if (o.direction === void 0) { o.direction = 'vertical'; }
   if (o.ignoreInputTextSelection === void 0) { o.ignoreInputTextSelection = true; }
   if (o.mirrorContainer === void 0) { o.mirrorContainer = doc.body; }
+  if (o.noShadow === void 0) { o.noShadow = false; }
 
   var drake = emitter({
     containers: o.containers,
@@ -242,7 +243,7 @@ function dragula (initialContainers, options) {
     var elementBehindCursor = getElementBehindPoint(_mirror, clientX, clientY);
     var dropTarget = findDropTarget(elementBehindCursor, clientX, clientY);
     if (dropTarget && ((_copy && o.copySortSource) || (!_copy || dropTarget !== _source))) {
-      drop(item, dropTarget);
+      drop(item, dropTarget, e);
     } else if (o.removeOnSpill) {
       remove();
     } else {
@@ -250,7 +251,7 @@ function dragula (initialContainers, options) {
     }
   }
 
-  function drop (item, target) {
+  function drop (item, target, event) {
     var parent = getParent(item);
     if (_copy && o.copySortSource && target === _source) {
       parent.removeChild(_item);
@@ -258,7 +259,7 @@ function dragula (initialContainers, options) {
     if (isInitialPlacement(target)) {
       drake.emit('cancel', item, _source, _source);
     } else {
-      drake.emit('drop', item, target, _source, _currentSibling);
+      drake.emit('drop', item, target, _source, _currentSibling, event);
     }
     cleanup();
   }
@@ -384,6 +385,11 @@ function dragula (initialContainers, options) {
       }
       return;
     }
+
+    if (o.noShadow) {
+      return;
+    }
+
     var reference;
     var immediate = getImmediateChild(dropTarget, elementBehindCursor);
     if (immediate !== null) {
