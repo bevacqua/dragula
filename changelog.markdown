@@ -1,4 +1,4 @@
-# 3.7.3 Parental Control
+# 3.7.3 Up with the times
 
 - Added ability to set pixel delay in X and Y drag coordinates
 - Bumped `crossvent@1.5.5`
