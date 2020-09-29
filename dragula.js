@@ -465,11 +465,20 @@ function dragula (initialContainers, options) {
       var i;
       var el;
       var rect;
+      var lastMatchingYCoordElIndex = -1;
       for (i = 0; i < len; i++) {
         el = dropTarget.children[i];
         rect = el.getBoundingClientRect();
         if (horizontal && (rect.left + rect.width / 2) > x) { return el; }
         if (!horizontal && (rect.top + rect.height / 2) > y) { return el; }
+        if (horizontal && rect.top <= y && rect.top + rect.height >= y) {
+          lastMatchingYCoordElIndex = i;
+        }
+      }
+
+      // check last element with matching y-coord
+      if (horizontal && lastMatchingYCoordElIndex !== -1) {
+        return dropTarget.children[lastMatchingYCoordElIndex < len - 1 ? lastMatchingYCoordElIndex + 1 : len -1];
       }
       return null;
     }
