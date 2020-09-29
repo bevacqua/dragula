@@ -422,12 +422,22 @@ function dragula (initialContainers, options) {
     if (drake.dragging) { classes.add(el, 'gu-hide'); }
   }
 
+  function cloneElement (el) {
+    var selector = 'select';  // more types can be added later
+    var clone = el.cloneNode(true); // This does not copy certain values, e.g. select values
+    var cloneDescendants = clone.querySelectorAll(selector);
+    el.querySelectorAll(selector).forEach(function (element, i) {
+        cloneDescendants[i].value = element.value;
+    });
+    return clone;
+  }
+
   function renderMirrorImage () {
     if (_mirror) {
       return;
     }
     var rect = _item.getBoundingClientRect();
-    _mirror = _item.cloneNode(true);
+    _mirror = cloneElement(_item); // fixes https://github.com/bevacqua/dragula/issues/456
     _mirror.style.width = getRectWidth(rect) + 'px';
     _mirror.style.height = getRectHeight(rect) + 'px';
     classes.rm(_mirror, 'gu-transit');
