@@ -39,6 +39,7 @@ function dragula (initialContainers, options) {
   if (o.direction === void 0) { o.direction = 'vertical'; }
   if (o.ignoreInputTextSelection === void 0) { o.ignoreInputTextSelection = true; }
   if (o.mirrorContainer === void 0) { o.mirrorContainer = doc.body; }
+  if (o.allowNestedContainers === void 0) { o.allowNestedContainers = false; }
 
   var drake = emitter({
     containers: o.containers,
@@ -59,8 +60,13 @@ function dragula (initialContainers, options) {
 
   return drake;
 
-  function isContainer (el) {
-    return drake.containers.indexOf(el) !== -1 || o.isContainer(el);
+  function isContainer (el, handle) {
+    handle = handle || null;
+    if (handle && o.allowNestedContainers) {
+       return drake.containers.indexOf(el) !== -1 && o.isContainer(el, handle);
+     } else {
+       return drake.containers.indexOf(el) !== -1 || o.isContainer(el);
+     }
   }
 
   function events (remove) {
@@ -155,11 +161,11 @@ function dragula (initialContainers, options) {
     if (drake.dragging && _mirror) {
       return;
     }
-    if (isContainer(item)) {
+    var handle = item;
+    if (isContainer(item, handle) && !o.allowNestedContainers) {
       return; // don't drag container itself
     }
-    var handle = item;
-    while (getParent(item) && isContainer(getParent(item)) === false) {
+    while (getParent(item) && isContainer(getParent(item), handle) === false) {
       if (o.invalid(item, handle)) {
         return;
       }
