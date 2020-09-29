@@ -398,7 +398,10 @@ function dragula (initialContainers, options) {
     if (!_mirror) {
       return;
     }
-    e.preventDefault();
+
+    if (e.defaultPrevented) {
+      e.preventDefault(); //fixes issue #644
+    } 
 
     var clientX = getCoord('clientX', e) || 0;
     var clientY = getCoord('clientY', e) || 0;
@@ -409,6 +412,8 @@ function dragula (initialContainers, options) {
     _mirror.style.top = y + 'px';
 
     var item = _copy || _item;
+    //console.log(item)
+    
     var elementBehindCursor = getElementBehindPoint(_mirror, clientX, clientY);
     var dropTarget = findDropTarget(elementBehindCursor, clientX, clientY);
     var changed = dropTarget !== null && dropTarget !== _lastDropTarget;
