@@ -6,4 +6,4 @@
 > - [ ] For support requests or questions, please refer to [our Slack channel][slack]
 
 [contrib]: https://github.com/bevacqua/dragula/blob/master/.github/contributing.markdown
-[slack]: https://dragula-slackin.herokuapp.com/
+[slack]: https://dragula.slack.com
