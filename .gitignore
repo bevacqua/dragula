@@ -4,3 +4,4 @@ npm-debug.log
 Thumbs.db
 package-lock.json
 .idea/*
+test/test.html

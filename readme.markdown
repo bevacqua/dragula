@@ -42,12 +42,6 @@ You can get it on npm.
 npm install dragula --save
 ```
 
-Or bower, too.
-
-```shell
-bower install dragula --save
-```
-
 Or a CDN.
 
 ```shell
@@ -110,7 +104,9 @@ dragula(containers, {
   revertOnSpill: false,              // spilling will put the element back where it was dragged from, if this is true
   removeOnSpill: false,              // spilling will `.remove` the element, if this is true
   mirrorContainer: document.body,    // set the element that gets mirror elements appended
-  ignoreInputTextSelection: true     // allows users to select input text, see details below
+  ignoreInputTextSelection: true,     // allows users to select input text, see details below
+  slideFactorX: 0,               // allows users to select the amount of movement on the X axis before it is considered a drag instead of a click
+  slideFactorY: 0,               // allows users to select the amount of movement on the Y axis before it is considered a drag instead of a click
 });
 ```
 
