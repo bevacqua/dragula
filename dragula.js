@@ -39,6 +39,7 @@ function dragula (initialContainers, options) {
   if (o.direction === void 0) { o.direction = 'vertical'; }
   if (o.ignoreInputTextSelection === void 0) { o.ignoreInputTextSelection = true; }
   if (o.mirrorContainer === void 0) { o.mirrorContainer = doc.body; }
+  if (o.siblingClass === void 0) { o.siblingClass = ''; }
 
   var drake = emitter({
     containers: o.containers,
@@ -333,10 +334,33 @@ function dragula (initialContainers, options) {
 
   function findDropTarget (elementBehindCursor, clientX, clientY) {
     var target = elementBehindCursor;
+    target = getSiblingContainer(target);
     while (target && !accepted()) {
       target = getParent(target);
+      target = getSiblingContainer(target);
     }
     return target;
+
+    function getSiblingContainer(targetOriginal) {
+      // no sibling class defined -> don't search for sibling elements that could be a container
+      if(targetOriginal == null || o == null || o.siblingClass === '' || isContainer(targetOriginal) || !targetOriginal.classList.contains(o.siblingClass)){
+        return targetOriginal;
+      }
+
+      var targetResult = targetOriginal;
+
+      // search for a sibling element that is a container
+      while(targetResult && isContainer(targetResult) === false){
+        targetResult = targetResult.nextElementSibling;
+      }
+
+      // return original target if no sibling container element found
+      if(targetResult == null){
+        return targetOriginal;
+      }
+
+      return targetResult;
+    }
 
     function accepted () {
       var droppable = isContainer(target);
@@ -344,6 +368,9 @@ function dragula (initialContainers, options) {
         return false;
       }
 
+      if(elementBehindCursor == null || target == null){
+        return false;
+      }
       var immediate = getImmediateChild(target, elementBehindCursor);
       var reference = getReference(target, immediate, clientX, clientY);
       var initial = isInitialPlacement(target, reference);
@@ -446,18 +473,24 @@ function dragula (initialContainers, options) {
 
   function getImmediateChild (dropTarget, target) {
     var immediate = target;
-    while (immediate !== dropTarget && getParent(immediate) !== dropTarget) {
+    while (immediate != null && immediate !== dropTarget && getParent(immediate) !== dropTarget) {
+      // is the target maked as a sibling of a container, then return the container back
+      if(o.siblingClass !== '' && immediate.classList.contains(o.siblingClass)){
+        return dropTarget;
+      }
+
       immediate = getParent(immediate);
     }
     if (immediate === documentElement) {
       return null;
     }
     return immediate;
+
   }
 
   function getReference (dropTarget, target, x, y) {
     var horizontal = o.direction === 'horizontal';
-    var reference = target !== dropTarget ? inside() : outside();
+    var reference = target !== dropTarget && target != null ? inside() : outside();
     return reference;
 
     function outside () { // slower, but able to figure out any position
