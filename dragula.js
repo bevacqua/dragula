@@ -39,6 +39,7 @@ function dragula (initialContainers, options) {
   if (o.direction === void 0) { o.direction = 'vertical'; }
   if (o.ignoreInputTextSelection === void 0) { o.ignoreInputTextSelection = true; }
   if (o.mirrorContainer === void 0) { o.mirrorContainer = doc.body; }
+  if (o.mirrorAnchor === void 0) { o.mirrorAnchor = null; }
 
   var drake = emitter({
     containers: o.containers,
@@ -359,11 +360,51 @@ function dragula (initialContainers, options) {
       return;
     }
     e.preventDefault();
-
+    
     var clientX = getCoord('clientX', e);
     var clientY = getCoord('clientY', e);
-    var x = clientX - _offsetX;
-    var y = clientY - _offsetY;
+    var offsetX = 0;
+    var offsetY = 0;
+
+    switch (o.mirrorAnchor) {
+        case 'topleft':
+            // intentionally left empty
+            break;
+        case 'topright':
+            offsetX = _mirror.offsetWidth;
+            break;
+        case 'top':
+            offsetX = _mirror.offsetWidth / 2;
+            break;
+        case 'bottomleft':
+            offsetY = _mirror.offsetHeight;
+            break;
+        case 'bottomright':
+            offsetY = _mirror.offsetHeight;
+            offsetX = _mirror.offsetWidth;
+            break;
+        case 'bottom':
+            offsetY = _mirror.offsetHeight;
+            offsetX = _mirror.offsetWidth / 2;
+            break;
+        case 'left':
+            offsetY = _mirror.offsetHeight / 2;
+            break;
+        case 'center':
+            offsetY = _mirror.offsetHeight / 2;
+            offsetX = _mirror.offsetWidth / 2;
+            break;
+        case 'right':
+            offsetY = _mirror.offsetHeight / 2;
+            offsetX = _mirror.offsetWidth;
+            break;
+        default:
+            offsetX = _offsetX;
+            offsetY = _offsetY;
+    }
+    
+    var x = clientX - offsetX;
+    var y = clientY - offsetY;
 
     _mirror.style.left = x + 'px';
     _mirror.style.top = y + 'px';
