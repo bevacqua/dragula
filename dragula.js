@@ -82,7 +82,7 @@ function dragula (initialContainers, options) {
 
   function destroy () {
     events(true);
-    release({});
+    release({clientX: -1, clientY: -1});
   }
 
   function preventGrabbed (e) {
