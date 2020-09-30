@@ -245,28 +245,28 @@ function dragula (initialContainers, options) {
     var elementBehindCursor = getElementBehindPoint(_mirror, clientX, clientY);
     var dropTarget = findDropTarget(elementBehindCursor, clientX, clientY);
     if (dropTarget && ((_copy && o.copySortSource) || (!_copy || dropTarget !== _source))) {
-      drop(item, dropTarget);
+      drop(item, dropTarget, e);
     } else if (o.removeOnSpill) {
-      remove();
+      remove(e);
     } else {
-      cancel();
+      cancel(undefined, e);
     }
   }
 
-  function drop (item, target) {
+  function drop (item, target, e) {
     var parent = getParent(item);
     if (_copy && o.copySortSource && target === _source) {
       parent.removeChild(_item);
     }
     if (isInitialPlacement(target)) {
-      drake.emit('cancel', item, _source, _source);
+      drake.emit('cancel', item, _source, _source, undefined, e);
     } else {
-      drake.emit('drop', item, target, _source, _currentSibling);
+      drake.emit('drop', item, target, _source, _currentSibling, e);
     }
     cleanup();
   }
 
-  function remove () {
+  function remove (e) {
     if (!drake.dragging) {
       return;
     }
@@ -275,15 +275,15 @@ function dragula (initialContainers, options) {
     if (parent) {
       parent.removeChild(item);
     }
-    drake.emit(_copy ? 'cancel' : 'remove', item, parent, _source);
+    drake.emit(_copy ? 'cancel' : 'remove', item, parent, _source, e);
     cleanup();
   }
 
-  function cancel (revert) {
+  function cancel (revert, e) {
     if (!drake.dragging) {
       return;
     }
-    var reverts = arguments.length > 0 ? revert : o.revertOnSpill;
+    var reverts = revert !== undefined ? revert : o.revertOnSpill;
     var item = _copy || _item;
     var parent = getParent(item);
     var initial = isInitialPlacement(parent);
@@ -297,9 +297,9 @@ function dragula (initialContainers, options) {
       }
     }
     if (initial || reverts) {
-      drake.emit('cancel', item, _source, _source);
+      drake.emit('cancel', item, _source, _source, undefined, e);
     } else {
-      drake.emit('drop', item, parent, _source, _currentSibling);
+      drake.emit('drop', item, parent, _source, _currentSibling, e);
     }
     cleanup();
   }
