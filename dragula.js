@@ -146,8 +146,8 @@ function dragula (initialContainers, options) {
     start(grabbed);
 
     var offset = getOffset(_item);
-    _offsetX = getCoord('pageX', e) - offset.left;
-    _offsetY = getCoord('pageY', e) - offset.top;
+    _offsetX = getCoord('clientX', e) - offset.left;
+    _offsetY = getCoord('clientY', e) - offset.top;
 
     classes.add(_copy || _item, 'gu-transit');
     renderMirrorImage();
@@ -534,8 +534,8 @@ function whichMouseButton (e) {
 function getOffset (el) {
   var rect = el.getBoundingClientRect();
   return {
-    left: rect.left + getScroll('scrollLeft', 'pageXOffset'),
-    top: rect.top + getScroll('scrollTop', 'pageYOffset')
+    left: rect.left,
+    top: rect.top
   };
 }
 
