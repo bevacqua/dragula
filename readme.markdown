@@ -98,6 +98,7 @@ dragula(containers, {
   invalid: function (el, handle) {
     return false; // don't prevent any drags from initiating by default
   },
+  animation: false,                  // no animation by default
   direction: 'vertical',             // Y axis is considered when determining where an element would be dropped
   copy: false,                       // elements are moved by default, not copied
   copySortSource: false,             // elements in copy-source containers can be reordered
@@ -195,6 +196,10 @@ By default, spilling an element outside of any containers will move the element 
 #### `options.removeOnSpill`
 
 By default, spilling an element outside of any containers will move the element back to the _drop position previewed by the feedback shadow_. Setting `removeOnSpill` to `true` will ensure elements dropped outside of any approved containers are removed from the DOM. Note that `remove` events won't fire if `copy` is set to `true`.
+
+#### `options.animation`
+
+If the `animation` is true, there will be smooth animation after dragging finish.
 
 #### `options.direction`
 

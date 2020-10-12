@@ -5,6 +5,7 @@ var crossvent = require('crossvent');
 var classes = require('./classes');
 var doc = document;
 var documentElement = doc.documentElement;
+var animateDuration = 300;
 
 function dragula (initialContainers, options) {
   var len = arguments.length;
@@ -39,6 +40,7 @@ function dragula (initialContainers, options) {
   if (o.direction === void 0) { o.direction = 'vertical'; }
   if (o.ignoreInputTextSelection === void 0) { o.ignoreInputTextSelection = true; }
   if (o.mirrorContainer === void 0) { o.mirrorContainer = doc.body; }
+  if (o.animation === void 0) { o.animation = false; }
 
   var drake = emitter({
     containers: o.containers,
@@ -406,7 +408,36 @@ function dragula (initialContainers, options) {
       reference !== nextEl(item)
     ) {
       _currentSibling = reference;
+
+      var itemRect = item.getBoundingClientRect();
+      var referenceRect = reference ? reference.getBoundingClientRect() : null;
+      var direct = o.direction;
+      // if isPositive is true, the direction is right or down
+      var isPositive;
+      if (referenceRect) {
+        isPositive = direct === 'horizontal' ? (itemRect.x < referenceRect.x) : (itemRect.y < referenceRect.y);
+      }else{
+        isPositive = true;
+      }
+      // mover is the element to be exchange passively
+      var mover;
+      if (isPositive) {
+        mover = reference ? (reference.previousElementSibling ? reference.previousElementSibling : reference) : dropTarget.lastElementChild;
+      } else {
+        mover = reference; //upward or right
+      }
+      if (!mover) {
+        return;
+      }
+      if (o.staticClass && mover.classList.contains(o.staticClass) ) {
+        return;
+      }
+      var moverRect = mover && mover.getBoundingClientRect();
       dropTarget.insertBefore(item, reference);
+      if (o.animation && mover && moverRect) {
+        animate(moverRect, mover);
+        animate(itemRect, item);
+      }
       drake.emit('shadow', item, dropTarget, _source);
     }
     function moved (type) { drake.emit(type, item, _lastDropTarget, _source); }
@@ -582,6 +613,31 @@ function nextEl (el) {
     return sibling;
   }
 }
+
+/**
+ * Create an animation from position before sorting to present position
+ * @param prevRect including element's position infomation before sorting
+ * @param target element after sorting
+ */
+function animate (prevRect, target) {
+  if (!prevRect || !target) {
+    return;
+  }
+  var currentRect = target.getBoundingClientRect();
+  var originProps = {transition: target.style.transition, transform: target.style.transform};
+  Object.assign(target.style, {
+    transition: 'none',
+    transform: 'translate(' + (prevRect.left - currentRect.left) + 'px,' + (prevRect.top - currentRect.top) + 'px)'
+  });
+  target.offsetWidth; // repaint
+  Object.assign(target.style, {transition: 'all ' + animateDuration + 'ms', transform: 'translate(0,0)'});
+  clearTimeout(target.animated);
+  target.animated = setTimeout(function () {
+    Object.assign(target.style, {originProps: originProps});
+    target.animated = false;
+  }, animateDuration);
+}
+
 
 function getEventHost (e) {
   // on touchend event, we have to use `e.changedTouches`
