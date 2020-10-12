@@ -429,9 +429,6 @@ function dragula (initialContainers, options) {
       if (!mover) {
         return;
       }
-      if (o.staticClass && mover.classList.contains(o.staticClass) ) {
-        return;
-      }
       var moverRect = mover && mover.getBoundingClientRect();
       dropTarget.insertBefore(item, reference);
       if (o.animation && mover && moverRect) {
