@@ -39,6 +39,7 @@ function dragula (initialContainers, options) {
   if (o.direction === void 0) { o.direction = 'vertical'; }
   if (o.ignoreInputTextSelection === void 0) { o.ignoreInputTextSelection = true; }
   if (o.mirrorContainer === void 0) { o.mirrorContainer = doc.body; }
+  if (o.ignoreItemOffsetOnMirrorPosition === void 0) { o.ignoreItemOffsetOnMirrorPosition = false; }
 
   var drake = emitter({
     containers: o.containers,
@@ -365,8 +366,8 @@ function dragula (initialContainers, options) {
 
     var clientX = getCoord('clientX', e) || 0;
     var clientY = getCoord('clientY', e) || 0;
-    var x = clientX - _offsetX;
-    var y = clientY - _offsetY;
+    var x = clientX - (o.ignoreItemOffsetOnMirrorPosition ? 0 : _offsetX);
+    var y = clientY - (o.ignoreItemOffsetOnMirrorPosition ? 0 : _offsetY);
 
     _mirror.style.left = x + 'px';
     _mirror.style.top = y + 'px';
