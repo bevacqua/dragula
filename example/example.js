@@ -25,6 +25,16 @@ dragula([$('left-lovehandles'), $('right-lovehandles')], {
   }
 });
 
+
+dragula([$('left-positionwithoffset'), $('right-positionwithoffset')], {
+  ignoreItemOffsetOnMirrorPosition: false //default value
+});
+
+
+dragula([$('left-positionwithoutoffset'), $('right-positionwithoutoffset')], {
+  ignoreItemOffsetOnMirrorPosition: true //default value
+});
+
 dragula([$('left-rm-spill'), $('right-rm-spill')], { removeOnSpill: true });
 dragula([$('left-copy-1tomany'), $('right-copy-1tomany')], {
   copy: function (el, source) {

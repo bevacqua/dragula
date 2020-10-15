@@ -107,6 +107,7 @@ dragula(containers, {
   ignoreInputTextSelection: true,     // allows users to select input text, see details below
   slideFactorX: 0,               // allows users to select the amount of movement on the X axis before it is considered a drag instead of a click
   slideFactorY: 0,               // allows users to select the amount of movement on the Y axis before it is considered a drag instead of a click
+  ignoreItemOffsetOnMirrorPosition: false,    // mirror item will always be positionned just under the pointer, without taking the offset of the pointer inside the item dragged in consideration.
 });
 ```
 
@@ -203,6 +204,11 @@ When an element is dropped onto a container, it'll be placed near the point wher
 #### `options.invalid`
 
 You can provide an `invalid` method with a `(el, handle)` signature. This method should return `true` for elements that shouldn't trigger a drag. The `handle` argument is the element that was clicked, while `el` is the item that would be dragged. Here's the default implementation, which doesn't prevent any drags.
+
+#### `options.ignoreItemOffsetOnMirrorPosition`
+
+By default, the mirror item is positionned based on the mouse position corrected by the offset of the pointer's position inside the item when the grad began. _So if you drag an item from the top left corner or from the center or from the bottom right corner, the mirror item will have the same absolute position during the drag_. If you set this option to `true` the position will not be corrected with the offset, the mirror item will be position relatively to the pointer and that's all. You will have the possibility to add css to `.gu-mirror` like `transform: translate(-50%)` this example will position the center of the mirror item just under the pointer.
+
 
 ```js
 function invalidTarget (el, handle) {

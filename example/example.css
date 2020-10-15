@@ -179,6 +179,9 @@ button:hover {
   background-color: rgba(0, 0, 0, 0.2);
   transition: opacity 0.4s ease-in-out;
 }
+.gu-mirror.withoutoffset {
+  transform: translate(-50%, -50%);
+}
 .container > div {
   cursor: move;
   cursor: grab;

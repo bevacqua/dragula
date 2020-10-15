@@ -187,6 +187,45 @@ dragula([document.getElementById(left), document.getElementById(right)], {
     <div>There are a few similar mechanisms to determine whether an element can be dragged from a certain container <a href='https://github.com/bevacqua/dragula#optionsmoves'>(<code>moves</code>)</a>, whether an element can be dropped into a certain container at a certain position <a href='https://github.com/bevacqua/dragula#optionsaccepts'>(<code>accepts</code>)</a>, and whether an element is able to originate a drag event <a href='https://github.com/bevacqua/dragula#optionsinvalid'>(<code>invalid</code>)</a>.</div>
   </div>
   <div class='parent'>
+    <label for='hy'>You want to change the way the dragged item is poisitionned ? There are two options :</label>
+    <label for='hy'>Relative to mouse position AND consistent wherever the user click to drag the item.</label>
+    <div class='wrapper'>
+      <div id='left-positionwithoffset' class='container'>
+        <div>Click anywhere inside this item and start dragging it. You can notice that it alway start dragging from the same position (the initial position of the item).</div>
+        <div>It means that the position of the dragged item (.gu-mirror) is not always at the same position relatively to the pointer.</div>
+      </div>
+      <div id='right-positionwithoffset' class='container'>
+      </div>
+    </div>
+    <pre>
+      <code>
+dragula([document.getElementById(left), document.getElementById(right)], {
+  ignoreItemOffsetOnMirrorPosition: false //(default)
+});
+      </code>
+    </pre>
+    <label for='hy'>Only relative to mouse position.</label>
+    <div class='wrapper'>
+      <div id='left-positionwithoutoffset' class='container'>
+        <div class="withoutoffset">Click anywhere inside this item and start dragging it. You can notice that it alway start dragging from the pointer position.</div>
+        <div class="withoutoffset">With this option it's now possible to position the dragged item (.gu-mirror) in a consistent way relatively to the pointer with css (transform: translate(-50%); in this example).</div>
+      </div>
+      <div id='right-positionwithoutoffset' class='container'>
+      </div>
+    </div>
+    <pre>
+      <code>
+dragula([document.getElementById(left), document.getElementById(right)], {
+  ignoreItemOffsetOnMirrorPosition: true //(default)
+});
+
+.gu-mirror {
+  transform: translate(-50%, -50%);
+}
+      </code>
+    </pre>
+  </div>
+  <div class='parent'>
     <label><strong>Click or Drag!</strong> Fires a click when the mouse button is released before a <code>mousemove</code> event, otherwise a drag event is fired. No extra configuration is necessary.</label>
     <div class='wrapper'>
       <div id='sortable' class='container'>
