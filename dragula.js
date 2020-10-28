@@ -427,7 +427,7 @@ function dragula (initialContainers, options) {
         mover = reference; //upward or right
       }
       if (!mover) {
-        return;
+        mover = dropTarget;
       }
       var moverRect = mover && mover.getBoundingClientRect();
       dropTarget.insertBefore(item, reference);
