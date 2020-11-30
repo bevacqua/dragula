@@ -41,7 +41,7 @@ function dragula (initialContainers, options) {
   if (o.direction === void 0) { o.direction = 'vertical'; }
   if (o.ignoreInputTextSelection === void 0) { o.ignoreInputTextSelection = true; }
   if (o.mirrorContainer === void 0) { o.mirrorContainer = doc.body; }
-  if (o.dragThreshold === void 0) { o.dragThreshold = 20;} else {console.log(o.dragThreshold);}
+  if (o.dragThreshold === void 0) { o.dragThreshold = 20;}
 
   var drake = emitter({
     containers: o.containers,
@@ -372,7 +372,8 @@ function dragula (initialContainers, options) {
     var clientY = getCoord('clientY', e) || 0;
     var x = clientX - _offsetX;
     var y = clientY - _offsetY;
-    console.log(Math.abs(_initialX - clientX),'Drag detection threshold:', o.dragThreshold);
+    
+    // calculates whether the drag has exceeded minimum threshold to be considered a drag event, exits if not
     if(Math.abs(_initialX - clientX) < o.dragThreshold && Math.abs(_initialY - clientY) < o.dragThreshold){
       return;
     }
