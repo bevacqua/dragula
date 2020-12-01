@@ -19,6 +19,8 @@ function dragula (initialContainers, options) {
   var _offsetY; // reference y
   var _moveX; // reference move x
   var _moveY; // reference move y
+  var _initialX; // initial x before drag
+  var _initialY; // initial y before drag
   var _initialSibling; // reference sibling when grabbed
   var _currentSibling; // reference sibling now
   var _copy; // item used for copying
@@ -39,6 +41,7 @@ function dragula (initialContainers, options) {
   if (o.direction === void 0) { o.direction = 'vertical'; }
   if (o.ignoreInputTextSelection === void 0) { o.ignoreInputTextSelection = true; }
   if (o.mirrorContainer === void 0) { o.mirrorContainer = doc.body; }
+  if (o.dragThreshold === void 0) { o.dragThreshold = 20;}
 
   var drake = emitter({
     containers: o.containers,
@@ -144,6 +147,9 @@ function dragula (initialContainers, options) {
     movements();
     end();
     start(grabbed);
+
+    _initialX = e.clientX; //save coordinates before any drag
+    _initialY = e.clientY;
 
     var offset = getOffset(_item);
     _offsetX = getCoord('pageX', e) - offset.left;
@@ -362,11 +368,15 @@ function dragula (initialContainers, options) {
       return;
     }
     e.preventDefault();
-
     var clientX = getCoord('clientX', e) || 0;
     var clientY = getCoord('clientY', e) || 0;
     var x = clientX - _offsetX;
     var y = clientY - _offsetY;
+    
+    // calculates whether the drag has exceeded minimum threshold to be considered a drag event, exits if not
+    if(Math.abs(_initialX - clientX) < o.dragThreshold && Math.abs(_initialY - clientY) < o.dragThreshold){
+      return;
+    }
 
     _mirror.style.left = x + 'px';
     _mirror.style.top = y + 'px';
