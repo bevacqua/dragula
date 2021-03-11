@@ -44,7 +44,7 @@ npm install dragula --save
 
 Or a CDN.
 
-```shell
+```html
 <script src='https://cdnjs.cloudflare.com/ajax/libs/dragula/$VERSION/dragula.min.js'></script>
 ```
 
