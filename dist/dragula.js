@@ -63,6 +63,7 @@ function dragula (initialContainers, options) {
   var _lastDropTarget = null; // last container item was over
   var _grabbed; // holds mousedown context until first mousemove
   var _clientHeight; // holds client window height to scroll
+  var _autoScrollVerticalInterval; // holds id returned from setInterval. Will be used to clearInterval
 
   var o = options || {};
   if (o.moves === void 0) { o.moves = always; }
@@ -80,6 +81,8 @@ function dragula (initialContainers, options) {
   if (o.constrainMirrorMovementWithinContainer === void 0) { o.constrainMirrorMovementWithinContainer = { vertical: false, horizontal: false }; }
   if (o.autoScrollWindowVertically === void 0) { o.autoScrollWindowVertically = false; }
   if (o.autoScrollDistance === void 0) { o.autoScrollDistance = 10; }
+  if (o.autoScrollOffsetTop === void 0) { o.autoScrollOffsetTop = 0; }
+  if (o.autoScrollOffsetBottom === void 0) { o.autoScrollOffsetBottom = 0; }
 
   var drake = emitter({
     containers: o.containers,
@@ -357,6 +360,10 @@ function dragula (initialContainers, options) {
     if (_renderTimer) {
       clearTimeout(_renderTimer);
     }
+    if (_autoScrollVerticalInterval) {
+      clearInterval(_autoScrollVerticalInterval);
+      _autoScrollVerticalInterval = null;
+    }
     drake.dragging = false;
     if (_lastDropTarget) {
       drake.emit('out', item, _lastDropTarget, _source);
@@ -400,6 +407,59 @@ function dragula (initialContainers, options) {
     }
   }
 
+  function canScrollDown () {
+    var scrollTop = window.pageYOffset;
+    var screenHeight = _clientHeight;
+    var scrollHeight = Math.max(
+      document.body.scrollHeight, document.documentElement.scrollHeight,
+      document.body.offsetHeight, document.documentElement.offsetHeight,
+      document.body.clientHeight, document.documentElement.clientHeight
+    );
+
+    return ((scrollTop + screenHeight) < scrollHeight);
+  }
+
+  function autoScrollToBottom () {
+    var mirror = _mirror;
+    var mirrorTop = mirror.offsetTop;
+    var mirrorHeight = mirror.offsetHeight;
+    var screenHeight = _clientHeight;
+    var autoScrollOffsetBottom = Math.abs(o.autoScrollOffsetBottom);
+    var autoScrollDistance = Math.abs(o.autoScrollDistance);
+
+    if (mirrorTop + autoScrollOffsetBottom + mirrorHeight >= screenHeight) {
+      if (canScrollDown()) {
+        window.scrollBy(0, autoScrollDistance);
+      } else {
+        clearInterval(_autoScrollVerticalInterval);
+        _autoScrollVerticalInterval = null;
+      }
+
+    }
+  }
+
+  function canScrollUp () {
+    var scrollTop = window.pageYOffset;
+
+    return scrollTop > 0;
+  }
+
+  function autoScrollToTop () {
+    var mirror = _mirror;
+    var mirrorTop = mirror.offsetTop;
+    var autoScrollOffsetTop = Math.abs(o.autoScrollOffsetTop);
+    var autoScrollDistance = Math.abs(o.autoScrollDistance);
+
+    if (mirrorTop <= autoScrollOffsetTop) {
+      if (canScrollUp()) {
+        window.scrollBy(0, -autoScrollDistance);
+      } else {
+        clearInterval(_autoScrollVerticalInterval);
+        _autoScrollVerticalInterval = null;
+      }
+    }
+  }
+
   function drag (e) {
     if (!_mirror) {
       return;
@@ -410,6 +470,9 @@ function dragula (initialContainers, options) {
     var clientY = getCoord('clientY', e) || 0;
     var x = clientX - _offsetX;
     var y = clientY - _offsetY;
+    var autoScrollOffsetTop = Math.abs(o.autoScrollOffsetTop);
+    var autoScrollOffsetBottom = Math.abs(o.autoScrollOffsetBottom);
+    var autoScrollDistance = Math.abs(o.autoScrollDistance);
 
     if (o.constrainMirrorMovementWithinContainer.horizontal || o.constrainMirrorMovementWithinContainer.vertical) {
       var containerRect = _source.getBoundingClientRect();
@@ -425,12 +488,19 @@ function dragula (initialContainers, options) {
     }
 
     if (o.autoScrollWindowVertically) {
-      var itemHeight = item.offsetHeight;
-      if (y + itemHeight >= _clientHeight) {
-        window.scrollBy(0, o.autoScrollDistance);
+      if (_autoScrollVerticalInterval) {
+        clearInterval(_autoScrollVerticalInterval);
+        _autoScrollVerticalInterval = null;
       }
-      if (y <= 0) {
-        window.scrollBy(0, -o.autoScrollDistance);
+
+      var itemHeight = item.offsetHeight;
+      if ((y + autoScrollOffsetBottom + itemHeight) >= _clientHeight && canScrollDown()) {
+        window.scrollBy(0, autoScrollDistance);
+        _autoScrollVerticalInterval = setInterval(autoScrollToBottom, 16);
+      }
+      if (y <= autoScrollOffsetTop && canScrollUp()) {
+        window.scrollBy(0, -autoScrollDistance);
+        _autoScrollVerticalInterval = setInterval(autoScrollToTop, 16);
       }
     }
 
