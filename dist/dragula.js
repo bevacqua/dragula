@@ -78,11 +78,11 @@ function dragula (initialContainers, options) {
   if (o.direction === void 0) { o.direction = 'vertical'; }
   if (o.ignoreInputTextSelection === void 0) { o.ignoreInputTextSelection = true; }
   if (o.mirrorContainer === void 0) { o.mirrorContainer = doc.body; }
-  if (o.constrainMirrorMovementWithinContainer === void 0) { o.constrainMirrorMovementWithinContainer = { vertical: false, horizontal: false }; }
   if (o.autoScrollWindowVertically === void 0) { o.autoScrollWindowVertically = false; }
   if (o.autoScrollDistance === void 0) { o.autoScrollDistance = 10; }
   if (o.autoScrollOffsetTop === void 0) { o.autoScrollOffsetTop = 0; }
   if (o.autoScrollOffsetBottom === void 0) { o.autoScrollOffsetBottom = 0; }
+  if (o.constrainDrag === void 0) { o.constrainDrag = false; }
 
   var drake = emitter({
     containers: o.containers,
@@ -474,17 +474,9 @@ function dragula (initialContainers, options) {
     var autoScrollOffsetBottom = Math.abs(o.autoScrollOffsetBottom);
     var autoScrollDistance = Math.abs(o.autoScrollDistance);
 
-    if (o.constrainMirrorMovementWithinContainer.horizontal || o.constrainMirrorMovementWithinContainer.vertical) {
-      var containerRect = _source.getBoundingClientRect();
-
-      if (o.constrainMirrorMovementWithinContainer.horizontal) {
-        drake.emit('constrained:horizontal', item, x);
-        x = containerRect.left;
-      }
-      if (o.constrainMirrorMovementWithinContainer.vertical) {
-        drake.emit('constrained:vertical', item, y);
-        y = containerRect.top;
-      }
+    if (o.constrainDrag && typeof o.constrainDrag === 'function') {
+      x = o.constrainDrag('left', x);
+      y = o.constrainDrag('top', y);
     }
 
     if (o.autoScrollWindowVertically) {
