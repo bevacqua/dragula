@@ -3,10 +3,10 @@
 var emitter = require('contra/emitter');
 var crossvent = require('crossvent');
 var classes = require('./classes');
-var doc = document;
-var documentElement = doc.documentElement;
 
 function dragula (initialContainers, options) {
+  var doc = document;
+  var documentElement = doc.documentElement;
   var len = arguments.length;
   if (len === 1 && Array.isArray(initialContainers) === false) {
     options = initialContainers;
@@ -64,6 +64,8 @@ function dragula (initialContainers, options) {
   }
 
   function events (remove) {
+    var doc = document;
+    var documentElement = doc.documentElement;
     var op = remove ? 'remove' : 'add';
     touchy(documentElement, op, 'mousedown', grab);
     touchy(documentElement, op, 'mouseup', release);
@@ -540,6 +542,8 @@ function getOffset (el) {
 }
 
 function getScroll (scrollProp, offsetProp) {
+  var doc = document;
+  var documentElement = doc.documentElement;
   if (typeof global[offsetProp] !== 'undefined') {
     return global[offsetProp];
   }
@@ -550,6 +554,7 @@ function getScroll (scrollProp, offsetProp) {
 }
 
 function getElementBehindPoint (point, x, y) {
+  var doc = document;
   point = point || {};
   var state = point.className || '';
   var el;
@@ -563,7 +568,10 @@ function never () { return false; }
 function always () { return true; }
 function getRectWidth (rect) { return rect.width || (rect.right - rect.left); }
 function getRectHeight (rect) { return rect.height || (rect.bottom - rect.top); }
-function getParent (el) { return el.parentNode === doc ? null : el.parentNode; }
+function getParent(el) {
+  var doc = document;
+  return el.parentNode === doc ? null : el.parentNode;
+}
 function isInput (el) { return el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT' || isEditable(el); }
 function isEditable (el) {
   if (!el) { return false; } // no parents were editable
