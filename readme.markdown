@@ -104,9 +104,10 @@ dragula(containers, {
   revertOnSpill: false,              // spilling will put the element back where it was dragged from, if this is true
   removeOnSpill: false,              // spilling will `.remove` the element, if this is true
   mirrorContainer: document.body,    // set the element that gets mirror elements appended
-  ignoreInputTextSelection: true,     // allows users to select input text, see details below
-  slideFactorX: 0,               // allows users to select the amount of movement on the X axis before it is considered a drag instead of a click
-  slideFactorY: 0,               // allows users to select the amount of movement on the Y axis before it is considered a drag instead of a click
+  ignoreInputTextSelection: true,    // allows users to select input text, see details below
+  slideFactorX: 0,                   // allows users to select the amount of movement on the X axis before it is considered a drag instead of a click
+  slideFactorY: 0,                   // allows users to select the amount of movement on the Y axis before it is considered a drag instead of a click
+  noShadow: false                    // no visual aid shadow is used
 });
 ```
 
@@ -229,6 +230,10 @@ The DOM element where the mirror element displayed while dragging will be append
 When this option is enabled, if the user clicks on an input element the drag won't start until their mouse pointer exits the input. This translates into the user being able to select text in inputs contained inside draggable elements, and still drag the element by moving their mouse outside of the input -- so you get the best of both worlds.
 
 This option is enabled by default. Turn it off by setting it to `false`. If its disabled your users won't be able to select text in inputs within `dragula` containers with their mouse.
+
+#### `options.noShadow`
+
+ When this option is enabled, no visual aid shadow of dragged element is used. This option speeds things up because the DOM operations decrease significantly.
 
 ## API
 
