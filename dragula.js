@@ -463,7 +463,7 @@ function dragula (initialContainers, options) {
     var reference = target !== dropTarget ? inside() : outside();
     return reference;
 
-    function outside () { // slower, but able to figure out any position
+    function outside () { // slower, but able to figure out any position  
       var len = dropTarget.children.length;
       var i;
       var el;
