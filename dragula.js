@@ -290,8 +290,12 @@ function dragula (initialContainers, options) {
     if (initial === false && reverts) {
       if (_copy) {
         if (parent) {
-          parent.removeChild(_copy);
-        }
+          if (parent !== _source) {
+              parent.removeChild(_copy);
+          } else {
+              _source.insertBefore(item, _initialSibling);
+          }
+      }
       } else {
         _source.insertBefore(item, _initialSibling);
       }
@@ -563,7 +567,7 @@ function never () { return false; }
 function always () { return true; }
 function getRectWidth (rect) { return rect.width || (rect.right - rect.left); }
 function getRectHeight (rect) { return rect.height || (rect.bottom - rect.top); }
-function getParent (el) { 
+function getParent (el) {
   if (el) {
     return el.parentNode === doc ? null : el.parentNode;
   } else {
