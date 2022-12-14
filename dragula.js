@@ -249,7 +249,7 @@ function dragula (initialContainers, options) {
     } else if (o.removeOnSpill) {
       remove();
     } else {
-      cancel();
+      cancel(undefined, dropTarget);
     }
   }
 
@@ -279,19 +279,23 @@ function dragula (initialContainers, options) {
     cleanup();
   }
 
-  function cancel (revert) {
+  function cancel (revert, target) {
     if (!drake.dragging) {
       return;
     }
     var reverts = arguments.length > 0 ? revert : o.revertOnSpill;
     var item = _copy || _item;
     var parent = getParent(item);
-    var initial = isInitialPlacement(parent);
+    var initial = isInitialPlacement(target || parent);
     if (initial === false && reverts) {
       if (_copy) {
         if (parent) {
-          parent.removeChild(_copy);
-        }
+          if (parent !== _source) {
+              parent.removeChild(_copy);
+          } else {
+              _source.insertBefore(item, _initialSibling);
+          }
+      }
       } else {
         _source.insertBefore(item, _initialSibling);
       }
@@ -299,7 +303,7 @@ function dragula (initialContainers, options) {
     if (initial || reverts) {
       drake.emit('cancel', item, _source, _source);
     } else {
-      drake.emit('drop', item, parent, _source, _currentSibling);
+      drake.emit('drop', item, target || parent, _source, _currentSibling);
     }
     cleanup();
   }
@@ -563,7 +567,13 @@ function never () { return false; }
 function always () { return true; }
 function getRectWidth (rect) { return rect.width || (rect.right - rect.left); }
 function getRectHeight (rect) { return rect.height || (rect.bottom - rect.top); }
-function getParent (el) { return el.parentNode === doc ? null : el.parentNode; }
+function getParent (el) {
+  if (el) {
+    return el.parentNode === doc ? null : el.parentNode;
+  } else {
+    return null;
+  }
+}
 function isInput (el) { return el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT' || isEditable(el); }
 function isEditable (el) {
   if (!el) { return false; } // no parents were editable
