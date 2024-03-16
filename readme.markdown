@@ -1,10 +1,5 @@
 [![logo.png][3]][2]
 
-[![Travis CI][5]][4]
-[![Dependencies][6]][7]
-[![Dev Dependencies][17]][18]
-[![Patreon][19]][20]
-
 > Drag and drop so simple it hurts
 
 Browser support includes every sane browser and **IE7+**. <sub>_(Granted you polyfill the functional `Array` methods in ES5)_</sub>
