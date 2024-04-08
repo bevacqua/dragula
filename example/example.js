@@ -36,6 +36,9 @@ dragula([$('left-copy-1tomany'), $('right-copy-1tomany')], {
 });
 
 dragula([sortable]);
+dragula([$('animation')], {
+  animation: true
+})
 
 crossvent.add(sortable, 'click', clickHandler);
 
