@@ -163,18 +163,25 @@ test('when dragging, body gets gu-unselectable class', function (t) {
 test('when dragging, element gets a mirror image for show', function (t) {
   var div = document.createElement('div');
   var item = document.createElement('div');
+  var select = document.createElement('select');
   var drake = dragula([div]);
   item.innerHTML = '<em>the force is <strong>with this one</strong></em>';
+  select.innerHTML = '<option>item1</option><option>item2</option>';
+  select.value = 'item2';
+  item.appendChild(select);
   div.appendChild(item);
   document.body.appendChild(div);
   drake.on('cloned', cloned);
   events.raise(item, 'mousedown', { which: 1 });
   events.raise(item, 'mousemove', { which: 1 });
-  t.plan(4);
+  t.plan(5);
   t.end();
   function cloned (mirror, target) {
     t.equal(item.className, 'gu-transit', 'item does not have gu-mirror class');
     t.equal(mirror.className, 'gu-mirror', 'mirror only has gu-mirror class');
+    var mirrorValue = mirror.querySelectorAll('select')[0].value;
+    var itemValue = item.querySelectorAll('select')[0].value;
+    t.equal(mirrorValue, itemValue, 'mirror has the right select values');
     t.equal(mirror.innerHTML, item.innerHTML, 'mirror is passed to \'cloned\' event');
     t.equal(target, item, 'cloned lets you know that the mirror is a clone of `item`');
   }
