@@ -406,7 +406,12 @@ function dragula (initialContainers, options) {
       reference !== nextEl(item)
     ) {
       _currentSibling = reference;
-      dropTarget.insertBefore(item, reference);
+      
+      // save the location of immediate
+      var next2 = immediate.nextSibling;
+	    parent.insertBefore(immediate, item);
+      parent.insertBefore(item, next2);
+      
       drake.emit('shadow', item, dropTarget, _source);
     }
     function moved (type) { drake.emit(type, item, _lastDropTarget, _source); }
