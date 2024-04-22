@@ -469,17 +469,21 @@ function dragula (initialContainers, options) {
     _mirror.style.height = getRectHeight(rect) + 'px';
     classes.rm(_mirror, 'gu-transit');
     classes.add(_mirror, 'gu-mirror');
-    o.mirrorContainer.appendChild(_mirror);
-    touchy(documentElement, 'add', 'mousemove', drag);
-    classes.add(o.mirrorContainer, 'gu-unselectable');
-    drake.emit('cloned', _mirror, _item, 'mirror');
+    var _existingMirror = document.querySelector('.gu-mirror');
+    if(_existingMirror === null)
+    {
+        o.mirrorContainer.append(_mirror);
+        touchy(documentElement, 'add', 'mousemove', drag);
+        classes.add(o.mirrorContainer, 'gu-unselectable');
+        drake.emit('cloned', _mirror, _item, 'mirror');
+    }
   }
 
   function removeMirrorImage () {
     if (_mirror) {
       classes.rm(o.mirrorContainer, 'gu-unselectable');
       touchy(documentElement, 'remove', 'mousemove', drag);
-      getParent(_mirror).removeChild(_mirror);
+      getParent(_mirror) !== null ? getParent(_mirror).removeChild(_mirror) : null;
       _mirror = null;
     }
   }
