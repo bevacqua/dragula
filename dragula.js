@@ -289,9 +289,13 @@ function dragula (initialContainers, options) {
     var initial = isInitialPlacement(parent);
     if (initial === false && reverts) {
       if (_copy) {
-        if (parent) {
-          parent.removeChild(_copy);
-        }
+          if (parent) {
+              if (parent !== _source) {
+                  parent.removeChild(_copy);
+              } else {
+                  _source.insertBefore(item, _initialSibling);
+              }
+          }
       } else {
         _source.insertBefore(item, _initialSibling);
       }
