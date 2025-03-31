@@ -71,7 +71,7 @@ function dragula (initialContainers, options) {
 
   function eventualMovements (remove) {
     var op = remove ? 'remove' : 'add';
-    touchy(documentElement, op, 'mousemove', startBecauseMouseMoved);
+    touchy(documentElement, op, 'touchmove', startBecauseTouchMoved);  
   }
 
   function movements (remove) {
@@ -92,8 +92,9 @@ function dragula (initialContainers, options) {
   }
 
   function grab (e) {
-    _moveX = e.clientX;
-    _moveY = e.clientY;
+    var host = getEventHost(e);
+    _moveX = host.clientX;
+    _moveY = host.clientY;
 
     var ignore = whichMouseButton(e) !== 1 || e.metaKey || e.ctrlKey;
     if (ignore) {
@@ -124,9 +125,12 @@ function dragula (initialContainers, options) {
       return; // when text is selected on an input and then dragged, mouseup doesn't fire. this is our only hope
     }
 
+    var host = getEventHost(e);
+    var deltaX = Math.abs(host.clientX - _moveX);
+    var deltaY = Math.abs(host.clientY - _moveY);
+
     // truthy check fixes #239, equality fixes #207, fixes #501
-    if ((e.clientX !== void 0 && Math.abs(e.clientX - _moveX) <= (o.slideFactorX || 0)) &&
-      (e.clientY !== void 0 && Math.abs(e.clientY - _moveY) <= (o.slideFactorY || 0))) {
+    if (deltaX <= (o.slideFactorX || 0) && deltaY <= (o.slideFactorY || 0)) {
       return;
     }
 
