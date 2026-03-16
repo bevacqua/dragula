@@ -133,9 +133,11 @@ function dragula (initialContainers, options) {
     if (o.ignoreInputTextSelection) {
       var clientX = getCoord('clientX', e) || 0;
       var clientY = getCoord('clientY', e) || 0;
-      var elementBehindCursor = doc.elementFromPoint(clientX, clientY);
-      if (isInput(elementBehindCursor)) {
-        return;
+      if (isFinite(clientX) && isFinite(clientY)) {
+        var elementBehindCursor = doc.elementFromPoint(clientX, clientY);
+        if (isInput(elementBehindCursor)) {
+          return;
+        }
       }
     }
 
@@ -146,8 +148,10 @@ function dragula (initialContainers, options) {
     start(grabbed);
 
     var offset = getOffset(_item);
-    _offsetX = getCoord('pageX', e) - offset.left;
-    _offsetY = getCoord('pageY', e) - offset.top;
+    _offsetX = getCoord('pageX', e) || 0;
+    _offsetY = getCoord('pageY', e) || 0;
+    _offsetX = _offsetX - offset.left;
+    _offsetY = _offsetY - offset.top;
 
     classes.add(_copy || _item, 'gu-transit');
     renderMirrorImage();
@@ -553,6 +557,9 @@ function getElementBehindPoint (point, x, y) {
   point = point || {};
   var state = point.className || '';
   var el;
+  if (!isFinite(x) || !isFinite(y)) {
+    return null;
+  }
   point.className += ' gu-hide';
   el = doc.elementFromPoint(x, y);
   point.className = state;
