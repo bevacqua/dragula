@@ -74,7 +74,7 @@
 
 - Added a feature where users are able to select text ranges with their mouse in inputs within a dragula container
 
-# 3.4.1 Input Accomodation
+# 3.4.1 Input Accommodation
 
 - Fixed a bug where text in inputs inside containers assigned to `dragula` couldn't be selected
 
@@ -103,7 +103,7 @@
 # 3.1.0 Copy Paste
 
 - You can now set `options.copy` to a method. It'll be invoked once per drag to ask whether the element being dragged should be treated as a copy or not
-- Fixed a bug where starting a drag programatically while an element was being dragged resulted in an exception
+- Fixed a bug where starting a drag programmatically while an element was being dragged resulted in an exception
 
 # 3.0.7 Crossroads
 
